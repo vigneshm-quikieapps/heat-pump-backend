@@ -18,6 +18,7 @@
  var multer = require('multer');
  
  
+ var authRoutes=require('./routes/authRoutes');
 //  var users = require('./routes/users');
 
  
@@ -35,50 +36,32 @@
    res.send(swaggerSpec);
  });
  
-//  mongoose.Promise = global.Promise;
- // view engine setup
-//  app.set('views', path.join(__dirname, 'views'));
-//  app.set('view engine', 'pug');
- 
- // uncomment after placing your favicon in /public
- //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
- 
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({ extended: false }));
  app.use(cookieParser());
  app.use(express.static(path.join(__dirname, 'public')));
  
  app.use(require('morgan')('short'));
- 
- 
- 
 
+//  app.set('view engine', 'jade');
+//  app.use(authRoutes);
  
 //  app.use('/users', users);
  
+
+//  app.use(function(req, res, next) {
+//    var err = new Error('Not Found');
+//    err.status = 404;
+//    next(err);
+//  });
  
- app.use(function(req, res, next) {
-   var err = new Error('Not Found');
-   err.status = 404;
-   next(err);
- });
- 
- /* configure the storage in multer */
- 
- /** check email send to gmail **/
- 
-//  console.log(database)
  
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(result=>app.listen(process.env.DEV_PORT || 9999,()=>console.log("Server Online")))
+.then(result=>app.listen(4000,()=>console.log("Server Online")))
 .catch(err=>console.log("ERROR",err  ))
 
  
- 
-//  var dbConnect = mongoose.createConnection(database.dbConnection, {
-//    useMongoClient: true,
-//    /* other options */
-//  });
+
 
 
  
@@ -97,7 +80,7 @@ mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopolo
    // set locals, only providing error in development
    res.locals.message = err.message;
    res.locals.error = req.app.get('env') === 'development' ? err : {};
- 
+  
    // render the error page
    res.status(err.status || 500);
    res.render('error');
