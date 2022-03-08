@@ -1,0 +1,106 @@
+/**
+ * Heat-Pump 
+ * @ All rights reserved 
+ * [Copying this content without the author is strictly prohibited
+ * and shall be considered an punishable offence under aegis of Heat-Pump]
+ */
+
+ var express = require('express');
+ var path = require('path');
+ var logger = require('morgan');
+ var cookieParser = require('cookie-parser');
+ var bodyParser = require('body-parser');
+ var mongoose = require('mongoose');
+ var jwt = require('jsonwebtoken');
+ var database = require('./config/database');
+ 
+ var morgan = require('morgan');
+ var multer = require('multer');
+ 
+ 
+//  var users = require('./routes/users');
+
+ 
+ 
+ var app = express();
+ global.__base = __dirname + "/"
+ var swaggerJsDoc = require('swagger-jsdoc');
+ var swaggerconf = require('./config/swaggerConfig');
+ 
+ 
+ var swaggerSpec = swaggerJsDoc(swaggerconf.swaggerOptions);
+ // serve swagger
+ app.get('/swagger.json', function(req, res) {
+   res.setHeader('Content-Type', 'application/json');
+   res.send(swaggerSpec);
+ });
+ 
+//  mongoose.Promise = global.Promise;
+ // view engine setup
+//  app.set('views', path.join(__dirname, 'views'));
+//  app.set('view engine', 'pug');
+ 
+ // uncomment after placing your favicon in /public
+ //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+ 
+ app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: false }));
+ app.use(cookieParser());
+ app.use(express.static(path.join(__dirname, 'public')));
+ 
+ app.use(require('morgan')('short'));
+ 
+ 
+ 
+
+ 
+//  app.use('/users', users);
+ 
+ 
+ app.use(function(req, res, next) {
+   var err = new Error('Not Found');
+   err.status = 404;
+   next(err);
+ });
+ 
+ /* configure the storage in multer */
+ 
+ /** check email send to gmail **/
+ 
+//  console.log(database)
+ 
+mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(result=>app.listen(process.env.DEV_PORT || 9999,()=>console.log("Server Online")))
+.catch(err=>console.log("ERROR",err  ))
+
+ 
+ 
+//  var dbConnect = mongoose.createConnection(database.dbConnection, {
+//    useMongoClient: true,
+//    /* other options */
+//  });
+
+
+ 
+//  dbConnect.then( function(db){
+//    console.log("Connection is Okay for database", db);
+//  });
+ 
+//  console.log("this is db connection", database.dbConnection);
+ 
+//  mongoose.connect(database.dbConnection, { useMongoClient: true })
+//  .then(()=> console.log('connection successfull'))
+//  .catch((err)=> console.console.error(err));
+ 
+ // error handler
+ app.use(function(err, req, res, next) {
+   // set locals, only providing error in development
+   res.locals.message = err.message;
+   res.locals.error = req.app.get('env') === 'development' ? err : {};
+ 
+   // render the error page
+   res.status(err.status || 500);
+   res.render('error');
+ });
+ 
+ app.listen(3000);
