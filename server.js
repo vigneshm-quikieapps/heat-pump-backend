@@ -55,7 +55,12 @@
 //    next(err);
 //  });
  
- app.listen(3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
+
+
 // mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
 // .then(result=>app.listen(3000,()=>console.log("Server Online")))
 // .catch(err=>console.log("ERROR",err  ))
