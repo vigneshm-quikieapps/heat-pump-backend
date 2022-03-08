@@ -57,7 +57,7 @@
  
  
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
-.then(result=>app.listen(4000,()=>console.log("Server Online")))
+.then(result=>app.listen(3000,()=>console.log("Server Online")))
 .catch(err=>console.log("ERROR",err  ))
 
  
