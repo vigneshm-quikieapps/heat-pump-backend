@@ -4,15 +4,27 @@ const mongoose = require("mongoose");
 const Users=require('../../models/users.model')
 const database=require('../../config/database');
  
-console.log(database);
+
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
 .catch(err=>console.log("ERROR",err  ))
 
 const admins=[{
-    name:'admin',
-    email:'admin@gmail.com',
-    password:'123'
-}];
+    email: "admin@gmail.com",
+    password: "$2b$12$/nWaIBQ0fvOlVikwk8OgDeZFA7cgM8FPYlvhBaMddFtGUHapqUUym",/* 123456 */
+    name: "John Thomas",
+    mobile: "9123456734",
+    business_registered_name: "ADMIN",
+    business_trade_name: "ADMIN",
+    business_type: "ADMIN",
+    address_1: "ADMIN",
+    address_2: "ADMIN",
+    country: "INDIA",
+    city: "BHOPAL",
+    postcode: "123456",
+    admin: true
+  }];
+
+
 
 const seedDB=async ()=>{
  await Users.deleteMany({});
@@ -20,7 +32,7 @@ const seedDB=async ()=>{
 }
 
 seedDB().then(()=>{
-    console.log("OK")
+    console.log("SEEDING SUCCESSFULLY COMPLETED")
     mongoose.connection.close();
 })
 .catch(err=>{
