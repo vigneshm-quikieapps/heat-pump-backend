@@ -43,8 +43,8 @@
  
  app.use(require('morgan')('short'));
 
-//  app.set('view engine', 'jade');
-//  app.use(authRoutes);
+//  app.set('view engine', 'ejs');
+ app.use(authRoutes);
  
 //  app.use('/users', users);
  
@@ -56,14 +56,11 @@
 //  });
  
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Our app is running on port ${ PORT }`);
-});
 
 
-// mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
-// .then(result=>app.listen(3000,()=>console.log("Server Online")))
-// .catch(err=>console.log("ERROR",err  ))
+mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(result=>app.listen(PORT,()=>console.log("Server Online")))
+.catch(err=>console.log("ERROR",err  ))
 
  
 

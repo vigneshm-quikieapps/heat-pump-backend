@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
  * User schema
  */
 const UserSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
     trim: true,
     required: 'User name is required',
@@ -19,14 +19,26 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: 'Email address is required',
     match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please supply a valid email address']
+  },
+  password:{
+    type:String,
+    required:'Password is reqiured'
+  },
+  mobile:{
+    type:String,
+    
+  },
+  admin:{
+    type:Boolean
   }
   }, { timestamps: true });
 
-function validateUsername(username) {
+function validateUsername(name) {
   // we just require the user name begins with a letter (only for demomstration purposes ...)
   var re = /^[A-Z,a-z].*$/;
-  return re.test(username);
+  return re.test(name);
 }
+
 
 /**
  * Statics
