@@ -112,17 +112,7 @@ exports.postLoginUser = (req, res, next) => {
       }
     })
     .then((result) => {
-      const jwtToken = jwt.sign(
-        {
-          userId: userTobeLogin._id.toString(),
-          email: userTobeLogin.email,
-          access_token: getJwtToken(),
-        },
-        "sky",
-        {
-          expiresIn: "720hr",
-        }
-      );
+    
 
       const token = getJwtToken({
         id: userTobeLogin._id.toString(),

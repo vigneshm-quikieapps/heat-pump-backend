@@ -25,6 +25,7 @@ var swaggerSpec = swaggerJsDoc(swaggerconf.swaggerOptions);
 
 // ROUTES
 var authRoutes=require('./routes/authRoutes');
+var uploadRoutes=require('./routes/uploadRoutes');
 
 
 // DECLARATIONS
@@ -40,8 +41,10 @@ global.__base = __dirname + "/"
  app.use(bodyParser.urlencoded({ extended: false }));
  app.use(cookieParser());
  app.use(express.static(path.join(__dirname, 'public')));
- app.use(require('morgan')('short'));
- app.use(authRoutes);
+ app.use(require('morgan')('combined'));
+
+ app.use('/api/v1',authRoutes);
+ app.use('/api/v1',uploadRoutes);
  
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
