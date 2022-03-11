@@ -26,7 +26,7 @@ var swaggerSpec = swaggerJsDoc(swaggerconf.swaggerOptions);
 // ROUTES
 var authRoutes=require('./routes/authRoutes');
 var uploadRoutes=require('./routes/uploadRoutes');
-
+var mailRoutes=require('./routes/mailRoutes')
 
 // DECLARATIONS
 var app = express();
@@ -42,9 +42,20 @@ global.__base = __dirname + "/"
  app.use(cookieParser());
  app.use(express.static(path.join(__dirname, 'public')));
  app.use(require('morgan')('combined'));
-
+ app.use((req,res,next)=>{ //cors browser security mechansim unlinke postman
+  res.header("Access-Control-Allow-Origin","*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With,Content-Type,Accept,Authorization");
+  if(req.method==='OPTIONS'){ //you can't avoid to check 
+    res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET')
+    return res.status(200).json({});
+  }
+  next();
+});
  app.use('/api/v1',authRoutes);
  app.use('/api/v1',uploadRoutes);
+ app.use('/api/v1/',mailRoutes);
  
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})

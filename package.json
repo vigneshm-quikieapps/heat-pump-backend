@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/vigneshm-quikieapps/heat-pump-backend#readme",
   "dependencies": {
+    "@sendgrid/mail": "^7.6.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "cookie-parser": "^1.4.6",
@@ -38,6 +39,8 @@
     "multer": "^1.4.4",
     "nodemailer": "^6.7.2",
     "nodemailer-express-handlebars": "^5.0.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "otp-generator": "^4.0.0",
     "pdfkit": "^0.13.0",
     "stream-meter": "^1.0.4",
     "swagger-jsdoc": "^6.1.0",

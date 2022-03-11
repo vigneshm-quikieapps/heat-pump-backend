@@ -73,6 +73,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "none",
     },
+    reset_otp:{
+      type:Number,
+      minlength:4,
+      maxlength:4,
+      default:0
+    }
   },
   { timestamps: true }
 );

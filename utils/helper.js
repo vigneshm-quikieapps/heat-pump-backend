@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-function getJwtToken(payload = {}) {
+function getJwtToken(payload = {},expiresIn="12hr") {
   const token = jwt.sign(payload, "secret_key", {
-    expiresIn: "12hr",
+    expiresIn: expiresIn
   });
   return token;
 }

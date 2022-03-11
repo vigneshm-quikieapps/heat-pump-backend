@@ -21,7 +21,7 @@ const admins=[{
     country: "INDIA",
     city: "BHOPAL",
     postcode: "123456",
-    admin: true
+    admin: true,
   }];
 
 
