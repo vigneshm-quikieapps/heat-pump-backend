@@ -27,16 +27,21 @@ var swaggerSpec = swaggerJsDoc(swaggerconf.swaggerOptions);
 var authRoutes=require('./routes/authRoutes');
 var uploadRoutes=require('./routes/uploadRoutes');
 var mailRoutes=require('./routes/mailRoutes')
+var adminRoutes=require('./routes/adminRoutes')
+var customerRoutes=require('./routes/customerRoutes');
+const accessTokenMiddleware = require('./middlewares/accessTokenMiddleware');
 
 // DECLARATIONS
 var app = express();
 const PORT = process.env.PORT || 3000;
 global.__base = __dirname + "/"
 
- app.get('/swagger.json', function(req, res) {
+app.get('/swagger.json', function(req, res) {
    res.setHeader('Content-Type', 'application/json');
    res.send(swaggerSpec);
  });
+
+ 
  app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({ extended: false }));
  app.use(cookieParser());
@@ -53,24 +58,29 @@ global.__base = __dirname + "/"
   }
   next();
 });
+
  app.use('/api/v1',authRoutes);
- app.use('/api/v1',uploadRoutes);
  app.use('/api/v1/',mailRoutes);
+ app.use('/api/v1/customer',accessTokenMiddleware,(req,res,next)=>{
+  if(req.isAuth===false){
+    res.json({
+      message:"Unauthorized"
+    })
+  }else
+  next()
+},customerRoutes);
+ app.use('/api/v1',accessTokenMiddleware,uploadRoutes);
+ app.use('/api/v1/',accessTokenMiddleware,(req,res,next)=>{
+  if(req.isAuth===false){
+    res.json({
+      message:"Unauthorized"
+    })
+  }
+},adminRoutes);
  
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result=>app.listen(PORT,()=>console.log("Server Online")))
-.catch(err=>console.log("ERROR",err  ))
+.catch(err=>console.log("ERROR",err))
 
- 
-//  // error handler
-//  app.use(function(err, req, res, next) {
-//    // set locals, only providing error in development
-//    res.locals.message = err.message;
-//    res.locals.error = req.app.get('env') === 'development' ? err : {};
-  
-//    // render the error page
-//    res.status(err.status || 500);
-//    res.render('error');
-//  });
- 
+

@@ -1,4 +1,3 @@
-const { stringAt } = require("pdfkit/js/data");
 
 const mongoose = require("mongoose"),
   Schema = mongoose.Schema;
