@@ -59,8 +59,8 @@ app.get('/swagger.json', function(req, res) {
   next();
 });
 
- app.use('/api/v1',authRoutes);
- app.use('/api/v1/',mailRoutes);
+ app.use('/api/v1/auth',authRoutes);
+ app.use('/api/v1/mail',mailRoutes);
  app.use('/api/v1/customer',accessTokenMiddleware,(req,res,next)=>{
   if(req.isAuth===false){
     res.json({
@@ -69,8 +69,8 @@ app.get('/swagger.json', function(req, res) {
   }else
   next()
 },customerRoutes);
- app.use('/api/v1',accessTokenMiddleware,uploadRoutes);
- app.use('/api/v1/',accessTokenMiddleware,(req,res,next)=>{
+ app.use('/api/v1/uploads',accessTokenMiddleware,uploadRoutes);
+ app.use('/api/v1/admin/',accessTokenMiddleware,(req,res,next)=>{
   if(req.isAuth===false){
     res.json({
       message:"Unauthorized"
