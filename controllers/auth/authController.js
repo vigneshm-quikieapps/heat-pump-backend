@@ -72,7 +72,7 @@ exports.postRegisterUser = async (req, res, next) => {
           email: email,
           password: null,
           mobile: mobile,
-          business_registered_name: business_registered_name,
+          business_registered_name: business_regxistered_name,
           business_trade_name: business_trade_name,
           business_type: business_type,
           address_1: address_1,
@@ -108,7 +108,7 @@ exports.postLoginUser = (req, res, next) => {
         return bcrypt.compare(password, user.password);
       } else {
         errors.email = "User not found";
-        res.status(404).json({ errors });
+        res.status.json({ errors });
       }
     })
     .then((result) => {
@@ -136,3 +136,77 @@ exports.postLoginUser = (req, res, next) => {
 };
 
 
+
+
+exports.postVerifyOtp=(req,res,next)=>{
+
+  const {email,otp}=req.body;
+  
+  if(email!==req.decodedOTPToken.email){
+      throw new Error("OTP was not generated for supplied email address")
+  }
+
+
+
+
+  User.findOne({email:email})
+  .then((user)=>{
+   
+    if(user!==null){
+          if(user.reset_otp===otp){
+              const resetToken=getJwtToken({email:email},"10m");
+              res.json({
+                  message:"verified",
+                  reset_token:resetToken
+              })
+          }else
+      res.json({
+         message:"Wrong OTP"
+      })
+      
+    }else{
+      res.json({
+          message:"User Not Found"
+      })
+    }
+
+  })
+  .catch(e=>{
+      res.json({
+          message:"Internal Servor Erorr"
+      })
+  })
+
+
+
+
+}
+
+
+exports.changePassword=(req,res,next)=>{
+  const {new_password,confirm_new_password}=req.body;
+  // console.log(req.decodedResetToken);
+
+  const email=req.decodedResetToken;
+
+  if(new_password!==confirm_new_password){
+      throw Error("Failed")
+  }
+
+
+  bcrypt
+      .hash(new_password,12)
+      .then((hashedPassword)=>{
+          User.findByIdAndUpdate({email:email},{password:new_password})
+      })
+      .then(r=>{
+          res.json({
+              message:constants.PASSWORD_CHANGED
+          })
+      })
+      .catch((err) => {
+          res.status(503);
+          return next(err);
+        });
+
+}
