@@ -43,7 +43,7 @@ exports.postRegisterUser = async (req, res, next) => {
       }
     });
 
-  console.log(req.body);
+
 
   bcrypt
     .hash(password, 12)
@@ -83,7 +83,8 @@ exports.postRegisterUser = async (req, res, next) => {
             address_2: address_2,
             country: country,
             city: city,
-            postcode: postcode}
+            postcode: postcode,
+          admin:admin}
         });
     })
     .catch((err) => {
