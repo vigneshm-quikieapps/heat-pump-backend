@@ -37,7 +37,10 @@ exports.postRegisterUser = async (req, res, next) => {
   let user = await User.findOne({ email: req.body.email });
   if (user)
     return res.status(400).json({
-      message: "User already exists with the provided email address",
+      success:false,
+      data:{
+        message: "User already exists with the provided email address",
+      }
     });
 
   console.log(req.body);
@@ -46,7 +49,7 @@ exports.postRegisterUser = async (req, res, next) => {
     .hash(password, 12)
     .then((hashedPassword) => {
         console.log(hashedPassword);
-      const user = new User({
+         const user = new User({
         name: name,
         email: email,
         password: hashedPassword,
@@ -68,18 +71,19 @@ exports.postRegisterUser = async (req, res, next) => {
       res
         .status(201)
         .json({
-          name: name,
-          email: email,
-          password: null,
-          mobile: mobile,
-          business_registered_name: business_regxistered_name,
-          business_trade_name: business_trade_name,
-          business_type: business_type,
-          address_1: address_1,
-          address_2: address_2,
-          country: country,
-          city: city,
-          postcode: postcode,
+          sucess:true,
+          data:{name: name,
+            email: email,
+            password: null,
+            mobile: mobile,
+            business_registered_name: business_regxistered_name,
+            business_trade_name: business_trade_name,
+            business_type: business_type,
+            address_1: address_1,
+            address_2: address_2,
+            country: country,
+            city: city,
+            postcode: postcode}
         });
     })
     .catch((err) => {
@@ -108,12 +112,10 @@ exports.postLoginUser = (req, res, next) => {
         return bcrypt.compare(password, user.password);
       } else {
         errors.email = "User not found";
-        res.status.json({ errors });
+        res.status.json({ errors }); // rarely exectuted
       }
     })
     .then((result) => {
-    
-
       const token = getJwtToken({
         id: userTobeLogin._id.toString(),
         name: userTobeLogin.name,
@@ -122,16 +124,23 @@ exports.postLoginUser = (req, res, next) => {
 
       if (result) {
         res.json({
-          name: userTobeLogin.name,
+          sucess:true,
+          data:{ name: userTobeLogin.name,
           email: userTobeLogin.email,
-          token: token,
+          admin:userTobeLogin.admin,
+          token: token}
         });
       } else {
-        res.json({ message: "Invalid Credentials" });
+        res.json({ success:false,
+        data:{
+          message: "Invalid Credentials"
+        } });
       }
     })
     .catch((err) => {
-      res.json({ message: "User Not Found" });
+      res.json({ success:false,
+        data:{
+          message: "User Not Found"} });
     });
 };
 

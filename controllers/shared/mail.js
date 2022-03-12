@@ -17,8 +17,39 @@ exports.sendMail=(req,res,next)=>{
     
     console.log("OTP=>",otp);
     const KEY="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";
-   
-   
+    let isEmailInDb=false;
+
+    const usr=User.findOne({email:email})
+    .then(us=>{
+        console.log(us);
+        if(us!==null){
+            isEmailInDb=true;
+        }
+    //     console.log(us);
+    //    if(!us){
+    //          res.json({
+    //             success:false,
+    //             data:{
+    //                 message:"User Not Found"
+    //             }
+    //         })
+    //     }
+        
+    })
+    .catch(e=>{
+        res.json({
+            success:false,
+            data:{
+                message:"Internal server Error"
+            }
+        })
+    })
+
+
+
+    console.log("ENTERING",isEmailInDb);
+if(isEmailInDb)
+{
     User.findOneAndUpdate({email:email},{reset_otp:otp})
     .catch(err=>console.log(err));
 
@@ -30,7 +61,7 @@ exports.sendMail=(req,res,next)=>{
         to: email, // Change to your recipient
         from: 'siddharthsk101@gmail.com', // Change to your verified sender
         subject: 'Password Reset',
-        html: `<strong>Your OTP is ${otp}</strong> Please note this otp is valid for 10minutes`,
+        html: `<strong>Your OTP is ${otp}</strong>`,
       }
 
       const otp_token=getJwtToken({
@@ -44,18 +75,29 @@ exports.sendMail=(req,res,next)=>{
         .then(r=>{
             console.log(r)
             res.json({
-                message:"Email has been successfully sent ",
-                otp_token:otp_token
+                success:true,
+                data:{message:"Email has been successfully sent ",
+                otp_token:otp_token}
             })
         })
         .catch(err=>{
            console.log(err)
             res.json({
-                message:`Internal server Error`
+                sucess:false,
+                data:{
+                    message:`Internal server Error`
+                }
             })
             
         })
-      
+    }else{
+        res.json({
+            sucess:false,
+            data:{
+                messsage:"User Not found"
+            }
+        })
+    }
        
 
     }
@@ -80,24 +122,37 @@ exports.sendMail=(req,res,next)=>{
                 if(user.reset_otp===otp){
                     const resetToken=getJwtToken({email:email},"10m");
                     res.json({
-                        message:"verified",
-                        reset_token:resetToken
+                        success:true,
+                        data:{message:"verified",
+                        reset_token:resetToken}
                     })
                 }else
             res.json({
-               message:"Wrong OTP"
+                success:false,
+                data:{
+
+                    message:"Wrong OTP"
+                }
             })
             
           }else{
             res.json({
-                message:"User Not Found"
+                success:false,
+                data:{
+
+                    message:"User Not Found"
+                }
             })
           }
 
         })
         .catch(e=>{
             res.json({
-                message:"Internal Servor Erorr"
+                success:false,
+                data:{
+
+                    message:"Internal Servor Erorr"
+                }
             })
         })
     
