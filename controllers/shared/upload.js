@@ -14,6 +14,9 @@ exports.uploadPdfController= (req, res, next)=> {
     let paths = req.files.map((e) => e.path);
     
     res.json({
-      message: paths,
+      success:true,
+      data:{
+        message: paths,
+      }
     });
 }

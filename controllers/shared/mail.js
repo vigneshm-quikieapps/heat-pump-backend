@@ -159,7 +159,10 @@ exports.changePassword = (req, res, next) => {
     })
     .then((r) => {
       res.json({
-        message: constants.PASSWORD_CHANGED,
+          success:true,
+          data:{ 
+              message: constants.PASSWORD_CHANGED,
+          }
       });
     })
     .catch((err) => {

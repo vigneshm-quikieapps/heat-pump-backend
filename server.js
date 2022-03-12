@@ -73,7 +73,16 @@ app.get('/swagger.json', function(req, res) {
   }else
   next()
 },customerRoutes);
- app.use('/api/v1/uploads',accessTokenMiddleware,uploadRoutes);
+ app.use('/api/v1/uploads',accessTokenMiddleware,(req,res,next)=>{
+  if(req.isAuth===false){
+    res.json({
+      success:false,
+      data:{
+        message:"Unauthorized"
+      }
+    })
+  }
+},uploadRoutes);
  app.use('/api/v1/admin/',accessTokenMiddleware,(req,res,next)=>{
   if(req.isAuth===false){
     res.json({
