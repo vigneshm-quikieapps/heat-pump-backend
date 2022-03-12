@@ -15,7 +15,8 @@
     if(token) {
       jwt.verify(token, 'secret_key', (err, decoded) => {
          if(err) {
-           return res.json({ message: constants.IV_OTP_TOKEN})
+           return res.json({ success:false,
+            data:{message: constants.IV_OTP_TOKEN}})
          } else {
            req.decodedOTPToken = decoded;
            next();
@@ -23,7 +24,9 @@
       });
     } else {
       return res.status(403).send({
-        message: constants.NOT_FOUND_OTP_TOKEN
+        success:false,
+        data:{
+        message: constants.NOT_FOUND_OTP_TOKEN}
       });
     }
  });

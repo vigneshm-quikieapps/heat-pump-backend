@@ -1,5 +1,5 @@
 const PASSWORD_CHANGED='Password has been changed Successfully';
-const IV_OTP_TOKEN='Failed to authenticate wiht provided OTP Token'
+const IV_OTP_TOKEN='Failed to authenticate with provided OTP Token'
 const INVALID_RESET_TOKEN='Failed to authenticate with provided Reset Token'
 const INVALID_ACCESS_TOKEN='Failed to authenticate with provided Token'
 

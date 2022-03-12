@@ -14,7 +14,10 @@ const { INVALID_RESET_TOKEN, NOT_FOUND_RESET_TOKEN } = require('../utils/constan
     if(token) {
       jwt.verify(token,'secret_key', (err, decoded) => {
          if(err) {
-           return res.json({message:INVALID_RESET_TOKEN})
+           return res.json({
+             success:false,
+             data:{
+             message:INVALID_RESET_TOKEN}})
          } else {
            req.decodedResetToken = decoded;
            next();
@@ -22,7 +25,9 @@ const { INVALID_RESET_TOKEN, NOT_FOUND_RESET_TOKEN } = require('../utils/constan
       });
     } else {
       return res.status(403).send({
-        message: NOT_FOUND_RESET_TOKEN
+        success:false,
+        data:{
+        message: NOT_FOUND_RESET_TOKEN}
       });
     }
  });

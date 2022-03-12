@@ -64,7 +64,11 @@ app.get('/swagger.json', function(req, res) {
  app.use('/api/v1/customer',accessTokenMiddleware,(req,res,next)=>{
   if(req.isAuth===false){
     res.json({
-      message:"Unauthorized"
+      success:false,
+      data:{
+
+        message:"Unauthorized"
+      }
     })
   }else
   next()
@@ -73,7 +77,11 @@ app.get('/swagger.json', function(req, res) {
  app.use('/api/v1/admin/',accessTokenMiddleware,(req,res,next)=>{
   if(req.isAuth===false){
     res.json({
-      message:"Unauthorized"
+      success:false,
+      data:{
+
+        message:"Unauthorized"
+      }
     })
   }
 },adminRoutes);
