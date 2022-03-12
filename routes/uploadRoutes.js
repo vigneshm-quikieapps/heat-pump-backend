@@ -31,6 +31,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-router.post("/uploads",upload.array("attachments"),shared.uploadsController.uploadPdfController);
+router.post("/uploads",check('attachments').if(body('company').exists()).notEmpty().withMessage("Please enter pdf files files"),upload.array("attachments"),shared.uploadsController.uploadPdfController);
 
 module.exports = router;

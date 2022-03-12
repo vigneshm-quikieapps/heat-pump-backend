@@ -79,7 +79,6 @@ app.get('/swagger.json', function(req, res) {
     res.json({
       success:false,
       data:{
-
         message:"Unauthorized"
       }
     })
