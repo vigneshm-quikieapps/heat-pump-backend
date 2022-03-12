@@ -58,6 +58,7 @@ exports.sendMail = (req, res, next) => {
                 data: {
                   message: "Email has been successfully sent ",
                   otp_token: otp_token,
+                  otp_not_to_display:otp
                 },
               });
             })
