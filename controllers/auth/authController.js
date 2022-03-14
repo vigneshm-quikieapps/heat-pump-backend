@@ -6,9 +6,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
-const { getJwtToken } = require("../../utils/helper");
+const { getJwtToken } = require("../../utils/helpers");
 
-const User = require("../../models/users.model");
+const UserModel = require("../../models/users.model");
 
 exports.postRegisterUser = async (req, res, next) => {
   const {
@@ -34,7 +34,7 @@ exports.postRegisterUser = async (req, res, next) => {
     });
   }
 
-  let user = await User.findOne({ email: req.body.email });
+  let user = await UserModel.findOne({ email: req.body.email });
   if (user)
     return res.status(400).json({
       success:false,
@@ -49,7 +49,7 @@ exports.postRegisterUser = async (req, res, next) => {
     .hash(password, 12)
     .then((hashedPassword) => {
         console.log(hashedPassword);
-         const user = new User({
+         const user = new UserModel({
         name: name,
         email: email,
         password: hashedPassword,
@@ -64,7 +64,6 @@ exports.postRegisterUser = async (req, res, next) => {
         postcode: postcode,
         admin: admin,
       });
-
       user.save();
     })
     .then((resp) => {
@@ -106,7 +105,7 @@ exports.postLoginUser = (req, res, next) => {
 
   let userTobeLogin;
 
-  User.findOne({ email: email })
+  UserModel.findOne({ email: email })
     .then((user) => {
       if (user !== null) {
         userTobeLogin = user;
@@ -121,7 +120,9 @@ exports.postLoginUser = (req, res, next) => {
         id: userTobeLogin._id.toString(),
         name: userTobeLogin.name,
         email: userTobeLogin.email,
+        admin:userTobeLogin.admin
       });
+      
 
       if (result) {
         res.json({
@@ -129,7 +130,8 @@ exports.postLoginUser = (req, res, next) => {
           data:{ name: userTobeLogin.name,
           email: userTobeLogin.email,
           admin:userTobeLogin.admin,
-          token: token}
+          token: token
+        }
         });
       } else {
         res.json({ success:false,
@@ -145,8 +147,89 @@ exports.postLoginUser = (req, res, next) => {
     });
 };
 
+exports.sendMail = (req, res, next) => {
+  const { email } = req.body;
+  var otp = otpGenerator.generate(4, {
+    upperCaseAlphabets: false,
+    specialChars: false,
+    lowerCaseAlphabets: false,
+  });
 
+  console.log("OTP=>", otp);
+  const KEY =
+    "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";
+  var isEmailInDb = false;
 
+  UserModel.findOne({ email: email })
+    .then(
+      (us) => {
+        if (us !== null) {
+          isEmailInDb = true;
+        }
+
+        if (isEmailInDb) {
+          UserModel.findOneAndUpdate({ email: email }, { reset_otp: otp }).catch(
+            (err) => console.log(err)
+          );
+
+          sgMail.setApiKey(KEY);
+          const msg = {
+            to: email, // Change to your recipient
+            from: "siddharthsk101@gmail.com", // Change to your verified sender
+            subject: "Password Reset",
+            html: `<strong>Your OTP is ${otp}</strong>`,
+          };
+
+          const otp_token = getJwtToken(
+            {
+              email: email,
+            },
+            "10m"
+          );
+
+          console.log(otp_token);
+
+          sgMail
+            .send(msg)
+            .then((r) => {
+              console.log(r);
+              res.json({
+                success: true,
+                data: {
+                  message: "Email has been successfully sent ",
+                  otp_token: otp_token,
+                  otp_not_to_display:otp
+                },
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              res.json({
+                sucess: false,
+                data: {
+                  message: `Internal server Error`,
+                },
+              });
+            });
+        } else {
+          res.json({
+            sucess: false,
+            data: {
+              messsage: "User Not found",
+            },
+          });
+        }
+      }
+    )
+    .catch((e) => {
+      res.json({
+        success: false,
+        data: {
+          message: "Internal server Error",
+        },
+      });
+    });
+};
 
 exports.postVerifyOtp=(req,res,next)=>{
 
@@ -156,10 +239,7 @@ exports.postVerifyOtp=(req,res,next)=>{
       throw new Error("OTP was not generated for supplied email address")
   }
 
-
-
-
-  User.findOne({email:email})
+  UserModel.findOne({email:email})
   .then((user)=>{
    
     if(user!==null){
@@ -190,7 +270,7 @@ exports.postVerifyOtp=(req,res,next)=>{
 
 
 
-}
+};
 
 
 exports.changePassword=(req,res,next)=>{
@@ -207,7 +287,7 @@ exports.changePassword=(req,res,next)=>{
   bcrypt
       .hash(new_password,12)
       .then((hashedPassword)=>{
-          User.findByIdAndUpdate({email:email},{password:new_password})
+          UserModel.findByIdAndUpdate({email:email},{password:new_password})
       })
       .then(r=>{
           res.json({
@@ -220,3 +300,6 @@ exports.changePassword=(req,res,next)=>{
         });
 
 }
+
+
+

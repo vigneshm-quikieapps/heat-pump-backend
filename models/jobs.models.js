@@ -1,4 +1,4 @@
-const { stringAt } = require("pdfkit/js/data");
+
 
 const mongoose = require("mongoose"),
   Schema = mongoose.Schema;
@@ -15,4 +15,4 @@ const JobSchema = new mongoose.Schema(
 
 
 
-module.exports = mongoose.model("Jobs", JobSchema);
+module.exports = mongoose.model("Job", JobSchema);

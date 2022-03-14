@@ -67,7 +67,7 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: Number,
-      default: 1,
+      default: +1,
     },
     reset_key: {
       type: String,
@@ -78,7 +78,11 @@ const UserSchema = new mongoose.Schema(
       minlength:4,
       maxlength:4,
       default:0
-    }
+    },
+    service_requests:[{
+      type:Schema.Types.ObjectId,
+      ref:"ServiceRequest"
+    }]
   },
   { timestamps: true }
 );
@@ -89,20 +93,5 @@ function validateUsername(name) {
   return re.test(name);
 }
 
-/**
- * Statics
- */
-UserSchema.statics = {
-  /**
-   * List users in ascending order of 'username'
-   */
-  list({ skip = "0", limit = "0" } = {}) {
-    return this.find()
-      .sort({ username: 1 })
-      .skip(parseInt(skip))
-      .limit(parseInt(limit))
-      .exec();
-  },
-};
 
-module.exports = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model("User", UserSchema);

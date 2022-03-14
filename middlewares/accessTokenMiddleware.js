@@ -1,31 +1,33 @@
+const consola= require('consola');
 const jwt = require('jsonwebtoken');
 const {NOT_FOUND_ACCESS_TOKEN}=require('../utils/constants')
 
 
 module.exports = (req, res, next) => {
   const authHeader = req.get('Authorization');
-
-
   if (!authHeader) {
     req.isAuth=false;
     return next();
   }
   const token = authHeader.split(' ')[1];
-  let decodedToken;
-  
+  let decodedAccessToken;
+  console.log(token);
+ 
   try {
-    decodedToken = jwt.verify(token,'secret_key');
-   
+    
+    decodedAccessToken = jwt.verify(token,'secret_key');
   } catch (err) {
+    console.error(err);
+    req.isAuth=false;
+    return next();
+  }
+  if (!decodedAccessToken) {
+    req.isAuth=false;
+    return next();
+  }
 
-    req.isAuth=false;
-    return next();
-  }
-  if (!decodedToken) {
-    req.isAuth=false;
-    return next();
-  }
-  req.userId = decodedToken.id
+
+  req.decodedAccessToken = decodedAccessToken
   req.isAuth=true;
   next();
 };

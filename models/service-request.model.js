@@ -5,7 +5,11 @@ const mongoose = require("mongoose"),
 
 const ServiceRequestSchema = new mongoose.Schema(
   {
-    title:String,
+    sr_number:String,
+    title:{
+      type:String,
+      required:'Please enter name of service request'
+    },
     description:String,
     type:{
         type:String
@@ -20,7 +24,15 @@ const ServiceRequestSchema = new mongoose.Schema(
         type:String
     },
     status:{
-        type:Number
+        type:Number,
+        default:1
+    },
+    creator_name:{
+      type:String
+    },
+    creator:{
+      type:Schema.Types.ObjectId,
+      ref:"Users"
     }
   },
   { timestamps: true }
@@ -28,4 +40,4 @@ const ServiceRequestSchema = new mongoose.Schema(
 
 
 
-module.exports = mongoose.model("ServiceRequests", ServiceRequestSchema);
+module.exports = mongoose.model("ServiceRequest", ServiceRequestSchema);
