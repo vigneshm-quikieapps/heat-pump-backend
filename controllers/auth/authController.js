@@ -8,7 +8,7 @@ const { validationResult } = require("express-validator");
 const otpGenerator=require('otp-generator')
 const { getJwtToken } = require("../../utils/helpers");
 const sgMail = require('@sendgrid/mail')
-
+const {constants}=require('../../utils')
 const UserModel = require("../../models/users.model");
 
 exports.postRegisterUser = async (req, res, next) => {
