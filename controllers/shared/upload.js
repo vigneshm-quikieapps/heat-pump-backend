@@ -10,6 +10,7 @@ exports.uploadPdfController= (req, res, next)=> {
       errorMessage: errors.array(),
     });
   }
+  try{
     let paths = req.files.map((e) => e.path);
     res.json({
       success:true,
@@ -17,6 +18,16 @@ exports.uploadPdfController= (req, res, next)=> {
         message: paths,
       }
     });
+  }
+  catch(err){
+    res.json({
+      succes:false,
+      data:{
+        message:err.toString()
+      }
+    })
+  }
+   
 }
 
 exports.getPdfController=(req,res,next)=>{
