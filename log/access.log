@@ -47,3 +47,14 @@
 16834@Siddharths-MacBook-Pro.local/edb028492167145e7e2cc843-0000000000000005 => ::1 - - [14/Mar/2022:07:30:53 +0000] "method /api/v1/common/uploads/pdf?fp=1647242081732 HTTP/1.1" 200 735117
 16834@Siddharths-MacBook-Pro.local/edb028492167145e7e2cc843-0000000000000006 => ::1 - - [14/Mar/2022:07:31:58 +0000] "method /api/v1/common/uploads/pdf?fp=1647242081732 HTTP/1.1" 200 735117
 16834@Siddharths-MacBook-Pro.local/edb028492167145e7e2cc843-0000000000000007 => ::1 - - [14/Mar/2022:07:34:09 +0000] "method /api/v1/services/service-requests/622d5fd47a1cad2170f7a574 HTTP/1.1" 200 287
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000001 => ::1 - - [14/Mar/2022:10:12:18 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 53
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000002 => ::1 - - [14/Mar/2022:10:12:33 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 53
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000003 => ::1 - - [14/Mar/2022:10:12:39 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000004 => ::1 - - [14/Mar/2022:10:12:45 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000005 => ::1 - - [14/Mar/2022:10:12:46 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1370@Siddharths-MacBook-Pro.local/23ce6112268b74c84ef32870-0000000000000006 => ::1 - - [14/Mar/2022:10:12:47 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1412@Siddharths-MacBook-Pro.local/f43c82a55c2975d1ad81dfb3-0000000000000001 => ::1 - - [14/Mar/2022:10:13:04 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1412@Siddharths-MacBook-Pro.local/f43c82a55c2975d1ad81dfb3-0000000000000002 => ::1 - - [14/Mar/2022:10:13:05 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1412@Siddharths-MacBook-Pro.local/f43c82a55c2975d1ad81dfb3-0000000000000003 => ::1 - - [14/Mar/2022:10:13:07 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 60
+1440@Siddharths-MacBook-Pro.local/e4ed46fdfc70dd8b9b996b88-0000000000000001 => ::1 - - [14/Mar/2022:10:13:35 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 76
+1558@Siddharths-MacBook-Pro.local/e4404091c9a5199c5e445fb5-0000000000000001 => ::1 - - [14/Mar/2022:10:16:20 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 277

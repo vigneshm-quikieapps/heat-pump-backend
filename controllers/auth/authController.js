@@ -5,8 +5,9 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
-
+const otpGenerator=require('otp-generator')
 const { getJwtToken } = require("../../utils/helpers");
+const sgMail = require('@sendgrid/mail')
 
 const UserModel = require("../../models/users.model");
 
@@ -87,6 +88,7 @@ exports.postRegisterUser = async (req, res, next) => {
         });
     })
     .catch((err) => {
+      console.log(err)
       res.status(503);
       return next(err);
     });
@@ -225,7 +227,7 @@ exports.sendMail = (req, res, next) => {
       res.json({
         success: false,
         data: {
-          message: "Internal server Error",
+          message: e.toString(),
         },
       });
     });
