@@ -15,7 +15,7 @@ function getJwtToken(payload = {},expiresIn="12hr") {
 
 
 const fileFilter = (req,file, cb) => {
-  console.log(file);
+  // console.log(file);
   if (file.mimetype === "application/pdf") {
     cb(null, true);
   } else {
@@ -26,7 +26,7 @@ const fileFilter = (req,file, cb) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(file);
+    // console.log(file);
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
