@@ -309,7 +309,11 @@ exports.changePassword=(req,res,next)=>{
       })
       .then(r=>{
           res.json({
+            success:true,
+            data:{
+
               message:constants.PASSWORD_CHANGED
+            }
           })
       })
       .catch((err) => {
