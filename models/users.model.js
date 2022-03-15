@@ -82,6 +82,10 @@ const UserSchema = new mongoose.Schema(
     service_requests:[{
       type:Schema.Types.ObjectId,
       ref:"ServiceRequest"
+    }],
+    jobs:[{
+      type:Schema.Types.ObjectId,
+      ref:"Job"
     }]
   },
   { timestamps: true }

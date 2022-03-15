@@ -33,8 +33,11 @@ var authRoutes=require('./routes/authRoutes');
 
 var adminRoutes=require('./routes/adminRoutes')
 
+var jobRoutes=require('./routes/jobRoutes');
+
 var commonRoutes=require('./routes/commonRoutes');
 var servicesRoutes=require('./routes/servicesRoutes');
+var serviceRequestNotesRoutes=require('./routes/serviceRequestNotesRoutes')
 // var {logger}=require('./utils/logger')
 
 
@@ -67,7 +70,7 @@ app.get('/swagger.json', function(req, res) {
  app.use(corsMiddleware);
  app.use('/api/v1/auth',authRoutes);
  app.use('/api/v1/common',commonRoutes);
- app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes);
+ app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes,serviceRequestNotesRoutes,jobRoutes);
 
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})

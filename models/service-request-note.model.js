@@ -13,7 +13,28 @@ const ServiceRequestNoteSchema = new mongoose.Schema(
     description:{
         type:String,
         required:"Please enter the description"
-    }
+    },
+    status:{
+        type:Number,
+        default:1
+    },
+    attachments:[{
+        type:String
+    }],
+    updates:[{
+            type:String
+    }],
+    creator:{
+        type:Schema.Types.ObjectId,
+        ref:"ServiceRequest"
+    },
+    collaborators:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"User"
+        }
+    ]
+
 },
 { timestamps: true }
 );

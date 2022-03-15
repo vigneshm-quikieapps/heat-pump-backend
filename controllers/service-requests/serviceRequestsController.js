@@ -23,17 +23,19 @@ const errors = validationResult(req);
         description,
         attachments,
         priority,
-        job_reference_id=null
+        job_reference_id=null,
+
     }=req.body;
     const userName=req.decodedAccessToken.name
-
+    const userId=req.decodedAccessToken.id;
+  
     const time=new Date().getTime();
 
     const id=reversedNum(time);
     const service_ref_number="SR"+reversedNum(parseInt(id+Math.random()*100));
-    
+      console.log(service_ref_number)
    const sr=new ServiceRequest({
-        service_ref_number:service_ref_number,
+       
         title:title,
         type:type,
         description:description,
@@ -41,39 +43,37 @@ const errors = validationResult(req);
         priority:priority,
         status:1,
         creator_name:userName,
-        job_reference_id:job_reference_id
+        creator_id:userId,
+        job_reference_id:job_reference_id,
+        service_ref_number:service_ref_number,
    });
 
  const response= await sr.save();
  
-  const userId=req.decodedAccessToken.id;
-  
+ 
   const objectId=response._id.toString();
  
   try{
     let usr=await UserModel.findById(userId);
     let srArray= usr.service_requests;
     srArray.push(objectId);
+    console.log("OKKKKKKK")
     const resp=await usr.save();
+    res.json({
+      success:true,
+      data:response
+  })
   }
   catch(e){
-
+    res.json({
+      success:false,
+      data:{
+        message:e.toString()
+      }
+    })
   }
 
-  res.json({
-      success:true,
-      data:{ 
-            title:title,
-            type:type,
-            description:description,
-            attachments:attachments,
-            priority:priority,
-            status:1,
-            job_reference_id:job_reference_id,
-            service_ref_number:service_ref_number,
-            creator_name:userName
-          }
-  })
+ 
 
 };
 
@@ -114,6 +114,7 @@ exports.getAllServiceRequests=async (req,res,next)=>{
 
 
   const foundServiceRequests=[...response.service_requests];
+  console.log(foundServiceRequests)
   const respArray=[];
 
   for(let i=0;i<foundServiceRequests.length;i++){

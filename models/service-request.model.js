@@ -5,7 +5,7 @@ const mongoose = require("mongoose"),
 
 const ServiceRequestSchema = new mongoose.Schema(
   {
-    sr_number:String,
+    service_ref_number:String,
     title:{
       type:String,
       required:'Please enter name of service request'
@@ -30,9 +30,16 @@ const ServiceRequestSchema = new mongoose.Schema(
     creator_name:{
       type:String
     },
+    creator_id:{
+      type:Schema.Types.ObjectId
+    },
     creator:{
       type:Schema.Types.ObjectId,
       ref:"Users"
+    },
+    notes:{
+      type:Schema.Types.ObjectId,
+      ref:"ServiceRequestNote"
     }
   },
   { timestamps: true }
