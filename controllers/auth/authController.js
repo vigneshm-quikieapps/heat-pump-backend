@@ -248,24 +248,40 @@ exports.postVerifyOtp=(req,res,next)=>{
           if(user.reset_otp===otp){
               const resetToken=getJwtToken({email:email},"10m");
               res.json({
+                success:true,
+                data:{
                   message:"verified",
                   reset_token:resetToken
+
+                }
               })
           }else
       res.json({
-         message:"Wrong OTP"
+        success:false,
+        data:{
+
+          message:"Wrong OTP"
+        }
       })
       
     }else{
       res.json({
+        success:false,
+        data:{
+
           message:"User Not Found"
+        }
       })
     }
 
   })
   .catch(e=>{
       res.json({
+        success:false,
+        data:{
+
           message:"Internal Servor Erorr"
+        }
       })
   })
 

@@ -24,10 +24,8 @@ router.patch('/service-requests/:id',[
     const {id}=req.params;
     console.log(id);
     const updateObj=req.body;
-
     try{
-
-       const response=await ServiceRequestModel.findByIdAndUpdate(id,updateObj);
+     const response=await ServiceRequestModel.findByIdAndUpdate(id,updateObj);
     let newObj=Object.assign(response);
     
         
