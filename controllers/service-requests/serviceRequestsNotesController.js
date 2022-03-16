@@ -11,7 +11,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
       title: title,
       description: description,
       attachments: attachments,
-      creator: srid,
+      creator_srid: srid,
     });
 
     const rep = await note.save();
@@ -51,11 +51,12 @@ exports.postServiceRequestNote = async (req, res, next) => {
 
 exports.getAllServiceRequestNotes = async (req, res, next) => {
   const { srid } = req.query;
-    const creator_id=req.decodedAccessToken.id;
-
+    const userId=req.decodedAccessToken.id;
+  // pagination to be done
   try {
-    const resp = await ServiceRequestModel.find({creator_id:creator_id}).populate("notes");
-    // console.log(resp);
+    const resp = await ServiceRequestNoteModel.find({creator_srid:srid});
+
+    console.log(resp);
     res.json({
         success:true,
         data:resp

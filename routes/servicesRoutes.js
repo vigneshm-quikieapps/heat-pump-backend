@@ -18,7 +18,9 @@ router.get('/service-requests',[
       ServiceRequestsController.getAllServiceRequests)
 
 
-router.patch('/service-requests/:id',[
+router.patch('/service-requests/:id',
+
+body('attachments').notEmpty().withMessage("Please don't pass attachaments here pass uattachments"),[
 
 ],async (req,res,next)=>{
     const {id}=req.params;
@@ -34,7 +36,7 @@ router.patch('/service-requests/:id',[
                success:true,
                data:{
                    message:"updated",
-                   data:response
+                //    data:newObj
                }
            })
        }else 

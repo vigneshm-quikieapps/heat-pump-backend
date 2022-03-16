@@ -49,7 +49,8 @@ exports.postJob = async (req, res, next) => {
 
 
 exports.getAllJobs=async (req,res,next)=>{
-
+    const tt=req.decodedAccessToken;
+    console.log(tt)
     const userId=req.decodedAccessToken.id;
     console.log(userId);
 
@@ -76,6 +77,8 @@ exports.getAllJobs=async (req,res,next)=>{
             }
           }
         ])
+
+        console.log("R",response);
         const total_records=(response.jobs.length);
 
         const foundJobs=[...response.jobs];
