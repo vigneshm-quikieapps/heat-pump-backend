@@ -22,6 +22,7 @@ const admins=[{
     city: "BHOPAL",
     postcode: "123456",
     admin: true,
+    status:2
   }];
 
 

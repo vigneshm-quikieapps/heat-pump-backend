@@ -106,3 +106,4 @@
 29115@Siddharths-MacBook-Pro.local/efd8a3f39a289444b480177b-0000000000000005 => ::1 - - [15/Mar/2022:19:26:15 +0000] "method /api/v1/services/service-requests-notes?srid=6230d617ccdb1bcecef0812d HTTP/1.1" 200 2306
 29190@Siddharths-MacBook-Pro.local/4fabcc10a2e51405e71b862f-0000000000000001 => ::1 - - [15/Mar/2022:19:26:34 +0000] "method /api/v1/services/service-requests-notes?srid=6230d617ccdb1bcecef0812d HTTP/1.1" 200 2306
 29265@Siddharths-MacBook-Pro.local/3a68c87ebb275c05fb2fe37c-0000000000000001 => ::1 - - [15/Mar/2022:19:27:42 +0000] "method /api/v1/services/service-requests-notes?srid=6230d617ccdb1bcecef0812d HTTP/1.1" 200 2306
+13950@Siddharths-MacBook-Pro.local/c8f680ea8ef821f41b0e5cbe-0000000000000001 => ::1 - - [16/Mar/2022:02:37:42 +0000] "method /api/v1/auth/login HTTP/1.1" 200 53
