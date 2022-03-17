@@ -22,6 +22,7 @@ exports.postServiceRequest = async (req, res, next) => {
     description,
     attachments,
     priority,
+    status=1,
     job_reference_id = null,
   } = req.body;
   const userName = req.decodedAccessToken.name;
@@ -39,7 +40,7 @@ exports.postServiceRequest = async (req, res, next) => {
     description: description,
     attachments: attachments,
     priority: priority,
-    status: 1,
+    status: status,
     creator_name: userName,
     creator_id: userId,
     job_reference_id: job_reference_id,
@@ -80,7 +81,26 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   const email = req.decodedAccessToken.email;
-  var { page, perPage } = req.query;
+  var { page, perPage ,status} = req.query;
+  const statuses=status.split(',')
+  
+  var mp=new Map();
+  const searchArray=[];
+
+  for(let status of statuses){
+    searchArray.push({status:status});
+    mp.set(parseInt(status),true);
+  }
+
+  if(mp.size==0){
+     console.log("DF")
+    searchArray.push({status:1})
+    searchArray.push({status:2})
+  }
+  
+
+
+
 
   if (!page) {
     page = 1;
@@ -90,12 +110,15 @@ exports.getAllServiceRequests = async (req, res, next) => {
   }
 
   const rspp = await UserModel.findById(userId);
-  const total_records = rspp.service_requests.length;
 
-  const response = await UserModel.findById(userId).populate([
+
+  console.log(searchArray)
+
+  const response=await UserModel.findById(userId).populate([
     {
       path: "service_requests",
       model: "ServiceRequest",
+      match:{$or :searchArray},
       options: {
         sort: {},
         skip: perPage * (page - 1),
@@ -104,13 +127,33 @@ exports.getAllServiceRequests = async (req, res, next) => {
     },
   ]);
 
+  const response2=await UserModel.findById(userId).populate([
+    {
+      path: "service_requests",
+      model: "ServiceRequest",
+      match:{$or :searchArray},
+    },
+  ]);
+
   const foundServiceRequests = [...response.service_requests];
-  console.log(foundServiceRequests);
+ 
+  const total_records=response2.service_requests.length;
+
   const respArray = [];
 
   for (let i = 0; i < foundServiceRequests.length; i++) {
-    respArray.push(foundServiceRequests[i]);
+    console.log(foundServiceRequests[i].status)
+   
+    if(mp.get(foundServiceRequests[i].status)===true)
+    {respArray.push(foundServiceRequests[i]);}
   }
+  
+
+  // const total_records=respArray.length
+
+
+  console.log("TR",total_records)
+
 
   const total_pages = Math.ceil(total_records / perPage);
 
@@ -128,7 +171,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
 exports.getServiceRequestsStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
-  console.log(userId);
+  
   const response = await UserModel.findById(userId).populate(
     "service_requests"
   );
@@ -168,3 +211,8 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
     },
   });
 };
+
+
+// AWS - Quickie Apps Developer
+// User Name: QuickieApps.Developer
+// Password: i$martApp$1050*

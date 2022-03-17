@@ -25,7 +25,6 @@ const ServiceRequestSchema = new mongoose.Schema(
     },
     status:{
         type:Number,
-        default:1
     },
     creator_name:{
       type:String

@@ -15,6 +15,7 @@ router.post('/service-requests',
 
 router.get('/service-requests',[  
       check(['perPage','page']).isInt().withMessage('Please enter valid Number')], 
+      check(['status']).notEmpty().withMessage('Please enter valid status '),
       ServiceRequestsController.getAllServiceRequests)
 
 
