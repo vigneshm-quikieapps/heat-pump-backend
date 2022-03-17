@@ -110,7 +110,7 @@ exports.postLoginUser = (req, res, next) => {
   UserModel.findOne({ email: email })
     .then((user) => {
       console.log(user.status);
-      if (user !== null && user.status==2) {
+      if (user !== null) {
         userTobeLogin = user;
         return bcrypt.compare(password, user.password);
       } else {
