@@ -67,7 +67,6 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: Number,
-      default: +1,
     },
     reset_key: {
       type: String,
