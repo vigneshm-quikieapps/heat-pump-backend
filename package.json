@@ -22,6 +22,8 @@
   "homepage": "https://github.com/vigneshm-quikieapps/heat-pump-backend#readme",
   "dependencies": {
     "@sendgrid/mail": "^7.6.2",
+    "aws-sdk": "^2.1096.0",
+    "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "consola": "^2.15.3",
@@ -50,6 +52,7 @@
     "stream-meter": "^1.0.4",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.3.0",
+    "uuid": "^8.3.2",
     "winston": "^3.6.0",
     "winston-daily-rotate-file": "^4.6.1"
   }

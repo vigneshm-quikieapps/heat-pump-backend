@@ -17,8 +17,6 @@ router.get('/service-requests',[
       check(['perPage','page']).isInt().withMessage('Please enter valid Number')], 
       check(['status']).notEmpty().withMessage('Please enter valid status '),
       ServiceRequestsController.getAllServiceRequests)
-
-
 router.patch('/service-requests/:id',
 
 body('attachments').notEmpty().withMessage("Please don't pass attachaments here pass uattachments"),[

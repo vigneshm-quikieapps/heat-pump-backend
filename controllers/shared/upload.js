@@ -1,8 +1,15 @@
-const { validationResult } = require("express-validator");
-
 const fs=require('fs');
+const { validationResult } = require("express-validator");
+const aws=require('aws-sdk');
+const { v4: uuidv4 } = require('uuid');
+const { default: axios } = require('axios');
 
-exports.uploadPdfController= (req, res, next)=> {
+
+const s3=new aws.S3({
+ 
+})
+
+exports.uploadPdfController= async(req, res, next)=> {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -10,14 +17,58 @@ exports.uploadPdfController= (req, res, next)=> {
       errorMessage: errors.array(),
     });
   }
+  // const userId=req.decodedToken.id;
+
+// console.dir(req.files)
+  const key=`${123}/${uuidv4()}.pdf`;
+
+
+ 
+
+
+  // res.send("OK")
+  
+  let paths = req.files.map((e) => e.path);
+    console.log(paths);
+
+    var fp;
+
+
   try{
-    let paths = req.files.map((e) => e.path);
-    res.json({
-      success:true,
-      data:{
-        message: paths,
-      }
-    });
+     s3.getSignedUrl('putObject',{
+    Bucket:'heatpump-bucket',
+    ContentType:'pdf',
+    Key:key
+  },(err,url)=>{
+    
+    fs.readFile(paths[0],(err,files)=>{
+
+      console.log(files)
+
+      axios.put(url,files,{
+        headers:{
+          'Content-Type':'pdf'
+        }
+      })
+      .then(rep=>res.send(rep.data))
+      .catch(err=>{
+        res.json({
+          err
+        })
+      })
+
+      
+
+    })
+
+
+  })
+    // res.json({
+    //   success:true,
+    //   data:{
+    //     message: paths,
+    //   }
+    // });
   }
   catch(err){
     res.json({

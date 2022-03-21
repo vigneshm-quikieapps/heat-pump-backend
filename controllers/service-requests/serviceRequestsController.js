@@ -212,7 +212,3 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
   });
 };
 
-
-// AWS - Quickie Apps Developer
-// User Name: QuickieApps.Developer
-// Password: i$martApp$1050*

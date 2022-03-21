@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "17"
+dist: trusty
+services:
+  - mongodb
+cache:
+directories:
+  - node_modules
+install:
+  - npm install
+  - npm start
+script:
+  - nohup npm run start &
+  - sleep 3
