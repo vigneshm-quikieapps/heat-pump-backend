@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 const multer = require("multer");
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 const router = express.Router();
 const { check, body } = require("express-validator");
 const shared=require('../controllers/shared');
@@ -31,7 +32,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const extension=file.mimetype.split('/')[1];
-    cb(null, file.fieldname + "-" + Date.now() +'.'+extension);
+    cb(null, uuidv4() +'.'+extension);
   },
 });
 

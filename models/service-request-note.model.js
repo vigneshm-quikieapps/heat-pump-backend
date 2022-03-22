@@ -21,10 +21,10 @@ const ServiceRequestNoteSchema = new mongoose.Schema(
         type:String,
         required:"Please enter the description"
     },
-    status:{
-        type:Number,
-        default:1
-    },
+    // status:{
+    //     type:Number,
+    //     default:1
+    // },
     attachments:[{
         type:String
     }],

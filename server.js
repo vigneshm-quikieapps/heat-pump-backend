@@ -72,8 +72,7 @@ app.get('/swagger.json', function(req, res) {
  app.use(corsMiddleware);
  app.use('/api/v1/auth',authRoutes);
  app.use('/api/v1/common',accessTokenMiddleware,unauthourizedMiddleware,commonRoutes);
- app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes,serviceRequestNotesRoutes,jobRoutes);
-app.use('/api/v1/services',userRoutes)
+ app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes,serviceRequestNotesRoutes,jobRoutes,userRoutes);
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result=>app.listen(PORT,()=>console.log("Server Online")))

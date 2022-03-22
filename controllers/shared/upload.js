@@ -1,9 +1,7 @@
 const fs = require("fs");
 require('dotenv').config();
-
 const { validationResult } = require("express-validator");
 const aws = require("aws-sdk");
-const { v4: uuidv4 } = require("uuid");
 const { default: axios } = require("axios");
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESS_KEY,
@@ -57,7 +55,7 @@ exports.uploadDocController = async (req, res, next) => {
         res.send({
           success: true,
           data: {
-            message: [name],
+            message: [key],
           },
         })
       )
@@ -76,7 +74,7 @@ exports.getDocController = (req, res, next) => {
     s3.getObject(
       {
         Bucket: "heatpump-bucket",
-        Key: `${userId}/attachments-${fp}`,
+        Key: `${fp}`,
       },
       (err, file) => {
         if (err) {
