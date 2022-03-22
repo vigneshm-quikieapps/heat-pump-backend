@@ -26,7 +26,6 @@ exports.getAllUsers = async (req, res, next) => {
     }
   
     if(mp.size==0){
-       console.log("DF")
       searchArray.push({status:1})
       searchArray.push({status:2})
     }
@@ -46,14 +45,24 @@ exports.getAllUsers = async (req, res, next) => {
     const SKIP=perPage * (page - 1);
     const LIMIT=perPage;
     const response=await UserModel.find({$or:searchArray});
-    const data=await UserModel.find({$or:searchArray}).skip(SKIP).limit(LIMIT);
+    const data=await UserModel.find({$or:searchArray}).populate([
+      {
+        path: "service_requests",
+        populate:{
+          path:'job_reference_id',
+        },
+        model: "ServiceRequest",
+        match:{$or :searchArray},
+      }
+    ]).skip(SKIP).limit(LIMIT);
 
     
     const total_records =response.length;
     const current_page=page;
     const total_pages=Math.ceil(total_records/perPage);
     res.send({
-      total_pages,current_page,total_records,
+      total_pages,current_page,
+      total_records,
       data:{
         data:data
       }
@@ -109,8 +118,6 @@ exports.getAllUsers = async (req, res, next) => {
           message:"updated"
         }
       })
-
-
     }
     catch(err){
       res.send({
@@ -128,7 +135,6 @@ exports.getUsersStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
   
   const response = await UserModel.find({admin:false})
-console.log(response);
   const sArray = response;
 
   let neww = 0,

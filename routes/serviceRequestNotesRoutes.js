@@ -12,8 +12,8 @@ serviceRequestNotesValidations.CHECK_SRID
 
 router.get('/service-requests-notes',ServiceRequestNotesController.getAllServiceRequestNotes)
 
-router.patch('/service-requests-notes-update',serviceRequestNotesValidations.CHECK_NRID,ServiceRequestNotesController.patchServiceRequestNotesUpdate)
+// router.patch('/service-requests-notes-update',serviceRequestNotesValidations.CHECK_NRID,ServiceRequestNotesController.patchServiceRequestNotesUpdate)
 
-router.patch('/service-requests-notes-update-attachments',serviceRequestNotesValidations.CHECK_NRID,ServiceRequestNotesController.patchServiceRequestNotesAttachmentUpdate)
+// router.patch('/service-requests-notes-update-attachments',serviceRequestNotesValidations.CHECK_NRID,ServiceRequestNotesController.patchServiceRequestNotesAttachmentUpdate)
 
 module.exports=router;

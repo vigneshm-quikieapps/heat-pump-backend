@@ -93,7 +93,6 @@ exports.getAllServiceRequests = async (req, res, next) => {
   }
 
   if(mp.size==0){
-     console.log("DF")
     searchArray.push({status:1})
     searchArray.push({status:2})
   }
@@ -112,12 +111,14 @@ exports.getAllServiceRequests = async (req, res, next) => {
   const rspp = await UserModel.findById(userId);
 
 
-  console.log(searchArray)
-
   const response=await UserModel.findById(userId).populate([
     {
       path: "service_requests",
       model: "ServiceRequest",
+      populate:{
+        path:"job_reference_id",
+        model:"Job"
+      },
       match:{$or :searchArray},
       options: {
         sort: {},
@@ -127,13 +128,12 @@ exports.getAllServiceRequests = async (req, res, next) => {
     },
   ]);
 
-  const response2=await UserModel.findById(userId).populate([
-    {
+  const response2=await UserModel.findById(userId).populate({
       path: "service_requests",
       model: "ServiceRequest",
       match:{$or :searchArray},
-    },
-  ]);
+    }
+);
 
   const foundServiceRequests = [...response.service_requests];
  
@@ -142,7 +142,6 @@ exports.getAllServiceRequests = async (req, res, next) => {
   const respArray = [];
 
   for (let i = 0; i < foundServiceRequests.length; i++) {
-    console.log(foundServiceRequests[i].status)
    
     if(mp.get(foundServiceRequests[i].status)===true)
     {respArray.push(foundServiceRequests[i]);}

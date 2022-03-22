@@ -28,9 +28,9 @@ const ServiceRequestNoteSchema = new mongoose.Schema(
     attachments:[{
         type:String
     }],
-    updates:[{
-            type:String
-    }],
+    // updates:[{
+    //         type:String
+    // }],
     creator_srid:{
         type:Schema.Types.ObjectId,
         ref:"ServiceRequest"
