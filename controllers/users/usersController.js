@@ -134,7 +134,7 @@ console.log(response);
   let neww = 0,
     inprogress = 0,
     active = 0;
-
+  let total_records=sArray.length;
   for (let i = 0; i < sArray.length; i++) {
     switch (sArray[i].status) {
       case 1:
@@ -146,13 +146,15 @@ console.log(response);
       case 3:
         active += 1;
         break;
+        default:
+          total_records-=1;
     }
   }
 
   res.json({
     success: true,
     data: {
-      total:sArray.length,
+      total:total_records,
       new: neww,
       inprogress: inprogress,
       active: active,
