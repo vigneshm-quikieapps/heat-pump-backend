@@ -122,3 +122,40 @@ exports.getAllUsers = async (req, res, next) => {
     }
 
   }
+
+  
+exports.getUsersStatus = async (req, res, next) => {
+  const userId = req.decodedAccessToken.id;
+  
+  const response = await UserModel.find({admin:false})
+console.log(response);
+  const sArray = response;
+
+  let neww = 0,
+    inprogress = 0,
+    active = 0;
+
+  for (let i = 0; i < sArray.length; i++) {
+    switch (sArray[i].status) {
+      case 1:
+        neww += 1;
+        break;
+      case 2:
+        inprogress += 1;
+        break;
+      case 3:
+        active += 1;
+        break;
+    }
+  }
+
+  res.json({
+    success: true,
+    data: {
+      total:sArray.length,
+      new: neww,
+      inprogress: inprogress,
+      active: active,
+    },
+  });
+};
