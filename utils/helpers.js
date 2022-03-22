@@ -15,11 +15,11 @@ function getJwtToken(payload = {},expiresIn="12hr") {
 
 
 const fileFilter = (req,file, cb) => {
-  // console.log(file);
-  if (file.mimetype === "application/pdf") {
+  console.log(file);
+  if (file.mimetype === "application/pdf" || file.mimetype==="image/png" || file.mimetype==="image/jpeg") {
     cb(null, true);
   } else {
-    return cb("Please enter valid PDF Files ",false);
+    return cb("Please enter valid PDF/PNG/JPEG Files ",false);
     cb(null, false);
   }
 };
@@ -30,7 +30,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now() + ".pdf");
+    const extension=file.mimetype.split('/')[1];
+    cb(null, file.fieldname + "-" + Date.now() +'.'+extension);
   },
 });
 

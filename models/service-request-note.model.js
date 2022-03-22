@@ -10,7 +10,14 @@ const ServiceRequestNoteSchema = new mongoose.Schema(
         type:String,
         required:"Please enter the title"
     },
-    description:{
+    type:{
+        type:Number, // Internal , System , from Luth Staff
+    },
+    isInternal:{
+        type:Boolean
+    },
+    description:
+    {
         type:String,
         required:"Please enter the description"
     },

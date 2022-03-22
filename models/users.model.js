@@ -30,6 +30,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: "Password is reqiured",
+      select:false
     },
     mobile: {
       type: String,

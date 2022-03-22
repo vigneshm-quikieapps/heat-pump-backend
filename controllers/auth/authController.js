@@ -94,6 +94,7 @@ exports.postRegisterUser = async (req, res, next) => {
     });
 };
 
+
 exports.postLoginUser = (req, res, next) => {
   const errors = validationResult(req);
 
@@ -306,13 +307,12 @@ exports.changePassword=(req,res,next)=>{
   bcrypt
       .hash(new_password,12)
       .then((hashedPassword)=>{
-          UserModel.findByIdAndUpdate({email:email},{password:new_password})
+          UserModel.findByIdAndUpdate({email:email},{password:hashedPassword})
       })
       .then(r=>{
           res.json({
             success:true,
             data:{
-
               message:constants.PASSWORD_CHANGED
             }
           })

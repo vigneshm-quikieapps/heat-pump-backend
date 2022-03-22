@@ -1,15 +1,19 @@
-const fs=require('fs');
+const fs = require("fs");
+require('dotenv').config();
+
 const { validationResult } = require("express-validator");
-const aws=require('aws-sdk');
-const { v4: uuidv4 } = require('uuid');
-const { default: axios } = require('axios');
+const aws = require("aws-sdk");
+const { v4: uuidv4 } = require("uuid");
+const { default: axios } = require("axios");
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_S3_SECRET_ACCSES_KEY,
+  signatureVersion: process.env.AWS_S3_SIGNATURE_VERSION,
+  endpoint:process.env.AWS_S3_END_POINT,
+  region: process.env.AWS_S3_REGION,
+});
 
-
-const s3=new aws.S3({
- 
-})
-
-exports.uploadPdfController= async(req, res, next)=> {
+exports.uploadDocController = async (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -17,96 +21,87 @@ exports.uploadPdfController= async(req, res, next)=> {
       errorMessage: errors.array(),
     });
   }
-  // const userId=req.decodedToken.id;
+  const userId = req.decodedAccessToken.id;
 
-// console.dir(req.files)
-  const key=`${123}/${uuidv4()}.pdf`;
-
-
- 
-
-
-  // res.send("OK")
-  
   let paths = req.files.map((e) => e.path);
-    console.log(paths);
+  var name = paths[0].split("/")[1];
 
-    var fp;
-
-
-  try{
-     s3.getSignedUrl('putObject',{
-    Bucket:'heatpump-bucket',
-    ContentType:'pdf',
-    Key:key
-  },(err,url)=>{
-    
-    fs.readFile(paths[0],(err,files)=>{
-
-      console.log(files)
-
-      axios.put(url,files,{
-        headers:{
-          'Content-Type':'pdf'
+  var key = `${userId}/${name}`;
+  var URL = "";
+  try {
+    s3.getSignedUrl(
+      "putObject",
+      {
+        Bucket: "heatpump-bucket",
+        ContentType: "pdf",
+        Key: key,
+      },
+      (err, url) => {
+        URL = url;
+        if (err) {
+          res.send({ err });
         }
+      }
+    );
+  } catch (err) {
+    res.json({ err });
+  }
+  fs.readFile(paths[0], (err, file) => {
+    axios
+      .put(URL, file, {
+        headers: {
+          "Content-Type": "pdf",
+        },
       })
-      .then(rep=>res.send(rep.data))
-      .catch(err=>{
-        res.json({
-          err
+      .then((rep) =>
+        res.send({
+          success: true,
+          data: {
+            message: [name],
+          },
         })
-      })
+      )
+      .catch((err) => {
+        res.json({
+          err: err.data,
+        });
+      });
+  });
+};
 
-      
-
-    })
-
-
-  })
-    // res.json({
-    //   success:true,
-    //   data:{
-    //     message: paths,
-    //   }
-    // });
-  }
-  catch(err){
-    res.json({
-      succes:false,
-      data:{
-        message:err.toString()
-      }
-    })
-  }
-   
-}
-
-exports.getPdfController=(req,res,next)=>{
-  const {fp}=req.query;
-  try{
-
-    if(fs.existsSync(`./uploads/attachments-${fp}.pdf`)){
-  var file = fs.createReadStream(`./uploads/attachments-${fp}.pdf`);
-  var stat = fs.statSync(`./uploads/attachments-${fp}.pdf`);
-  res.setHeader('Content-Length', stat.size);
-  res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename=quote.pdf');
-  file.pipe(res);
-    }else{
-      res.json({
-        success:false,
-        data:{
-          message:"Supplied File is unavailable in our server"
+exports.getDocController = (req, res, next) => {
+  const { fp } = req.query;
+  const userId = req.decodedAccessToken.id;
+  try {
+    s3.getObject(
+      {
+        Bucket: "heatpump-bucket",
+        Key: `${userId}/attachments-${fp}`,
+      },
+      (err, file) => {
+        if (err) {
+          res.json({
+            success: false,
+            data: {
+              message: "Supplied File is unavailable in our server",
+            },
+          });
+        } else {
+          const type = fp.split(".")[1];
+          var contentType =
+            type === "pdf" ? "application/pdf" : `image/${type}`;
+          res.setHeader("Content-Type", contentType);
+          res.send(file.Body);
         }
-      })
-    }
-  }
-  catch(err){
-    res.json({
-      success:false,
-      data:{
-        message:"Supplied File is unavailable in our server"
       }
-    })
+    );
+  } catch (err) {
+    res.json({
+      success: false,
+      data: {
+        message: "Supplied File is unavailable in our server",
+      },
+    });
   }
-}
+  // next();
+};

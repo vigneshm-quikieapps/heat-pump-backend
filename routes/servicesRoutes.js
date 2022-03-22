@@ -29,6 +29,10 @@ body('attachments').notEmpty().withMessage("Please don't pass attachaments here 
      const response=await ServiceRequestModel.findByIdAndUpdate(id,updateObj);
     let newObj=Object.assign(response);
     
+    if(updateObj.status===2){
+        // trigger mail
+        // create a new note for internal
+    }
         
        if(response){
            res.json({
@@ -93,6 +97,5 @@ catch(e){
 
 router.get('/service-requests-status',ServiceRequestsController.getServiceRequestsStatus)
 
-// router.use()
 
 module.exports=router;

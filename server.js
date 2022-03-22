@@ -35,6 +35,8 @@ var adminRoutes=require('./routes/adminRoutes')
 
 var jobRoutes=require('./routes/jobRoutes');
 
+var userRoutes=require('./routes/userRoutes')
+
 var commonRoutes=require('./routes/commonRoutes');
 var servicesRoutes=require('./routes/servicesRoutes');
 var serviceRequestNotesRoutes=require('./routes/serviceRequestNotesRoutes')
@@ -69,9 +71,9 @@ app.get('/swagger.json', function(req, res) {
  app.use(morgan(':res[request-id] => :remote-addr - :remote-user [:date[clf]] "method :url HTTP/:http-version" :status :res[content-length]',{stream:accessLogStream}));
  app.use(corsMiddleware);
  app.use('/api/v1/auth',authRoutes);
- app.use('/api/v1/common',commonRoutes);
+ app.use('/api/v1/common',accessTokenMiddleware,unauthourizedMiddleware,commonRoutes);
  app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes,serviceRequestNotesRoutes,jobRoutes);
-
+app.use('/api/v1/services',userRoutes)
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(result=>app.listen(PORT,()=>console.log("Server Online")))
