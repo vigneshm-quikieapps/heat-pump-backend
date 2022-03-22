@@ -108,18 +108,22 @@ exports.postLoginUser = (req, res, next) => {
 
   let userTobeLogin;
 
-  UserModel.findOne({ email: email })
+  UserModel.findOne({ email: email }).select(['name','email','admin','status','password'])
     .then((user) => {
-      console.log(user.status);
-      if (user !== null) {
+      // console.log(user.status);
+      // console.log(user)
+      if (user!==null) {
         userTobeLogin = user;
+        console.log(user.password)
         return bcrypt.compare(password, user.password);
       } else {
+  
         errors.email = "User not found";
         res.status.json({ errors }); // rarely exectuted
       }
     })
     .then((result) => {
+      
       const token = getJwtToken({
         id: userTobeLogin._id.toString(),
         name: userTobeLogin.name,
@@ -147,7 +151,7 @@ exports.postLoginUser = (req, res, next) => {
     .catch((err) => {
       res.json({ success:false,
         data:{
-          message: "User Not Found"} });
+          message: err.toString()} });
     });
 };
 
@@ -297,7 +301,8 @@ exports.changePassword=(req,res,next)=>{
   const {new_password,confirm_new_password}=req.body;
   // console.log(req.decodedResetToken);
 
-  const email=req.decodedResetToken;
+  var {email}=req.decodedResetToken;
+  console.log(email)
 
   if(new_password!==confirm_new_password){
       throw Error("Failed")
@@ -306,9 +311,12 @@ exports.changePassword=(req,res,next)=>{
 
   bcrypt
       .hash(new_password,12)
-      .then((hashedPassword)=>{
-          UserModel.findByIdAndUpdate({email:email},{password:hashedPassword})
-      })
+      .then(async (hashedPassword)=>{
+        console.log(hashedPassword)
+         const ok= await UserModel.findOneAndUpdate({email:email},{password:hashedPassword})
+     
+        console.log("OK",ok);
+        })
       .then(r=>{
           res.json({
             success:true,
