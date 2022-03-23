@@ -1,6 +1,6 @@
 const UserModel=require('../../models/users.model')
 const {validationResult}=require('express-validator');
-
+const bcrypt = require("bcrypt");
 
 
 
@@ -44,8 +44,8 @@ exports.getAllUsers = async (req, res, next) => {
     // console.log(searchArray)
     const SKIP=perPage * (page - 1);
     const LIMIT=perPage;
-    const response=await UserModel.find({$or:searchArray});
-    const data=await UserModel.find({$or:searchArray}).populate([
+    const response=await UserModel.find({$or:searchArray,$and:[{admin:false}]});
+    const data=await UserModel.find({$or:searchArray,$and:[{admin:false}]}).populate([
       {
         path: "service_requests",
         populate:{
@@ -110,8 +110,19 @@ exports.getAllUsers = async (req, res, next) => {
 
     const {id}=req.query;
     
+    var obj=req.body;
+    console.log(obj);
+   
+
     try{
-      const rsp=await UserModel.findByIdAndUpdate(id,req.body);
+      if(obj.password){
+        console.log("YES")
+        const hpwd=await bcrypt.hash(obj.password,12);
+        obj.password=hpwd;
+        
+      }
+      const rsp=await UserModel.findByIdAndUpdate(id,obj);
+   
       res.send({
         success:true,
         data:{

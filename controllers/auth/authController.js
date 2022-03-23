@@ -13,7 +13,7 @@ const {constants}=require('../../utils')
 const UserModel = require("../../models/users.model");
 
 exports.postRegisterUser = async (req, res, next) => {
-  const {
+  var {
     name,
     email,
     password,
@@ -27,6 +27,7 @@ exports.postRegisterUser = async (req, res, next) => {
     country,
     city,
     postcode,
+    status=1
   } = req.body;
   const errors = validationResult(req);
 
@@ -65,6 +66,7 @@ exports.postRegisterUser = async (req, res, next) => {
         city: city,
         postcode: postcode,
         admin: admin,
+        status:status
       });
       user.save();
     })
@@ -85,6 +87,7 @@ exports.postRegisterUser = async (req, res, next) => {
             country: country,
             city: city,
             postcode: postcode,
+            status:status,
           admin:admin}
         });
     })
