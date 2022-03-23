@@ -44,33 +44,33 @@ exports.uploadDocController = async (req, res, next) => {
         URL = url;
         if (err) {
           res.send({ err });
-        }
+        }else{ fs.readFile(paths[0], (err, file) => {
+          axios
+            .put(URL, file, {
+              headers: {
+                "Content-Type": "pdf",
+              },
+            })
+            .then((rep) =>
+              res.send({
+                success: true,
+                data: {
+                  message: [key],
+                },
+              })
+            )
+            .catch((err) => {
+              res.json({
+                err: err.data,
+              });
+            });
+        });}
       }
     );
   } catch (err) {
     res.json({ err });
   }
-  fs.readFile(paths[0], (err, file) => {
-    axios
-      .put(URL, file, {
-        headers: {
-          "Content-Type": "pdf",
-        },
-      })
-      .then((rep) =>
-        res.send({
-          success: true,
-          data: {
-            message: [key],
-          },
-        })
-      )
-      .catch((err) => {
-        res.json({
-          err: err.data,
-        });
-      });
-  });
+ 
 };
 
 exports.getDocController = (req, res, next) => {
