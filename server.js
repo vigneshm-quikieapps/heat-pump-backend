@@ -18,6 +18,8 @@
 var express = require('express');
 var path = require('path');
 var fs=require('fs');
+
+var cors = require('cors');
 // var logger = require('morgan');
 const ruid = require('express-ruid');
 
@@ -66,6 +68,21 @@ app.get('/swagger.json', function(req, res) {
    res.send(swaggerSpec);
  });
 
+
+ const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 
  app.use(helmet()); 
  app.use(ruid())
