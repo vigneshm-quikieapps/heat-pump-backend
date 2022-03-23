@@ -1,9 +1,8 @@
 /**
- * Heat-Pump 
- * @ All rights reserved 
- * [Copying this content without the author is strictly prohibited
- * and shall be considered an punishable offence under aegis of Heat-Pump]
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022
  */
+
  var express = require('express');
  var router = express.Router();
  var jwt = require('jsonwebtoken');

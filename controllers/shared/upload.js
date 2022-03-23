@@ -1,3 +1,8 @@
+/**
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022
+ */
+
 const fs = require("fs");
 require('dotenv').config();
 const { validationResult } = require("express-validator");
@@ -22,6 +27,7 @@ exports.uploadDocController = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
   let paths = req.files.map((e) => e.path);
+  
   var name = paths[0].split("/")[1];
 
   var key = `${userId}/${name}`;

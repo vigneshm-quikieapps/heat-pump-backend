@@ -1,9 +1,18 @@
 /**
  * Heat-Pump 
- * @ All rights reserved 
- * [Copying this content without the author is strictly prohibited
- * and shall be considered an punishable offence under aegis of Heat-Pump]
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022.
+ * COPYRIGHT NOTICE:
+ * Copyright (c) 2022 Quikieapps,
+ * Bangalore, India.
+ * All Rights Reserved.
+ * This software is the confidential and proprietary information of
+ * Quikieapps ("Confidential Information"). You shall
+ * not disclose such Confidential Information and shall use it only
+ * in accordance with the terms of the license agreement you entered
+ * into with Quikieapps.
  */
+
 
 
 var express = require('express');

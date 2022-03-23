@@ -1,5 +1,6 @@
-/** Siddharth Kumar Yadav
- * © All rights reserved
+/**
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022
  */
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");

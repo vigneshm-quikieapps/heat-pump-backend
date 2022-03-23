@@ -1,3 +1,8 @@
+/**
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022
+ */
+
 const JobsModel = require("../../models/jobs.models");
 const UserModel=require('../../models/users.model')
 const {reversedNum}=require('../../utils/helpers');

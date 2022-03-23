@@ -1,3 +1,8 @@
+/**
+ * @author Siddharth_Kumar_Yadav
+ * @Since 07 Mar 2022
+ */
+
 const PASSWORD_CHANGED='Password has been changed Successfully';
 const IV_OTP_TOKEN='Failed to authenticate with provided OTP Token'
 const INVALID_RESET_TOKEN='Failed to authenticate with provided Reset Token'
