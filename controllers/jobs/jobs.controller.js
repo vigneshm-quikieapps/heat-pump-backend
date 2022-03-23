@@ -9,7 +9,7 @@ const {reversedNum}=require('../../utils/helpers');
 
 
 exports.postJob = async (req, res, next) => {
-  const { title, description, site_details,attachments } = req.body;
+  const { title, description, site_details,attachments,status="1" } = req.body;
 
   const time = new Date().getTime();
 
@@ -28,6 +28,7 @@ exports.postJob = async (req, res, next) => {
       description: description,
       site_details: site_details,
       job_ref_number: job_ref_number,
+      status:status
     });
 
     const response = await job.save();
