@@ -119,10 +119,14 @@ exports.getAllServiceRequests = async (req, res, next) => {
     {
       path: "service_requests",
       model: "ServiceRequest",
-      populate:{
+      populate:[{
         path:"job_reference_id",
         model:"Job"
-      },
+      },{
+        path:"notes",
+        model:"ServiceRequestNote"
+      }],
+      
       match:{$or :searchArray},
       options: {
         sort: {},
@@ -175,8 +179,17 @@ exports.getAllServiceRequests = async (req, res, next) => {
 exports.getServiceRequestsStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
   
-  const response = await UserModel.findById(userId).populate(
-    "service_requests"
+  const response = await UserModel.findById(userId).populate([
+    {path: "service_requests",
+    model: "ServiceRequest",
+    populate:[{
+      path:"job_reference_id",
+      model:"Job"
+    },{
+      path:"notes",
+      model:"ServiceRequestNote"
+    }]
+  }]
   );
 
   const sArray = response.service_requests;

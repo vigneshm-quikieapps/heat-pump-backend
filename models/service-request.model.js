@@ -26,7 +26,8 @@ const ServiceRequestSchema = new mongoose.Schema(
     },
     job_reference_id:{
         type:Schema.Types.ObjectId,
-        ref:"Job"
+        ref:"Job",
+      
     },
     status:{
         type:Number,
@@ -41,10 +42,10 @@ const ServiceRequestSchema = new mongoose.Schema(
       type:Schema.Types.ObjectId,
       ref:"User"
     },
-    notes:{
+    notes:[{
       type:Schema.Types.ObjectId,
       ref:"ServiceRequestNote"
-    }
+    }]
   },
   { timestamps: true }
 );

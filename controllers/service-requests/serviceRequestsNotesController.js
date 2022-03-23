@@ -23,14 +23,13 @@ exports.postServiceRequestNote = async (req, res, next) => {
 
     // console.log(rep);
     const rp=await ServiceRequestModel.findById(srid).populate("notes")
-    
-    if(rp.length)
+    console.log(rp);
+    if(rp.notes.length)
     {
         rp.notes.push(rep._id.toString());
         rp.save();
-       
-   
     }else{
+      console.log("CALLED");
         const rspp=await ServiceRequestModel.findByIdAndUpdate(srid,{
             notes:[rep._id.toString()]
         })

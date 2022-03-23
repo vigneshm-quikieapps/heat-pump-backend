@@ -72,7 +72,16 @@ router.get('/service-requests/:id',async (req,res,next)=>{
     try{
 
     
-    const foundRecord=await ServiceRequestModel.findById(id);
+    const foundRecord=await ServiceRequestModel.findById(id).populate(
+        [
+    {
+      path:"job_reference_id",
+      model:"Job"
+    },{
+      path:"notes",
+      model:"ServiceRequestNote"
+  }]
+    )
 
     if(foundRecord){
         res.json({
@@ -92,7 +101,7 @@ catch(e){
     res.json({
         success:false,
         data:{
-            message:"Invalid ID"
+            message:e.toString()
         }
     })
 }
