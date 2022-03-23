@@ -33,3 +33,4 @@
 19912@sky.local/8462c27fdaad8ce33402e284-0000000000000001 => ::1 - - [23/Mar/2022:08:56:35 +0000] "method /api/v1/auth/login HTTP/1.1" 200 58
 19912@sky.local/8462c27fdaad8ce33402e284-0000000000000002 => ::1 - - [23/Mar/2022:08:56:35 +0000] "method /api/v1/auth/login HTTP/1.1" 200 58
 19912@sky.local/8462c27fdaad8ce33402e284-0000000000000003 => ::1 - - [23/Mar/2022:08:56:37 +0000] "method /api/v1/auth/login HTTP/1.1" 200 346
+20638@sky.local/25de27dd40a9ee53fb268cc8-0000000000000001 => ::1 - - [23/Mar/2022:09:16:11 +0000] "method /api/v1/auth/forgot-password HTTP/1.1" 200 277
