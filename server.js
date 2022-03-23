@@ -78,7 +78,7 @@ app.get('/swagger.json', function(req, res) {
   path: path.join(__dirname, 'log')
 })
  app.use(morgan(':res[request-id] => :remote-addr - :remote-user [:date[clf]] "method :url HTTP/:http-version" :status :res[content-length]',{stream:accessLogStream}));
- app.use(corsMiddleware);
+//  app.use(corsMiddleware);
  app.use('/api/v1/auth',authRoutes);
  app.use('/api/v1/common',accessTokenMiddleware,unauthourizedMiddleware,commonRoutes);
  app.use('/api/v1/services',accessTokenMiddleware,unauthourizedMiddleware,servicesRoutes,serviceRequestNotesRoutes,jobRoutes,userRoutes);
