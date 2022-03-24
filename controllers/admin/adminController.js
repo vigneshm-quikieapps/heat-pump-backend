@@ -17,9 +17,9 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     page,
     perPage,
     status,
-    f_srid = "SR",
-    f_priority ,
-    f_title,
+    f_srid="SR" ,
+    f_priority=1 ,
+    f_title="",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -94,8 +94,8 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
   console.log("REPONSELENGTH", response.length);
   response.forEach((e) => {
     if (e.service_requests.length) {
-      e.service_requests.forEach((e) => {
-        foundServiceRequests.push(e);
+      e.service_requests.forEach((f) => {
+        foundServiceRequests.push(f);
       });
     }
   });
@@ -153,7 +153,12 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
     },
   ]);
 
-  const sArray = response.service_requests;
+  const sArray = [];
+  response.forEach(e=>{
+    e.service_requests.forEach(f=>{
+      sArray.push(f);
+    })
+  })
 
   let closed = 0,
     neww = 0,
