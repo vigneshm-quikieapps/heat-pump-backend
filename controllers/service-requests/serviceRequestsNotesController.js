@@ -9,7 +9,7 @@ const ServiceRequestModel=require('../../models/service-request.model')
 exports.postServiceRequestNote = async (req, res, next) => {
   const { srid } = req.query;
   
-  const { title, description, status, attachments } = req.body;
+  const { title, description, status, attachments,type=1 } = req.body;
 
   try {
     const note = new ServiceRequestNoteModel({
@@ -17,6 +17,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
       description: description,
       attachments: attachments,
       creator_srid: srid,
+      type:type
     });
 
     const rep = await note.save();
