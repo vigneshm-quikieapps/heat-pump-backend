@@ -23,12 +23,13 @@ exports.postServiceRequestNote = async (req, res, next) => {
     const rep = await note.save();
 
     // console.log(rep);
-    if(attachments){      const sr= await ServiceRequestModel.findById(srid)
+    if (attachments) {
+      const sr = await ServiceRequestModel.findById(srid);
 
-      attachments.forEach(e=>sr.attachments.push(e));
+      attachments.forEach((e) => sr.attachments.push(e));
 
       await sr.save();
-}
+    }
 
     const rp = await ServiceRequestModel.findById(srid).populate("notes");
 

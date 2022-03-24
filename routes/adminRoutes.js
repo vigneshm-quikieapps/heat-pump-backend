@@ -7,11 +7,11 @@ const express = require("express");
 const { check, body } = require("express-validator");
 const router = express.Router();
 const auth = require("../controllers/admin/adminController");
-const ServiceRequestsController = require("../controllers/service-requests/serviceRequestsController");
+const AdminController = require("../controllers/admin/adminController");
 
 router.get(
-    "/service-requests-count",
-    ServiceRequestsController.getServiceRequestsStatusAdminSide
-  );  
-router.get('/service-requests',ServiceRequestsController.getAllServiceRequestsAdminSide)
+  "/service-requests-count",
+  AdminController.getServiceRequestsStatusAdminSide
+);
+router.get("/service-requests", AdminController.getAllServiceRequestsAdminSide);
 module.exports = router;

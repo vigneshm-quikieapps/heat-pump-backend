@@ -88,8 +88,12 @@ app.use(
 );
 //  app.use(corsMiddleware);
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/admin",accessTokenMiddleware,
-unauthourizedMiddleware,adminRoutes)
+app.use(
+  "/api/v1/admin",
+  accessTokenMiddleware,
+  unauthourizedMiddleware,
+  adminRoutes
+);
 app.use(
   "/api/v1/common",
   accessTokenMiddleware,

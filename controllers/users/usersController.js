@@ -12,7 +12,7 @@ exports.getAllUsers = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   const email = req.decodedAccessToken.email;
-  var { page, perPage, status } = req.query;
+  var { page, perPage, status, f_status } = req.query;
   const statuses = status.split(",");
 
   var mp = new Map();

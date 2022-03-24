@@ -78,9 +78,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "none",
     },
-    evidences:[{
-      type:String
-    }],
+    evidences: [
+      {
+        type: String,
+      },
+    ],
     reset_otp: {
       type: Number,
       minlength: 4,

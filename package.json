@@ -15,7 +15,8 @@
     "pm2:reload": "pm2 restart all",
     "pm2:stop": "pm2 stop all",
     "pm2:kill": "pm2 kill",
-    "pm2:monitor": "pm2 monit"
+    "pm2:monitor": "pm2 monit",
+    "format": "npx prettier --write ."
   },
   "repository": {
     "type": "git",
