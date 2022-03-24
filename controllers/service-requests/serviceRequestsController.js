@@ -90,8 +90,8 @@ exports.getAllServiceRequests = async (req, res, next) => {
     perPage,
     status,
     f_srid = "SR",
-    f_priority,
-    f_title,
+    f_priority=1,
+    f_title="",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -135,7 +135,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
       match: {
         $and: [
           { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority },
+          { priority: f_priority?f_priority:{$exists:true}},
           { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
@@ -154,7 +154,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
     match: {
       $and: [
         { service_ref_number: new RegExp(f_srid) },
-        { priority: f_priority },
+        { priority: f_priority?f_priority:{$exists:true} },
         { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
@@ -162,7 +162,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
   });
 
   const foundServiceRequests = [...response.service_requests];
-
+  console.log(foundServiceRequests)
   const total_records = response2.service_requests.length;
 
   const respArray = [];

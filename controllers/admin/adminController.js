@@ -18,7 +18,7 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     perPage,
     status,
     f_srid="SR" ,
-    f_priority=1 ,
+    f_priority ,
     f_title="",
   } = req.query;
   const statuses = status.split(",");
@@ -63,7 +63,7 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
       match: {
         $and: [
           { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority },
+          { priority: f_priority?f_priority:{$exists:true}},
           { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
@@ -82,7 +82,7 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     match: {
       $and: [
         { service_ref_number: new RegExp(f_srid) },
-        { priority: f_priority },
+        {priority: f_priority?f_priority:{$exists:true}},
         { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
