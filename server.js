@@ -50,6 +50,7 @@ var serviceRequestNotesRoutes = require("./routes/serviceRequestNotesRoutes");
 const accessTokenMiddleware = require("./middlewares/accessTokenMiddleware");
 const unauthourizedMiddleware = require("./middlewares/unauthorizedMiddleware");
 const corsMiddleware = require("./middlewares/corsMiddleware");
+const { addColors } = require("winston/lib/winston/config");
 
 // DECLARATIONS
 var app = express();
@@ -87,6 +88,8 @@ app.use(
 );
 //  app.use(corsMiddleware);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/admin",accessTokenMiddleware,
+unauthourizedMiddleware,adminRoutes)
 app.use(
   "/api/v1/common",
   accessTokenMiddleware,
