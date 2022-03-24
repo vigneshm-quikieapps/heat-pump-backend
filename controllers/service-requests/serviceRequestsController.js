@@ -26,7 +26,7 @@ exports.postServiceRequest = async (req, res, next) => {
     description,
     attachments,
     priority,
-    status=1,
+    status = 1,
     job_reference_id = null,
   } = req.body;
   const userName = req.decodedAccessToken.name;
@@ -59,7 +59,7 @@ exports.postServiceRequest = async (req, res, next) => {
     let usr = await UserModel.findById(userId);
     let srArray = usr.service_requests;
     srArray.push(objectId);
-    console.log("OKKKKKKK");
+
     const resp = await usr.save();
     res.json({
       success: true,
@@ -85,25 +85,21 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   const email = req.decodedAccessToken.email;
-  var { page, perPage ,status} = req.query;
-  const statuses=status.split(',')
-  
-  var mp=new Map();
-  const searchArray=[];
+  var { page, perPage, status } = req.query;
+  const statuses = status.split(",");
 
-  for(let status of statuses){
-    searchArray.push({status:status});
-    mp.set(parseInt(status),true);
+  var mp = new Map();
+  const searchArray = [];
+
+  for (let status of statuses) {
+    searchArray.push({ status: status });
+    mp.set(parseInt(status), true);
   }
 
-  if(mp.size==0){
-    searchArray.push({status:1})
-    searchArray.push({status:2})
+  if (mp.size == 0) {
+    searchArray.push({ status: 1 });
+    searchArray.push({ status: 2 });
   }
-  
-
-
-
 
   if (!page) {
     page = 1;
@@ -114,20 +110,22 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
   const rspp = await UserModel.findById(userId);
 
-
-  const response=await UserModel.findById(userId).populate([
+  const response = await UserModel.findById(userId).populate([
     {
       path: "service_requests",
       model: "ServiceRequest",
-      populate:[{
-        path:"job_reference_id",
-        model:"Job"
-      },{
-        path:"notes",
-        model:"ServiceRequestNote"
-      }],
-      
-      match:{$or :searchArray},
+      populate: [
+        {
+          path: "job_reference_id",
+          model: "Job",
+        },
+        {
+          path: "notes",
+          model: "ServiceRequestNote",
+        },
+      ],
+
+      match: { $or: searchArray },
       options: {
         sort: {},
         skip: perPage * (page - 1),
@@ -136,38 +134,29 @@ exports.getAllServiceRequests = async (req, res, next) => {
     },
   ]);
 
-  const response2=await UserModel.findById(userId).populate({
-      path: "service_requests",
-      model: "ServiceRequest",
-      match:{$or :searchArray},
-    }
-);
+  const response2 = await UserModel.findById(userId).populate({
+    path: "service_requests",
+    model: "ServiceRequest",
+    match: { $or: searchArray },
+  });
 
   const foundServiceRequests = [...response.service_requests];
- 
-  const total_records=response2.service_requests.length;
+
+  const total_records = response2.service_requests.length;
 
   const respArray = [];
 
   for (let i = 0; i < foundServiceRequests.length; i++) {
-   
-    if(mp.get(foundServiceRequests[i].status)===true)
-    {respArray.push(foundServiceRequests[i]);}
+    if (mp.get(foundServiceRequests[i].status) === true) {
+      respArray.push(foundServiceRequests[i]);
+    }
   }
-  
-
-  // const total_records=respArray.length
-
-
-  console.log("TR",total_records)
-
 
   const total_pages = Math.ceil(total_records / perPage);
 
   res.json({
     success: true,
     data: {
-      message: "OK",
       total_records: total_records,
       total_pages: total_pages,
       current_page: page,
@@ -178,19 +167,23 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
 exports.getServiceRequestsStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
-  
+
   const response = await UserModel.findById(userId).populate([
-    {path: "service_requests",
-    model: "ServiceRequest",
-    populate:[{
-      path:"job_reference_id",
-      model:"Job"
-    },{
-      path:"notes",
-      model:"ServiceRequestNote"
-    }]
-  }]
-  );
+    {
+      path: "service_requests",
+      model: "ServiceRequest",
+      populate: [
+        {
+          path: "job_reference_id",
+          model: "Job",
+        },
+        {
+          path: "notes",
+          model: "ServiceRequestNote",
+        },
+      ],
+    },
+  ]);
 
   const sArray = response.service_requests;
 
@@ -219,7 +212,7 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
   res.json({
     success: true,
     data: {
-      total:sArray.length,
+      total: sArray.length,
       new: neww,
       working: working,
       need_attention: need_attention,
@@ -228,3 +221,78 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
   });
 };
 
+exports.getServiceRequestById = async (req, res, next) => {
+  const { id } = req.params;
+  console.log("ID", id);
+  try {
+    const foundRecord = await ServiceRequestModel.findById(id).populate([
+      {
+        path: "job_reference_id",
+        model: "Job",
+      },
+      {
+        path: "notes",
+        model: "ServiceRequestNote",
+      },
+    ]);
+
+    if (foundRecord) {
+      res.json({
+        success: true,
+        data: foundRecord,
+      });
+    } else {
+      res.json({
+        success: false,
+        data: {
+          message: "Not found",
+        },
+      });
+    }
+  } catch (e) {
+    res.json({
+      success: false,
+      data: {
+        message: e.toString(),
+      },
+    });
+  }
+};
+
+exports.patchServiceRequest = async (req, res, next) => {
+  const { id } = req.params;
+  console.log(id);
+  const updateObj = req.body;
+  try {
+    const response = await ServiceRequestModel.findByIdAndUpdate(id, updateObj);
+    let newObj = Object.assign(response);
+
+    if (updateObj.status === 2) {
+      // trigger mail
+      // create a new note for internal
+    }
+
+    if (response) {
+      res.json({
+        success: true,
+        data: {
+          message: "updated",
+          //    data:newObj
+        },
+      });
+    } else
+      res.json({
+        success: false,
+        data: {
+          message: "Invalid ID",
+        },
+      });
+  } catch (err) {
+    res.json({
+      success: false,
+      data: {
+        message: err.toString(),
+      },
+    });
+  }
+};

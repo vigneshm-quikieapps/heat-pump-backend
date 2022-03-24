@@ -35,7 +35,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: "Password is reqiured",
-      select:false
+      select: false,
     },
     mobile: {
       type: String,
@@ -78,20 +78,24 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "none",
     },
-    reset_otp:{
-      type:Number,
-      minlength:4,
-      maxlength:4,
-      default:0
+    reset_otp: {
+      type: Number,
+      minlength: 4,
+      maxlength: 4,
+      default: 0,
     },
-    service_requests:[{
-      type:Schema.Types.ObjectId,
-      ref:"ServiceRequest"
-    }],
-    jobs:[{
-      type:Schema.Types.ObjectId,
-      ref:"Job"
-    }]
+    service_requests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "ServiceRequest",
+      },
+    ],
+    jobs: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Job",
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -101,6 +105,5 @@ function validateUsername(name) {
   var re = /^[A-Z,a-z].*$/;
   return re.test(name);
 }
-
 
 module.exports = mongoose.model("User", UserSchema);

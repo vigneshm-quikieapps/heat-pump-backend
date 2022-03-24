@@ -3,12 +3,11 @@
  * @Since 07 Mar 2022
  */
 
-const express = require('express');
-const { check, body } = require('express-validator');
+const express = require("express");
+const { check, body } = require("express-validator");
 const router = express.Router();
-const auth = require('../controllers/admin/adminController');
+const auth = require("../controllers/admin/adminController");
 
-router.post('/',()=>null)
+router.post("/", () => null);
 
-
-module.exports=router;
+module.exports = router;

@@ -5,10 +5,17 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "start:dev": "nodemon server.js",
+    "start": "node ./bin/www",
+    "start:dev": "nodemon npm start",
     "seed:admin": "cd database && cd seeders && node adminSeeder",
-    "push:heroku": "git add . && git commit -am 'publish code to herkou' && git push heroku main"
+    "push:heroku": "git add . && git commit -am 'publish code to herkou' && git push heroku main",
+    "pm2:install": "npm install pm2@latest -g",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2:dev": "pm2 start ecosystem.config.js --env development",
+    "pm2:reload": "pm2 restart all",
+    "pm2:stop": "pm2 stop all",
+    "pm2:kill": "pm2 kill",
+    "pm2:monitor": "pm2 monit"
   },
   "repository": {
     "type": "git",

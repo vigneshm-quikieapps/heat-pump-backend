@@ -3,19 +3,24 @@
  * @Since 07 Mar 2022
  */
 
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-const Users=require('../../models/users.model')
-const database=require('../../config/database');
- 
+const Users = require("../../models/users.model");
+const database = require("../../config/database");
 
-mongoose.connect(database.dbConnection, {useNewUrlParser: true, useUnifiedTopology: true})
-.catch(err=>console.log("ERROR",err  ))
+mongoose
+  .connect(database.dbConnection, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((err) => console.log("ERROR", err));
 
-const admins=[{
+const admins = [
+  {
     email: "admin@gmail.com",
-    password: "$2b$12$/nWaIBQ0fvOlVikwk8OgDeZFA7cgM8FPYlvhBaMddFtGUHapqUUym",/* 123456 */
+    password:
+      "$2b$12$/nWaIBQ0fvOlVikwk8OgDeZFA7cgM8FPYlvhBaMddFtGUHapqUUym" /* 123456 */,
     name: "John Thomas",
     mobile: "9123456734",
     business_registered_name: "ADMIN",
@@ -27,20 +32,20 @@ const admins=[{
     city: "BHOPAL",
     postcode: "123456",
     admin: true,
-    status:2
-  }];
+    status: 2,
+  },
+];
 
+const seedDB = async () => {
+  await Users.deleteMany({});
+  await Users.insertMany(admins);
+};
 
-
-const seedDB=async ()=>{
- await Users.deleteMany({});
- await Users.insertMany(admins);
-}
-
-seedDB().then(()=>{
-    console.log("SEEDING SUCCESSFULLY COMPLETED")
+seedDB()
+  .then(() => {
+    console.log("SEEDING SUCCESSFULLY COMPLETED");
     mongoose.connection.close();
-})
-.catch(err=>{
-    console.log("FAILED TO SEED THE ADMIN USERS",err);
-})
+  })
+  .catch((err) => {
+    console.log("FAILED TO SEED THE ADMIN USERS", err);
+  });

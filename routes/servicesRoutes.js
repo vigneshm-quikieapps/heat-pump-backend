@@ -3,113 +3,40 @@
  * @Since 07 Mar 2022
  */
 
-const express = require('express');
-const { check, body } = require('express-validator');
+const express = require("express");
+const { check, body } = require("express-validator");
 const router = express.Router();
-const ServiceRequestsController=require('../controllers/service-requests/serviceRequestsController');
-const ServiceRequestModel = require('../models/service-request.model');
-// 
-const usersModel = require('../models/users.model');
-router.post('/service-requests',
-[
-    body('priority').isInt({min:1,max:3}).withMessage('Please enter valid priority in range [1-4]'),
-    body('title').notEmpty().withMessage('Please Enter title of service request'),
-    check('attachments').if(body('attachments').exists()).notEmpty().withMessage("Please enter pdf files files")
-]
-,ServiceRequestsController.postServiceRequest)
+const { serviceRequestValidations } = require("../validations");
 
-router.get('/service-requests',[  
-      check(['perPage','page']).isInt().withMessage('Please enter valid Number')], 
-      check(['status']).notEmpty().withMessage('Please enter valid status '),
-      ServiceRequestsController.getAllServiceRequests)
-router.patch('/service-requests/:id',
+const ServiceRequestsController = require("../controllers/service-requests/serviceRequestsController");
+const ServiceRequestModel = require("../models/service-request.model");
+//
+const usersModel = require("../models/users.model");
+router.post(
+  "/service-requests",
+  serviceRequestValidations.POST_SERVICE_REQUEST,
+  ServiceRequestsController.postServiceRequest
+);
 
-body('attachments').notEmpty().withMessage("Please don't pass attachaments here pass uattachments"),[
+router.get(
+  "/service-requests",
+  serviceRequestValidations.GET_ALL_SERVICE_REQUESTS,
+  ServiceRequestsController.getAllServiceRequests
+);
+router.patch(
+  "/service-requests/:id",
+  serviceRequestValidations.PATCH_SERVICE_REQUEST,
+  ServiceRequestsController.patchServiceRequest
+);
 
-],async (req,res,next)=>{
-    const {id}=req.params;
-    console.log(id);
-    const updateObj=req.body;
-    try{
-     const response=await ServiceRequestModel.findByIdAndUpdate(id,updateObj);
-    let newObj=Object.assign(response);
-    
-    if(updateObj.status===2){
-        // trigger mail
-        // create a new note for internal
-    }
-        
-       if(response){
-           res.json({
-               success:true,
-               data:{
-                   message:"updated",
-                //    data:newObj
-               }
-           })
-       }else 
-       res.json({
-           success:false,
-           data:{
-               message:"Invalid ID"
-           }
-       })
-    }
-    catch(err){
-        res.json({
-            success:false,
-            data:{
-                message:err.toString()
-            }
-        })
-    }
-    
-})
+router.get(
+  "/service-requests/:id",
+  ServiceRequestsController.getServiceRequestById
+);
 
-router.get('/service-requests/:id',async (req,res,next)=>{
-    const {id}=req.params;
-    console.log("ID",id)
-    try{
+router.get(
+  "/service-requests-status",
+  ServiceRequestsController.getServiceRequestsStatus
+);
 
-    
-    const foundRecord=await ServiceRequestModel.findById(id).populate(
-        [
-    {
-      path:"job_reference_id",
-      model:"Job"
-    },{
-      path:"notes",
-      model:"ServiceRequestNote"
-  }]
-    )
-
-    if(foundRecord){
-        res.json({
-            success:true,
-            data:foundRecord
-        })
-    }else{
-        res.json({
-            success:false,
-            data:{
-                message:"Not found"
-            }
-        })
-    }
-}
-catch(e){
-    res.json({
-        success:false,
-        data:{
-            message:e.toString()
-        }
-    })
-}
-
-})
-
-
-router.get('/service-requests-status',ServiceRequestsController.getServiceRequestsStatus)
-
-
-module.exports=router;
+module.exports = router;

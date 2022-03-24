@@ -3,8 +3,8 @@
  * @Since 07 Mar 2022
  */
 
-const uploadsController=require('./upload');
+const uploadsController = require("./upload");
 
-module.exports={
-    uploadsController,
-}
+module.exports = {
+  uploadsController,
+};

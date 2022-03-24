@@ -6,50 +6,50 @@
 const mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
-
 const ServiceRequestSchema = new mongoose.Schema(
   {
-    service_ref_number:String,
-    title:{
-      type:String,
-      required:'Please enter name of service request'
+    service_ref_number: String,
+    title: {
+      type: String,
+      required: "Please enter name of service request",
     },
-    description:String,
-    type:{
-        type:String
+    description: String,
+    type: {
+      type: String,
     },
-    attachments:[{
-        type: String
-    }],
-    priority:{
-       type:Number,
+    attachments: [
+      {
+        type: String,
+      },
+    ],
+    priority: {
+      type: Number,
     },
-    job_reference_id:{
-        type:Schema.Types.ObjectId,
-        ref:"Job",
-      
+    job_reference_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Job",
     },
-    status:{
-        type:Number,
+    status: {
+      type: Number,
     },
-    creator_name:{
-      type:String
+    creator_name: {
+      type: String,
     },
-    creator_id:{
-      type:Schema.Types.ObjectId
+    creator_id: {
+      type: Schema.Types.ObjectId,
     },
-    creator:{
-      type:Schema.Types.ObjectId,
-      ref:"User"
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
-    notes:[{
-      type:Schema.Types.ObjectId,
-      ref:"ServiceRequestNote"
-    }]
+    notes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "ServiceRequestNote",
+      },
+    ],
   },
   { timestamps: true }
 );
-
-
 
 module.exports = mongoose.model("ServiceRequest", ServiceRequestSchema);

@@ -4,7 +4,7 @@
  */
 
 const fs = require("fs");
-require('dotenv').config();
+require("dotenv").config();
 const { validationResult } = require("express-validator");
 const aws = require("aws-sdk");
 const { default: axios } = require("axios");
@@ -12,7 +12,7 @@ const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESS_KEY,
   secretAccessKey: process.env.AWS_S3_SECRET_ACCSES_KEY,
   signatureVersion: process.env.AWS_S3_SIGNATURE_VERSION,
-  endpoint:process.env.AWS_S3_END_POINT,
+  endpoint: process.env.AWS_S3_END_POINT,
   region: process.env.AWS_S3_REGION,
 });
 
@@ -27,7 +27,7 @@ exports.uploadDocController = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
   let paths = req.files.map((e) => e.path);
-  
+
   var name = paths[0].split("/")[1];
 
   var key = `${userId}/${name}`;
@@ -44,33 +44,34 @@ exports.uploadDocController = async (req, res, next) => {
         URL = url;
         if (err) {
           res.send({ err });
-        }else{ fs.readFile(paths[0], (err, file) => {
-          axios
-            .put(URL, file, {
-              headers: {
-                "Content-Type": "pdf",
-              },
-            })
-            .then((rep) =>
-              res.send({
-                success: true,
-                data: {
-                  message: [key],
+        } else {
+          fs.readFile(paths[0], (err, file) => {
+            axios
+              .put(URL, file, {
+                headers: {
+                  "Content-Type": "pdf",
                 },
               })
-            )
-            .catch((err) => {
-              res.json({
-                err: err.data,
+              .then((rep) =>
+                res.send({
+                  success: true,
+                  data: {
+                    message: [key],
+                  },
+                })
+              )
+              .catch((err) => {
+                res.json({
+                  err: err.data,
+                });
               });
-            });
-        });}
+          });
+        }
       }
     );
   } catch (err) {
     res.json({ err });
   }
- 
 };
 
 exports.getDocController = (req, res, next) => {
