@@ -90,7 +90,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
     perPage,
     status,
     f_srid = "SR",
-    f_priority = 1,
+    f_priority,
     f_title,
   } = req.query;
   const statuses = status.split(",");

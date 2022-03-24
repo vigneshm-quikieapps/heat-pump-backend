@@ -18,8 +18,8 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     perPage,
     status,
     f_srid = "SR",
-    f_priority = 1,
-    f_title = "",
+    f_priority ,
+    f_title,
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -79,7 +79,14 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
   const response2 = await UserModel.find({ admin: false }).populate({
     path: "service_requests",
     model: "ServiceRequest",
-    // match: {$or:searchArray},
+    match: {
+      $and: [
+        { service_ref_number: new RegExp(f_srid) },
+        { priority: f_priority },
+        { title: new RegExp(f_title) },
+        { $or: searchArray },
+      ],
+    }
   });
 
   const foundServiceRequests = [];
