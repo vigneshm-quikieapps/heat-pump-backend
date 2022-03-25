@@ -111,7 +111,7 @@ exports.postLoginUser = (req, res, next) => {
   let userTobeLogin;
 
   UserModel.findOne({ email: email })
-    .select(["name", "email", "admin", "status", "password"])
+    .select(["name", "email", "admin", "status", "password","business_trade_name","city"])
     .then((user) => {
       if (user !== null) {
         userTobeLogin = user;
@@ -123,11 +123,13 @@ exports.postLoginUser = (req, res, next) => {
       }
     })
     .then((result) => {
+      console.log(userTobeLogin)
       const token = getJwtToken({
         id: userTobeLogin._id.toString(),
         name: userTobeLogin.name,
         email: userTobeLogin.email,
-        admin: userTobeLogin.admin,
+       admin: userTobeLogin.admin,
+
       });
 
       if (result) {
@@ -136,6 +138,8 @@ exports.postLoginUser = (req, res, next) => {
           data: {
             name: userTobeLogin.name,
             email: userTobeLogin.email,
+            business_trade_name:userTobeLogin.business_trade_name,
+            city:userTobeLogin.city,
             admin: userTobeLogin.admin,
             token: token,
           },
