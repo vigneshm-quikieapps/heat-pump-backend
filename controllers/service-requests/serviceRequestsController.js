@@ -330,11 +330,13 @@ exports.getServiceRequestById = async (req, res, next) => {
 };
 
 exports.patchServiceRequest = async (req, res, next) => {
+  console.log("OK")
   const { id } = req.params;
   console.log(id);
+  
   const updateObj = req.body;
   try {
-    const response = await ServiceRequestModel.findByIdAndUpdate(id, updateObj);
+    const response = await ServiceRequestModel.findByIdAndUpdate(id.toString(), updateObj);
     let newObj = Object.assign(response);
 
     if (updateObj.status === 2) {
@@ -358,6 +360,8 @@ exports.patchServiceRequest = async (req, res, next) => {
         },
       });
   } catch (err) {
+    console.log(err);
+
     res.json({
       success: false,
       data: {
