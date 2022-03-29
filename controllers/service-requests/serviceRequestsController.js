@@ -43,6 +43,7 @@ exports.postServiceRequest = async (req, res, next) => {
     const service_ref_number =
       "SR" + reversedNum(parseInt(id + Math.random() * 100));
     console.log(service_ref_number);
+    console.log("JRID",job_reference_id)
     const sr = new ServiceRequestModel({
       title: title,
       type: type,
@@ -140,11 +141,11 @@ exports.getAllServiceRequests = async (req, res, next) => {
     perPage,
     status,
     f_srid = "SR",
-    f_priority = 1,
+    f_priority,
     f_title = "",
   } = req.query;
   const statuses = status.split(",");
-  console.log(statuses);
+  // console.log(statuses);
   var mp = new Map();
   const searchArray = [];
 
@@ -182,9 +183,9 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
       match: {
         $and: [
-          // { service_ref_number: new RegExp(f_srid) },
-          // { priority: f_priority?f_priority:{$exists:true}},
-          // { title: new RegExp(f_title) },
+          { service_ref_number: new RegExp(f_srid) },
+          { priority: f_priority?f_priority:{$exists:true}},
+          { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
       },
@@ -201,9 +202,9 @@ exports.getAllServiceRequests = async (req, res, next) => {
     model: "ServiceRequest",
     match: {
       $and: [
-        // { service_ref_number: new RegExp(f_srid) },
-        // { priority: f_priority?f_priority:{$exists:true} },
-        // { title: new RegExp(f_title) },
+        { service_ref_number: new RegExp(f_srid) },
+        { priority: f_priority?f_priority:{$exists:true} },
+        { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
     },
@@ -211,7 +212,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
   console.log(response2.service_requests.length);
 
   const foundServiceRequests = [...response.service_requests];
-  console.log(foundServiceRequests);
+  // console.log(foundServiceRequests);
   const total_records = response2.service_requests.length;
 
   const respArray = [];
