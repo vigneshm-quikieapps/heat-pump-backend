@@ -7,15 +7,9 @@ let nodemailer = require("nodemailer");
 require("dotenv").config();
 
 module.exports.GmailTransport = nodemailer.createTransport({
-  service: process.env.MAIL_SERVICE_NAME,
-  host: process.env.MAIL_SERVICE_HOST,
-  secure: process.env.MAIL_SERVICE_SECURE,
-  port: process.env.MAIL_SERVICE_PORT,
+  service: "gmail",
   auth: {
-    user: process.env.MAIL_USER_NAME,
-    pass: process.env.MAIL_USER_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
+    user: "siddharth@quikieapps.com",
+    pass:"Lk)G)c2S%FgrFU",
   },
 });

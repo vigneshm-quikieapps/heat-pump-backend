@@ -13,7 +13,7 @@
  * into with Quikieapps.
  */
 
-console.log = function () {};
+// console.log = function () {};
 var express = require("express");
 var path = require("path");
 var fs = require("fs");

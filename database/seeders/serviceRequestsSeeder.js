@@ -16,29 +16,36 @@ mongoose
   })
   .catch((err) => console.log("ERROR", err));
 
-const admins = [
-  {
-    email: "admin@gmail.com",
+console.log(database.dbConnection);
+
+const customers = [];
+
+for (var i = 0; i < 10; i++) {
+  const customer = {
+    email: faker.internet.email(),
     password:
       "$2b$12$/nWaIBQ0fvOlVikwk8OgDeZFA7cgM8FPYlvhBaMddFtGUHapqUUym" /* 123456 */,
-    name: "John Thomas",
-    mobile: "9123456734",
-    business_registered_name: "ADMIN",
-    business_trade_name: "ADMIN",
-    business_type: "ADMIN",
-    address_1: "ADMIN",
-    address_2: "ADMIN",
-    country: "INDIA",
-    city: "BHOPAL",
-    postcode: "123456",
-    admin: true,
-    status: 3,
-  },
-];
+    name: faker.name.findName(),
+    mobile: faker.phone.phoneNumber(),
+    business_registered_name: faker.company.companyName(),
+    business_trade_name: "RANDOM TRADE NAME",
+    business_type: 1,
+    address_1: faker.address.streetAddress(),
+    address_2: faker.address.secondaryAddress(),
+    country: faker.address.country(),
+    city: faker.address.city(),
+    postcode: faker.address.zipCode(),
+    admin: false,
+    status: 1,
+    type: Math.ceil(Math.random() * 100) % 3,
+  };
+
+  customers.push(customer);
+}
 
 const seedDB = async () => {
-  // await Users.deleteMany({});
-  await Users.insertMany(admins);
+  await Users.deleteMany({});
+  await Users.insertMany(customers);
 };
 
 seedDB()

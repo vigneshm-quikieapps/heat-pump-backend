@@ -12,6 +12,8 @@ const { getJwtToken } = require("../../utils/helpers");
 const ServiceRequestModel = require("../../models/service-request.model");
 const UserModel = require("../../models/users.model");
 const { reversedNum } = require("../../utils/helpers");
+const { default: faker } = require("@faker-js/faker");
+const { GmailTransport } = require("../../config/mail");
 
 exports.postServiceRequest = async (req, res, next) => {
   const errors = validationResult(req);
@@ -32,35 +34,83 @@ exports.postServiceRequest = async (req, res, next) => {
   const userName = req.decodedAccessToken.name;
   const userId = req.decodedAccessToken.id;
 
-  const time = new Date().getTime();
-
-  const id = reversedNum(time);
-  const service_ref_number =
-    "SR" + reversedNum(parseInt(id + Math.random() * 100));
-  console.log(service_ref_number);
-  const sr = new ServiceRequestModel({
-    title: title,
-    type: type,
-    description: description,
-    attachments: attachments,
-    priority: priority,
-    status: status,
-    creator_name: userName,
-    creator_id: userId,
-    job_reference_id: job_reference_id,
-    service_ref_number: service_ref_number,
-  });
-
-  const response = await sr.save();
-
-  const objectId = response._id.toString();
-
   try {
+    // for(var i=0;i<100;i++){
+
+    const time = new Date().getTime();
+
+    const id = reversedNum(time);
+    const service_ref_number =
+      "SR" + reversedNum(parseInt(id + Math.random() * 100));
+    console.log(service_ref_number);
+    const sr = new ServiceRequestModel({
+      title: title,
+      type: type,
+      description: description,
+      attachments: attachments,
+      priority: priority,
+      status: status,
+      creator_name: userName,
+      creator_id: userId,
+      job_reference_id: job_reference_id,
+      service_ref_number: service_ref_number,
+    });
+    /*
+    const ary=[];
+    for(var j=0;j<20;j++){
+      ary.push(faker.system.directoryPath())
+    }
+     const sr = new ServiceRequestModel({
+      title: faker.lorem.words(),
+      type: Math.floor(Math.random()*100)%3 +1,
+      description: faker.lorem.paragraph(10),
+      attachments: ary,
+      priority: Math.floor(Math.random()*100)%3 +1,
+      status: Math.ceil(Math.random()*100)%4+1,
+      creator_name: userName,
+      creator_id: userId,
+      job_reference_id: "6241f541201738deabdd9eac",
+      service_ref_number: service_ref_number,
+      type: Math.ceil(Math.random()*100)%3 +1
+    });
+    
+    */
+
+    const response = await sr.save();
+
+    const objectId = response._id.toString();
+
     let usr = await UserModel.findById(userId);
     let srArray = usr.service_requests;
     srArray.push(objectId);
 
     const resp = await usr.save();
+
+    // }
+
+    // process.exit(1);
+
+    const msg = {
+      to: usr.email, // Change to your recipient
+      from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
+      subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
+      html: `Hello ${usr.name} <br/>
+    Thank you for taking time to contact Luths Services, Glasgow today.
+Your request has been received and is being reviewed. The reference number for your service request is <strong>${response.service_ref_number}</strong>. <br/><br/>
+Regards,<br/>
+Luths Services Support Staff <br/>
+    
+    `,
+    };
+
+    GmailTransport.sendMail(msg)
+      .then((rr) => {
+        console.log("SENT");
+      })
+      .catch((er) => {
+        console.log("FAILED TO SEND");
+      });
+
     res.json({
       success: true,
       data: response,
@@ -90,8 +140,8 @@ exports.getAllServiceRequests = async (req, res, next) => {
     perPage,
     status,
     f_srid = "SR",
-    f_priority=1,
-    f_title="",
+    f_priority = 1,
+    f_title = "",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -115,8 +165,6 @@ exports.getAllServiceRequests = async (req, res, next) => {
     perPage = 10;
   }
 
-  const rspp = await UserModel.findById(userId);
-
   const response = await UserModel.findById(userId).populate([
     {
       path: "service_requests",
@@ -134,9 +182,9 @@ exports.getAllServiceRequests = async (req, res, next) => {
 
       match: {
         $and: [
-          { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority?f_priority:{$exists:true}},
-          { title: new RegExp(f_title) },
+          // { service_ref_number: new RegExp(f_srid) },
+          // { priority: f_priority?f_priority:{$exists:true}},
+          // { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
       },
@@ -153,16 +201,17 @@ exports.getAllServiceRequests = async (req, res, next) => {
     model: "ServiceRequest",
     match: {
       $and: [
-        { service_ref_number: new RegExp(f_srid) },
-        { priority: f_priority?f_priority:{$exists:true} },
-        { title: new RegExp(f_title) },
+        // { service_ref_number: new RegExp(f_srid) },
+        // { priority: f_priority?f_priority:{$exists:true} },
+        // { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
     },
   });
+  console.log(response2.service_requests.length);
 
   const foundServiceRequests = [...response.service_requests];
-  console.log(foundServiceRequests)
+  console.log(foundServiceRequests);
   const total_records = response2.service_requests.length;
 
   const respArray = [];

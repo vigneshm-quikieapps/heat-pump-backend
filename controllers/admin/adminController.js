@@ -17,9 +17,9 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     page,
     perPage,
     status,
-    f_srid="SR" ,
-    f_priority ,
-    f_title="",
+    f_srid = "SR",
+    f_priority,
+    f_title = "",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -63,7 +63,7 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
       match: {
         $and: [
           { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority?f_priority:{$exists:true}},
+          { priority: f_priority ? f_priority : { $exists: true } },
           { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
@@ -82,11 +82,11 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     match: {
       $and: [
         { service_ref_number: new RegExp(f_srid) },
-        {priority: f_priority?f_priority:{$exists:true}},
+        { priority: f_priority ? f_priority : { $exists: true } },
         { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
-    }
+    },
   });
 
   const foundServiceRequests = [];
@@ -119,6 +119,8 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
       respArray.push(foundServiceRequests[i]);
     }
   }
+
+  respArray.slice(perPage * (page - 1), perPage * (page - 1) + perPage);
 
   const total_pages = Math.ceil(total_records / perPage);
 
@@ -154,11 +156,11 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
   ]);
 
   const sArray = [];
-  response.forEach(e=>{
-    e.service_requests.forEach(f=>{
+  response.forEach((e) => {
+    e.service_requests.forEach((f) => {
       sArray.push(f);
-    })
-  })
+    });
+  });
 
   let closed = 0,
     neww = 0,
