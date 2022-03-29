@@ -201,7 +201,7 @@ exports.sendMail = (req, res, next) => {
 
         const msg = {
           to: email, // Change to your recipient
-          from: '"Heat-Pump Support" siddharthsk1234@gmail.com',  // Change to your verified sender
+          from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
           subject: "Password Reset",
           html: `<strong>Your OTP is ${otp}</strong>`,
         };

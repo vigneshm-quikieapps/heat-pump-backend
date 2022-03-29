@@ -43,7 +43,6 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     perPage = 10;
   }
 
-
   const response = await UserModel.find({ admin: false }).populate([
     {
       path: "service_requests",
@@ -105,7 +104,6 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
   response2.forEach((e) => {
     total_records += parseInt(e.service_requests.length);
   });
- 
 
   const respArray = [];
 
@@ -115,24 +113,27 @@ exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
     }
   }
 
-  const dataArray=respArray.slice((perPage * (page - 1)), (perPage * (page - 1) + perPage));
+  const dataArray = respArray.slice(
+    perPage * (page - 1),
+    perPage * (page - 1) + perPage
+  );
 
   const total_pages = Math.ceil(total_records / perPage);
-  
-  console.log(dataArray.length)
-  
+
+  console.log(dataArray.length);
+
   res.json({
     success: true,
     data: {
       total_records: total_records,
       total_pages: total_pages,
       current_page: page,
-      data:dataArray,
+      data: dataArray,
     },
   });
 };
 
-exports.getAllServiceRequestsAdminSide2=async (req,res,next)=>{
+exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -169,28 +170,29 @@ exports.getAllServiceRequestsAdminSide2=async (req,res,next)=>{
   if (!perPage) {
     perPage = 10;
   }
-  const response=await ServiceRequestModel.find({
+  const response = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid) },
       { priority: f_priority ? f_priority : { $exists: true } },
       { title: new RegExp(f_title) },
       { $or: searchArray },
-    ]
+    ],
+  })
+    .skip(perPage * (page - 1))
+    .limit(perPage);
 
-  }).skip((perPage*(page-1))).limit(perPage);
+  const total_records = await ServiceRequestModel.find({
+    $and: [
+      { service_ref_number: new RegExp(f_srid) },
+      { priority: f_priority ? f_priority : { $exists: true } },
+      { title: new RegExp(f_title) },
+      { $or: searchArray },
+    ],
+  }).countDocuments();
 
+  console.log(total_records);
 
-  const total_records=await ServiceRequestModel.find({  $and: [
-    { service_ref_number: new RegExp(f_srid) },
-    { priority: f_priority ? f_priority : { $exists: true } },
-    { title: new RegExp(f_title) },
-    { $or: searchArray },
-  ]}).countDocuments();
-
-  
-console.log(total_records)
-
-const total_pages = Math.ceil(parseInt(total_records) / perPage);
+  const total_pages = Math.ceil(parseInt(total_records) / perPage);
 
   console.log(response.length);
   res.json({
@@ -198,14 +200,11 @@ const total_pages = Math.ceil(parseInt(total_records) / perPage);
     data: {
       total_records: total_records,
       total_pages: total_pages,
-      current_page:page,
-      data:response,
+      current_page: page,
+      data: response,
     },
   });
-
-
-
-}
+};
 
 exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;

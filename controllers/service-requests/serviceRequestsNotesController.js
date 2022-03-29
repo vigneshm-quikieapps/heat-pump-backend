@@ -10,7 +10,7 @@ const { default: faker } = require("@faker-js/faker");
 const { GmailTransport } = require("../../config/mail");
 exports.postServiceRequestNote = async (req, res, next) => {
   const { srid } = req.query;
-
+  console.log("CALLED");
   const { title, description, status, attachments, type = 1 } = req.body;
 
   try {
@@ -38,16 +38,19 @@ exports.postServiceRequestNote = async (req, res, next) => {
       type: type,
     });
 
+    const AssociatedSR = await ServiceRequestModel.findById(srid);
+    const AssociatedUserId = AssociatedSR.creator_id.toString();
+    const usr = await UserModel.findById(AssociatedUserId);
+    console.log(usr);
     const rep = await note.save();
     var sr;
     // console.log(rep);
+    console.log(srid);
+    sr = await ServiceRequestModel.findById(srid);
     if (attachments) {
-      sr = await ServiceRequestModel.findById(srid);
-
       attachments.forEach((e) => sr.attachments.push(e));
-
-      await sr.save();
     }
+    await sr.save();
 
     const rp = await ServiceRequestModel.findById(srid).populate("notes");
 
@@ -60,7 +63,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
       });
     }
 
-    const usr = await UserModel.findById(sr.creator_id);
+    console.log("!!!", sr);
 
     const msg = {
       to: usr.email, // Change to your recipient

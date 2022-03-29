@@ -13,5 +13,8 @@ router.get(
   "/service-requests-count",
   AdminController.getServiceRequestsStatusAdminSide
 );
-router.get("/service-requests", AdminController.getAllServiceRequestsAdminSide2);
+router.get(
+  "/service-requests",
+  AdminController.getAllServiceRequestsAdminSide2
+);
 module.exports = router;

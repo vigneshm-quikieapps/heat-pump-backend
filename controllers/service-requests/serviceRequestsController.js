@@ -77,7 +77,7 @@ exports.postServiceRequest = async (req, res, next) => {
     */
 
     const response = await sr.save();
-
+    console.log("LAUDARESPONSE", response);
     const objectId = response._id.toString();
 
     let usr = await UserModel.findById(userId);
