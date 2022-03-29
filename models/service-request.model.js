@@ -42,6 +42,9 @@ const ServiceRequestSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    last_updated_by:{
+      type:String
+    },
     notes: [
       {
         type: Schema.Types.ObjectId,

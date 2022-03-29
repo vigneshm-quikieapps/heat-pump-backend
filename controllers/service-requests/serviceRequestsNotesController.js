@@ -12,7 +12,8 @@ exports.postServiceRequestNote = async (req, res, next) => {
   const { srid } = req.query;
   console.log("CALLED");
   const { title, description, status, attachments, type = 1 } = req.body;
-
+  const name = req.decodedAccessToken.name;
+  console.log(name);
   try {
     // for(var i=0;i<10;i++){
 
@@ -50,6 +51,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
     if (attachments) {
       attachments.forEach((e) => sr.attachments.push(e));
     }
+    sr.last_updated_by=name;
     await sr.save();
 
     const rp = await ServiceRequestModel.findById(srid).populate("notes");
