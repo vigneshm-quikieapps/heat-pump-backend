@@ -30,6 +30,7 @@ exports.postServiceRequest = async (req, res, next) => {
     priority,
     status = 1,
     job_reference_id = null,
+    assigned_to="none"
   } = req.body;
   const userName = req.decodedAccessToken.name;
   const userId = req.decodedAccessToken.id;
@@ -55,6 +56,7 @@ exports.postServiceRequest = async (req, res, next) => {
       creator_id: userId,
       job_reference_id: job_reference_id,
       service_ref_number: service_ref_number,
+      assigned_to:assigned_to
     });
     /*
     const ary=[];

@@ -44,6 +44,11 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       required: "Please confirm wheather user is admin or a customer",
     },
+    business_admin:{
+      type:Boolean,
+      required:"Please confirm wheather user is business admin or not",
+      default:false
+    },
     business_registered_name: {
       type: String,
       required: "Please enter valid Business Registered Name",
