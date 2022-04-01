@@ -65,7 +65,6 @@ app.get("/swagger.json", function (req, res) {
 const corsOpts = {
   origin: "*",
   methods: ["GET", "POST", "PATCH"],
-
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 

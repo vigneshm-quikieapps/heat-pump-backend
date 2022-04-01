@@ -51,6 +51,10 @@ exports.postServiceRequestNote = async (req, res, next) => {
     if (attachments) {
       attachments.forEach((e) => sr.attachments.push(e));
     }
+
+    if(title=="--closed--"){
+      sr.status=4;
+    }
     sr.last_updated_by=name;
     await sr.save();
 
@@ -92,7 +96,7 @@ Luths Services Support Staff <br/>
     `,
     };
 
-    GmailTransport.sendMail(title == "closed" ? closeMsg : msg)
+    GmailTransport.sendMail(title == "--closed--" ? closeMsg : msg)
       .then((rr) => {
         console.log("SENT");
       })
