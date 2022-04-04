@@ -16,29 +16,17 @@ mongoose
   })
   .catch((err) => console.log("ERROR", err));
 
-const admins = [
-  {
-    email: "admin@gmail.com",
-    password:
-      "$2b$12$/nWaIBQ0fvOlVikwk8OgDeZFA7cgM8FPYlvhBaMddFtGUHapqUUym" /* 123456 */,
-    name: "John Thomas",
-    mobile: "9123456734",
-    business_registered_name: "ADMIN",
-    business_trade_name: "ADMIN",
-    business_type: "ADMIN",
-    address_1: "ADMIN",
-    address_2: "ADMIN",
-    country: "INDIA",
-    city: "BHOPAL",
-    postcode: "123456",
-    admin: true,
-    status: 3,
-  },
-];
-
 const seedDB = async () => {
   // await Users.deleteMany({});
-  await Users.insertMany(admins);
+  await Users.updateMany(
+    {},
+    {
+      $set: {
+        //    password:'$2b$12$73OuDYiLGq3drzt7i.vwAurojQ9rmBGulKo.w8L9DR9ec/T7u1trC'
+        status: 3,
+      },
+    }
+  );
 };
 
 seedDB()

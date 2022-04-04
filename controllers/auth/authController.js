@@ -9,8 +9,10 @@ const { validationResult } = require("express-validator");
 const otpGenerator = require("otp-generator");
 const { getJwtToken } = require("../../utils/helpers");
 const sgMail = require("@sendgrid/mail");
+const nodemailer = require("nodemailer");
 const { constants } = require("../../utils");
 const UserModel = require("../../models/users.model");
+const { GmailTransport } = require("../../config/mail");
 
 exports.postRegisterUser = async (req, res, next) => {
   var {
@@ -28,6 +30,7 @@ exports.postRegisterUser = async (req, res, next) => {
     city,
     postcode,
     status = 1,
+    business_admin=false
   } = req.body;
 
   const errors = validationResult(req);
@@ -47,6 +50,9 @@ exports.postRegisterUser = async (req, res, next) => {
       },
     });
 
+
+    console.log(business_admin)
+
   bcrypt
     .hash(password, 12)
     .then((hashedPassword) => {
@@ -65,6 +71,7 @@ exports.postRegisterUser = async (req, res, next) => {
         city: city,
         postcode: postcode,
         admin: admin,
+        business_admin:business_admin,
         status: status,
       });
       user.save();
@@ -87,6 +94,7 @@ exports.postRegisterUser = async (req, res, next) => {
           postcode: postcode,
           status: status,
           admin: admin,
+          business_admin:business_admin
         },
       });
     })
@@ -110,24 +118,37 @@ exports.postLoginUser = (req, res, next) => {
 
   let userTobeLogin;
 
+  console.log(email, password);
+
   UserModel.findOne({ email: email })
-    .select(["name", "email", "admin", "status", "password"])
+    .select([
+      "name",
+      "email",
+      "admin",
+      "status",
+      "password",
+      "business_trade_name",
+      "city",
+      "business_admin"
+    ])
     .then((user) => {
-      if (user !== null) {
+      if (user !== null && user.status === 3) {
         userTobeLogin = user;
         console.log(user.password);
         return bcrypt.compare(password, user.password);
       } else {
-        errors.email = constants.USER_NOT_FOUND;
-        res.status.json({ errors }); // rarely exectuted
+        console.log(user);
+        throw new Error(constants.USER_NOT_FOUND);
       }
     })
     .then((result) => {
+      console.log(userTobeLogin);
       const token = getJwtToken({
         id: userTobeLogin._id.toString(),
         name: userTobeLogin.name,
         email: userTobeLogin.email,
         admin: userTobeLogin.admin,
+        business_admin:userTobeLogin.business_admin
       });
 
       if (result) {
@@ -136,7 +157,10 @@ exports.postLoginUser = (req, res, next) => {
           data: {
             name: userTobeLogin.name,
             email: userTobeLogin.email,
+            business_trade_name: userTobeLogin.business_trade_name,
+            city: userTobeLogin.city,
             admin: userTobeLogin.admin,
+            business_admin:userTobeLogin.business_admin,
             token: token,
           },
         });
@@ -169,22 +193,24 @@ exports.sendMail = (req, res, next) => {
 
   const KEY = process.env.SENDGRID_API_KEY;
   var isEmailInDb = false;
-
+  console.log(email);
   UserModel.findOne({ email: email })
     .then((us) => {
+      console.log(us);
       if (us !== null) {
         isEmailInDb = true;
       }
 
-      if (isEmailInDb) {
+      if (true) {
         UserModel.findOneAndUpdate({ email: email }, { reset_otp: otp }).catch(
           (err) => console.log(err)
         );
 
         sgMail.setApiKey(KEY);
+
         const msg = {
           to: email, // Change to your recipient
-          from: "siddharthsk101@gmail.com", // Change to your verified sender
+          from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
           subject: "Password Reset",
           html: `<strong>Your OTP is ${otp}</strong>`,
         };
@@ -198,6 +224,29 @@ exports.sendMail = (req, res, next) => {
 
         console.log(otp_token);
 
+        GmailTransport.sendMail(msg)
+          .then((r) => {
+            console.log(r);
+            res.json({
+              success: true,
+              data: {
+                message: constants.EMAIL_SENT,
+                otp_token: otp_token,
+                // otp_not_to_display: otp,
+              },
+            });
+          })
+          .catch((err) => {
+            res.json({
+              success: false,
+              data: {
+                message: err.toString(),
+              },
+            });
+          });
+
+        /*
+      
         sgMail
           .send(msg)
           .then((r) => {
@@ -224,6 +273,14 @@ exports.sendMail = (req, res, next) => {
           success: false,
           data: {
             messsage: constants.USER_NOT_FOUND,
+          },
+        });
+      */
+      } else {
+        res.json({
+          success: false,
+          data: {
+            message: constants.USER_NOT_FOUND,
           },
         });
       }

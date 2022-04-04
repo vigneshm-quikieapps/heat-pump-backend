@@ -4,7 +4,9 @@
  */
 
 require("dotenv").config();
-var dbConn = process.env.MONGODB_URI;
+var dbConn =
+  "mongodb+srv://heatpump:tfb30fbNOWxf6Xld@cluster0.t8ibh.mongodb.net/heatpump?retryWrites=true&w=majority";
+console.log(dbConn);
 module.exports = {
   secret: "expressapitest",
   dbConnection: dbConn,

@@ -12,7 +12,11 @@ exports.getAllUsers = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   const email = req.decodedAccessToken.email;
-  var { page, perPage, status, f_status } = req.query;
+  var { page, perPage, status, f_status ,
+  mno="",
+  bn="",
+  badm=false
+  } = req.query;
   const statuses = status.split(",");
 
   var mp = new Map();
@@ -34,17 +38,30 @@ exports.getAllUsers = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
+  
+ const SearchAndArray=[{ admin: badm==1 ? true: false 
+ },{
+   mobile:new RegExp(mno)},
+   {business_registered_name:new RegExp(bn)
+ }];
+
+ if(badm==1){ // string
+   SearchAndArray.push({
+     business_admin:true
+   })
+ }
 
   // console.log(searchArray)
   const SKIP = perPage * (page - 1);
   const LIMIT = perPage;
   const response = await UserModel.find({
     $or: searchArray,
-    $and: [{ admin: false }],
-  });
+    $and: SearchAndArray});
+
+
   const data = await UserModel.find({
     $or: searchArray,
-    $and: [{ admin: false }],
+    $and: SearchAndArray,
   })
     .populate([
       {

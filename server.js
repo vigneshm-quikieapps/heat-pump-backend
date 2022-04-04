@@ -13,7 +13,7 @@
  * into with Quikieapps.
  */
 
-console.log = function () {};
+// console.log = function () {};
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
@@ -65,7 +65,6 @@ app.get("/swagger.json", function (req, res) {
 const corsOpts = {
   origin: "*",
   methods: ["GET", "POST", "PATCH"],
-
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 

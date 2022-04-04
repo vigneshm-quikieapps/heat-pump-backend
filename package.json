@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/vigneshm-quikieapps/heat-pump-backend#readme",
   "dependencies": {
+    "@faker-js/faker": "^6.0.0",
     "@sendgrid/mail": "^7.6.2",
     "aws-sdk": "^2.1096.0",
     "axios": "^0.26.1",

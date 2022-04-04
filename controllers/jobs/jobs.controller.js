@@ -3,10 +3,10 @@
  * @Since 07 Mar 2022
  */
 
+const { default: faker } = require("@faker-js/faker");
 const JobsModel = require("../../models/jobs.models");
 const UserModel = require("../../models/users.model");
 const { reversedNum } = require("../../utils/helpers");
-
 exports.postJob = async (req, res, next) => {
   const {
     title,
@@ -24,6 +24,39 @@ exports.postJob = async (req, res, next) => {
   const job_ref_number = "JR" + reversedNum(parseInt(id + Math.random() * 100));
 
   try {
+    //SEEDERS START
+    // for(var i=0;i<100;i++){
+    /*
+      const time = new Date().getTime();
+
+
+
+  const userId = req.decodedAccessToken.id;
+
+  const id = reversedNum(time);
+  const job_ref_number = "JR" + reversedNum(parseInt(id + Math.random() * 100));
+      const job = new JobsModel({
+      title: faker.name.jobTitle(),
+      description: faker.lorem.paragraph(),
+      site_details: faker.address.streetAddress(),
+      job_ref_number: job_ref_number,
+      status: 1,
+    });
+
+
+    const response = await job.save();
+    const objId = response._id.toString();
+
+    const user = await UserModel.findById(userId);
+    user.jobs.push(objId);
+    user.save();
+    */
+    // }
+    // console.log("OK")
+    // process.exit(0);
+
+    //SEEDERS END
+
     const job = new JobsModel({
       title: title,
       description: description,
@@ -80,7 +113,9 @@ exports.getAllJobs = async (req, res, next) => {
       },
     ]);
 
-    const total_records = response.jobs.length;
+    const uu = await UserModel.findById(userId);
+    console.log(uu);
+    const total_records = uu.jobs.length;
 
     const foundJobs = [...response.jobs];
     const respArray = [];
