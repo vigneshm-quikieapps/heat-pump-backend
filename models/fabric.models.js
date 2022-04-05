@@ -10,7 +10,7 @@ const FabricSchema = new mongoose.Schema(
  {
      type:Number,
      wall_construction:String,
-     image:String,
+     image_url:String,
      fabric_type:Number
  },
  { timestamps: true }

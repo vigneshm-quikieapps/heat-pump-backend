@@ -9,6 +9,13 @@
 /**
 * User schema
 */
+
+// Using MongoDB Hooks
+
+QuoteSchema.pre("save",(next)=>{
+    next();
+})
+
 const QuoteSchema = new mongoose.Schema(
   { 
       site_details:[{ address_1: {
@@ -94,7 +101,13 @@ const QuoteSchema = new mongoose.Schema(
     window_size:String,
     heating_system:{
         type:Number
-    }
+    },
+    amount_of_electricity:Number,
+    amount_of_gas:Number,
+    cost_of_electricity:Number,
+    cost_of_gas:Number,
+    other_details:String,
+    quote_reference_number:String
 },
  { timestamps: true }
     

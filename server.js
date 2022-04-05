@@ -43,6 +43,9 @@ var jobRoutes = require("./routes/jobRoutes");
 
 var userRoutes = require("./routes/userRoutes");
 
+var fabricRoutes=require('./routes/fabricRoutes');
+
+
 var commonRoutes = require("./routes/commonRoutes");
 var servicesRoutes = require("./routes/servicesRoutes");
 var serviceRequestNotesRoutes = require("./routes/serviceRequestNotesRoutes");
@@ -105,6 +108,7 @@ app.use(
   unauthourizedMiddleware,
   servicesRoutes,
   serviceRequestNotesRoutes,
+  fabricRoutes,
   jobRoutes,
   userRoutes
 );
