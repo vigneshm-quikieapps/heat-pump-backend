@@ -30,7 +30,7 @@ exports.postServiceRequest = async (req, res, next) => {
     priority,
     status = 1,
     job_reference_id = null,
-    assigned_to="none"
+    assigned_to = "none",
   } = req.body;
   const userName = req.decodedAccessToken.name;
   const userId = req.decodedAccessToken.id;
@@ -44,7 +44,7 @@ exports.postServiceRequest = async (req, res, next) => {
     const service_ref_number =
       "SR" + reversedNum(parseInt(id + Math.random() * 100));
     console.log(service_ref_number);
-    console.log("JRID",job_reference_id)
+    console.log("JRID", job_reference_id);
     const sr = new ServiceRequestModel({
       title: title,
       type: type,
@@ -56,7 +56,7 @@ exports.postServiceRequest = async (req, res, next) => {
       creator_id: userId,
       job_reference_id: job_reference_id,
       service_ref_number: service_ref_number,
-      assigned_to:assigned_to
+      assigned_to: assigned_to,
     });
     /*
     const ary=[];
@@ -186,7 +186,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
       match: {
         $and: [
           { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority?f_priority:{$exists:true}},
+          { priority: f_priority ? f_priority : { $exists: true } },
           { title: new RegExp(f_title) },
           { $or: searchArray },
         ],
@@ -205,7 +205,7 @@ exports.getAllServiceRequests = async (req, res, next) => {
     match: {
       $and: [
         { service_ref_number: new RegExp(f_srid) },
-        { priority: f_priority?f_priority:{$exists:true} },
+        { priority: f_priority ? f_priority : { $exists: true } },
         { title: new RegExp(f_title) },
         { $or: searchArray },
       ],
@@ -333,13 +333,16 @@ exports.getServiceRequestById = async (req, res, next) => {
 };
 
 exports.patchServiceRequest = async (req, res, next) => {
-  console.log("OK")
+  console.log("OK");
   const { id } = req.params;
   console.log(id);
-  
+
   const updateObj = req.body;
   try {
-    const response = await ServiceRequestModel.findByIdAndUpdate(id.toString(), updateObj);
+    const response = await ServiceRequestModel.findByIdAndUpdate(
+      id.toString(),
+      updateObj
+    );
     let newObj = Object.assign(response);
 
     if (updateObj.status === 2) {

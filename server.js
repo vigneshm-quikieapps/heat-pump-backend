@@ -43,6 +43,10 @@ var jobRoutes = require("./routes/jobRoutes");
 
 var userRoutes = require("./routes/userRoutes");
 
+var fabricRoutes = require("./routes/fabricRoutes");
+
+var quoteRoutes = require("./routes/quoteRoutes");
+
 var commonRoutes = require("./routes/commonRoutes");
 var servicesRoutes = require("./routes/servicesRoutes");
 var serviceRequestNotesRoutes = require("./routes/serviceRequestNotesRoutes");
@@ -105,6 +109,8 @@ app.use(
   unauthourizedMiddleware,
   servicesRoutes,
   serviceRequestNotesRoutes,
+  fabricRoutes,
+  quoteRoutes,
   jobRoutes,
   userRoutes
 );
@@ -115,7 +121,13 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .catch((err) => console.log("ERROR", err));
+  .catch((err) => {
+    if (err.code === "ECONNREFUSED")
+      console.log(
+        "Failed to Connect with MongoDB Please check your Internet Connection"
+      );
+    else console.log("ERORR", err);
+  });
 // .then(result=>app.listen(PORT,()=>console.log("Server Online")))
 
 module.exports = app;
