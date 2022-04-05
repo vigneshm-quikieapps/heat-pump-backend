@@ -52,10 +52,10 @@ exports.postServiceRequestNote = async (req, res, next) => {
       attachments.forEach((e) => sr.attachments.push(e));
     }
 
-    if(title=="--closed--"){
-      sr.status=4;
+    if (title == "--closed--") {
+      sr.status = 4;
     }
-    sr.last_updated_by=name;
+    sr.last_updated_by = name;
     await sr.save();
 
     const rp = await ServiceRequestModel.findById(srid).populate("notes");

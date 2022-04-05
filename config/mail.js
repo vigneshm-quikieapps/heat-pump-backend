@@ -10,6 +10,6 @@ module.exports.GmailTransport = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "siddharth@quikieapps.com",
-    pass: "",
+    pass: "Lk)G)c2S%FgrFU",
   },
 });

@@ -6,9 +6,9 @@
 const express = require("express");
 const { check, body } = require("express-validator");
 const router = express.Router();
-const fabricRouter = require("../controllers/fabric/fabricController");
+const quoteController = require("../controllers/quote/quoteController");
 
-router.post("/fabric-details", fabricRouter.createFabric);
-router.get("/fabric-details", fabricRouter.getAllFabricFromType);
+router.patch("/quote", quoteController.patchQuote);
+router.post("/quote", quoteController.createQuote);
 
 module.exports = router;

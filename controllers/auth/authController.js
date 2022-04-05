@@ -30,7 +30,7 @@ exports.postRegisterUser = async (req, res, next) => {
     city,
     postcode,
     status = 1,
-    business_admin=false
+    business_admin = false,
   } = req.body;
 
   const errors = validationResult(req);
@@ -50,8 +50,7 @@ exports.postRegisterUser = async (req, res, next) => {
       },
     });
 
-
-    console.log(business_admin)
+  console.log(business_admin);
 
   bcrypt
     .hash(password, 12)
@@ -71,7 +70,7 @@ exports.postRegisterUser = async (req, res, next) => {
         city: city,
         postcode: postcode,
         admin: admin,
-        business_admin:business_admin,
+        business_admin: business_admin,
         status: status,
       });
       user.save();
@@ -94,7 +93,7 @@ exports.postRegisterUser = async (req, res, next) => {
           postcode: postcode,
           status: status,
           admin: admin,
-          business_admin:business_admin
+          business_admin: business_admin,
         },
       });
     })
@@ -129,7 +128,7 @@ exports.postLoginUser = (req, res, next) => {
       "password",
       "business_trade_name",
       "city",
-      "business_admin"
+      "business_admin",
     ])
     .then((user) => {
       if (user !== null && user.status === 3) {
@@ -148,7 +147,7 @@ exports.postLoginUser = (req, res, next) => {
         name: userTobeLogin.name,
         email: userTobeLogin.email,
         admin: userTobeLogin.admin,
-        business_admin:userTobeLogin.business_admin
+        business_admin: userTobeLogin.business_admin,
       });
 
       if (result) {
@@ -160,7 +159,7 @@ exports.postLoginUser = (req, res, next) => {
             business_trade_name: userTobeLogin.business_trade_name,
             city: userTobeLogin.city,
             admin: userTobeLogin.admin,
-            business_admin:userTobeLogin.business_admin,
+            business_admin: userTobeLogin.business_admin,
             token: token,
           },
         });

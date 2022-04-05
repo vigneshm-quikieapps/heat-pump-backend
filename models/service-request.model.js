@@ -38,15 +38,15 @@ const ServiceRequestSchema = new mongoose.Schema(
     creator_id: {
       type: Schema.Types.ObjectId,
     },
-    assigned_to:{
-      type:String
+    assigned_to: {
+      type: String,
     },
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    last_updated_by:{
-      type:String
+    last_updated_by: {
+      type: String,
     },
     notes: [
       {
