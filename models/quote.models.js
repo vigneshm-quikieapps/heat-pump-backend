@@ -72,12 +72,22 @@ const QuoteSchema = new mongoose.Schema(
       kilns: Number,
       other: Number,
     },
+    number_of_guests:Number,
+
     questions: {
       hotwater_importance: Number,
       woodStove_importance: Number,
       electricity_than_uk_average: Number,
+      heating_then_uk_average:Number
     },
-
+    fabric_details:{
+      external_walls:[{type:String}],
+      internal_walls:[{type:String}],
+      root_type:[{type:String}],
+      windows:[{type:String}],
+      suspended_floors:[{type:String}],
+      internal_floors:[{type:String}],
+    },
     drawings: {
       plans: [
         {
