@@ -170,7 +170,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
-  console.log("FNAME",f_name);
+  console.log("FNAME",new RegExp(f_name)+'i');
   const response = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid) },
