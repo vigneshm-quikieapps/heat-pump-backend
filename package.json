@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./bin/www",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "nodemon npm start",
     "seed:admin": "cd database && cd seeders && node adminSeeder",
     "push:heroku": "git add . && git commit -am 'publish code to herkou' && git push heroku main",
