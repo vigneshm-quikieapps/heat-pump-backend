@@ -151,7 +151,8 @@ exports.getAllServiceRequests = async (req, res, next) => {
   // console.log(statuses);
 
 
-
+const k=myCache.keys();
+console.log("KEYS++++++++>",k);
   /*  ------------ CACHE LOGIC-------------- */
 if(loadCache("SR",req,res,next)!==-1){
  return next();
