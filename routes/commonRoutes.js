@@ -31,4 +31,27 @@ router.get(
   shared.uploadsController.getDocController
 );
 
+
+
+
+router.post(
+  "/uploads/static-images",
+  accessTokenMiddleware,
+  unauthorizedMiddleware,
+  (req,res,next)=>{
+    req.isRandomNameofUpload=true;
+    console.log(req.isRandomNameofUpload)
+    next();
+  }
+  ,
+  check("attachments")
+    .if(body("attachments").exists())
+    .notEmpty()
+    .withMessage("Please enter valid images file"),
+  uploadUtil.array("attachments"),
+  shared.uploadsController.uploadDocController
+);
+
+
+
 module.exports = router;
