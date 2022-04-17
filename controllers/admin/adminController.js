@@ -3,135 +3,134 @@ const { validationResult } = require("express-validator");
 const ServiceRequestModel = require("../../models/service-request.model");
 const UserModel = require("../../models/users.model");
 
-exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({
-      errorMessage: errors.array(),
-    });
-  }
+// exports.getAllServiceRequestsAdminSide = async (req, res, next) => {
+//   const errors = validationResult(req);
+//   if (!errors.isEmpty()) {
+//     return res.status(422).json({
+//       errorMessage: errors.array(),
+//     });
+//   }
 
-  const userId = req.decodedAccessToken.id;
-  const email = req.decodedAccessToken.email;
-  var {
-    page,
-    perPage,
-    status,
-    f_srid = "SR",
-    f_priority,
-    f_title = "",
-  } = req.query;
-  const statuses = status.split(",");
-  console.log(statuses);
-  var mp = new Map();
-  const searchArray = [];
+//   const userId = req.decodedAccessToken.id;
+//   const email = req.decodedAccessToken.email;
+//   var {
+//     page,
+//     perPage,
+//     status,
+//     f_srid = "SR",
+//     f_priority,
+//     f_title = "",
+//   } = req.query;
+//   const statuses = status.split(",");
+//   console.log(statuses);
+//   var mp = new Map();
+//   const searchArray = [];
 
-  for (let status of statuses) {
-    searchArray.push({ status: status });
-    mp.set(parseInt(status), true);
-  }
+//   for (let status of statuses) {
+//     searchArray.push({ status: status });
+//     mp.set(parseInt(status), true);
+//   }
 
-  if (mp.size == 0) {
-    searchArray.push({ status: 1 });
-    searchArray.push({ status: 2 });
-  }
+//   if (mp.size == 0) {
+//     searchArray.push({ status: 1 });
+//     searchArray.push({ status: 2 });
+//   }
 
-  if (!page) {
-    page = 1;
-  }
-  if (!perPage) {
-    perPage = 10;
-  }
+//   if (!page) {
+//     page = 1;
+//   }
+//   if (!perPage) {
+//     perPage = 10;
+//   }
 
-  const response = await UserModel.find({ admin: false }).populate([
-    {
-      path: "service_requests",
-      model: "ServiceRequest",
-      populate: [
-        {
-          path: "job_reference_id",
-          model: "Job",
-        },
-        {
-          path: "notes",
-          model: "ServiceRequestNote",
-        },
-      ],
-      match: {
-        $and: [
-          { service_ref_number: new RegExp(f_srid) },
-          { priority: f_priority ? f_priority : { $exists: true } },
-          { title: new RegExp(f_title) },
-          { $or: searchArray },
-        ],
-      },
-      options: {
-        sort: {},
-        skip: perPage * (page - 1),
-        limit: perPage,
-      },
-    },
-  ]);
+//   const response = await UserModel.find({ admin: false }).populate([
+//     {
+//       path: "service_requests",
+//       model: "ServiceRequest",
+//       populate: [
+//         {
+//           path: "job_reference_id",
+//           model: "Job",
+//         },
+//         {
+//           path: "notes",
+//           model: "ServiceRequestNote",
+//         },
+//       ],
+//       match: {
+//         $and: [
+//           { service_ref_number: new RegExp(f_srid) },
+//           { priority: f_priority ? f_priority : { $exists: true } },
+//           { title: new RegExp(f_title) },
+//           { $or: searchArray },
+//         ],
+//       },
+//       options: {
+//         sort: {},
+//         skip: perPage * (page - 1),
+//         limit: perPage,
+//       },
+//     },
+//   ]);
 
-  const response2 = await UserModel.find({ admin: false }).populate({
-    path: "service_requests",
-    model: "ServiceRequest",
-    match: {
-      $and: [
-        { service_ref_number: new RegExp(f_srid) },
-        { priority: f_priority ? f_priority : { $exists: true } },
-        { title: new RegExp(f_title) },
-        { $or: searchArray },
-      ],
-    },
-  });
+//   const response2 = await UserModel.find({ admin: false }).populate({
+//     path: "service_requests",
+//     model: "ServiceRequest",
+//     match: {
+//       $and: [
+//         { service_ref_number: new RegExp(f_srid) },
+//         { priority: f_priority ? f_priority : { $exists: true } },
+//         { title: new RegExp(f_title) },
+//         { $or: searchArray },
+//       ],
+//     },
+//   });
 
-  const foundServiceRequests = [];
+//   const foundServiceRequests = [];
 
-  console.log("REPONSELENGTH", response.length);
-  response.forEach((e) => {
-    if (e.service_requests.length) {
-      e.service_requests.forEach((f) => {
-        foundServiceRequests.push(f);
-      });
-    }
-  });
+//   response.forEach((e) => {
+//     if (e.service_requests.length) {
+//       e.service_requests.forEach((f) => {
+//         foundServiceRequests.push(f);
+//       });
+//     }
+//   });
 
-  // console.log("FOUNDSERVICEREQUESTSLENGTH", foundServiceRequests.length);
 
-  var total_records = 0;
 
-  response2.forEach((e) => {
-    total_records += parseInt(e.service_requests.length);
-  });
+//   var total_records = 0;
 
-  const respArray = [];
+//   response2.forEach((e) => {
+//     total_records += parseInt(e.service_requests.length);
+//   });
 
-  for (let i = 0; i < foundServiceRequests.length; i++) {
-    if (mp.get(foundServiceRequests[i].status) === true) {
-      respArray.push(foundServiceRequests[i]);
-    }
-  }
+//   const respArray = [];
 
-  const dataArray = respArray.slice(
-    perPage * (page - 1),
-    perPage * (page - 1) + perPage
-  );
+//   for (let i = 0; i < foundServiceRequests.length; i++) {
+//     if (mp.get(foundServiceRequests[i].status) === true) {
+//       respArray.push(foundServiceRequests[i]);
+//     }
+//   }
 
-  const total_pages = Math.ceil(total_records / perPage);
+//   const dataArray = respArray.slice(
+//     perPage * (page - 1),
+//     perPage * (page - 1) + perPage
+//   );
 
-  console.log(dataArray.length);
+//   const total_pages = Math.ceil(total_records / perPage);
 
-  res.json({
-    success: true,
-    data: {
-      total_records: total_records,
-      total_pages: total_pages,
-      current_page: page,
-      data: dataArray,
-    },
-  });
-};
+//   console.log(dataArray.length);
+
+//   res.json({
+//     success: true,
+//     data: {
+//       total_records: total_records,
+//       total_pages: total_pages,
+//       current_page: page,
+//       data: dataArray,
+//     },
+//   });
+// };
 
 exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   const errors = validationResult(req);
@@ -148,6 +147,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     f_srid = "SR",
     f_priority,
     f_title = "",
+    f_name=""
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -170,22 +170,24 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
+  console.log("FNAME",new RegExp(f_name)+'i');
   const response = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid) },
       { priority: f_priority ? f_priority : { $exists: true } },
       { title: new RegExp(f_title) },
+      {creator_name:new RegExp(f_name)},
       { $or: searchArray },
     ],
   })
     .skip(perPage * (page - 1))
     .limit(perPage);
-
   const total_records = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid) },
       { priority: f_priority ? f_priority : { $exists: true } },
       { title: new RegExp(f_title) },
+      {creator_name:new RegExp(f_name)},
       { $or: searchArray },
     ],
   }).countDocuments();

@@ -13,7 +13,7 @@
  * into with Quikieapps.
  */
 
-// console.log = function () {};
+console.log = function () {};
 var express = require("express");
 var path = require("path");
 var fs = require("fs");
@@ -55,6 +55,7 @@ const accessTokenMiddleware = require("./middlewares/accessTokenMiddleware");
 const unauthourizedMiddleware = require("./middlewares/unauthorizedMiddleware");
 const corsMiddleware = require("./middlewares/corsMiddleware");
 const { addColors } = require("winston/lib/winston/config");
+const { myCache } = require("./utils/cache");
 
 // DECLARATIONS
 var app = express();
@@ -120,6 +121,9 @@ mongoose
   .connect(database.dbConnection, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+  })
+  .then((response)=>{
+    myCache.flushAll();
   })
   .catch((err) => {
     if (err.code === "ECONNREFUSED")

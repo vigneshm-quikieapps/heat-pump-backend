@@ -18,7 +18,6 @@ const fabricModels = require("../../models/fabric.models");
 exports.getAllFabricFromType = async (req, res, next) => {
   // paginatied data return
   var { page, perPage, type } = req.query;
-  console.log(req.query);
   if (!page) {
     page = 1;
   }
@@ -56,14 +55,19 @@ exports.getAllFabricFromType = async (req, res, next) => {
 
 exports.createFabric = async (req, res, next) => {
   // create a fabric
-  var { type, wall_construction, image, fabric_type } = req.body;
+  var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor } = req.body;
 
   try {
     const newFabric = new fabricModels({
       type,
       wall_construction,
-      image,
+      image_url,
       fabric_type,
+      length_of_exposed_wall,
+      shortness_of_suspended_floor,
+      longness_of_suspended_floor,
+      description,
+      details
     });
 
     const response = await newFabric.save();
@@ -79,3 +83,57 @@ exports.createFabric = async (req, res, next) => {
     });
   }
 };
+
+exports.patchFabric=async (req,res,next)=>{
+
+  var { fid } = req.query;
+  var obj = ({
+    type,
+    wall_construction,
+    detail,
+    description,
+    image_url,
+    fabric_type,
+    length_of_exposed_wall,
+    shortness,
+    longness
+  } = req.body);
+
+  Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
+
+  try {``
+    const response = await fabricModels.findByIdAndUpdate(fid, obj);
+    res.json({
+      success: true,
+      message: "UPDATED",
+      data: obj
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+  }
+
+
+
+}
+
+exports.deleteFabric=async(req,res,next)=>{
+  var {fid}=req.params;
+try{
+  const response=fabricModels.findByIdAndDelete(fid);
+  res.json({
+    success: true,
+    message: "DELETED",
+    data: [],
+  });
+}catch(err){
+  res.json({
+    success: false,
+    message: err.toString(),
+    data: [],
+  });
+}
+
+}

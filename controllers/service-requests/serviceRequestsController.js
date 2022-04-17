@@ -14,6 +14,7 @@ const UserModel = require("../../models/users.model");
 const { reversedNum } = require("../../utils/helpers");
 const { default: faker } = require("@faker-js/faker");
 const { GmailTransport } = require("../../config/mail");
+const { myCache, loadCache, setCache } = require("../../utils/cache");
 
 exports.postServiceRequest = async (req, res, next) => {
   const errors = validationResult(req);
@@ -80,7 +81,7 @@ exports.postServiceRequest = async (req, res, next) => {
     */
 
     const response = await sr.save();
-    console.log("LAUDARESPONSE", response);
+   
     const objectId = response._id.toString();
 
     let usr = await UserModel.findById(userId);
@@ -148,6 +149,17 @@ exports.getAllServiceRequests = async (req, res, next) => {
   } = req.query;
   const statuses = status.split(",");
   // console.log(statuses);
+
+
+const k=myCache.keys();
+console.log("KEYS++++++++>",k);
+  /*  ------------ CACHE LOGIC-------------- */
+if(loadCache("SR",req,res,next)!==-1){
+ return next();
+}
+  /*  ------------ CACHE LOGIC-------------- */
+
+
   var mp = new Map();
   const searchArray = [];
 
@@ -226,7 +238,21 @@ exports.getAllServiceRequests = async (req, res, next) => {
   }
 
   const total_pages = Math.ceil(total_records / perPage);
+ 
+  /*  ------------ CACHE LOGIC-------------- */
+  setCache("SR",req,{
+    success: true,
+    data: {
+      total_records: total_records,
+      total_pages: total_pages,
+      current_page: page,
+      data: respArray,
+    },
+  });
+  /*  ------------ CACHE LOGIC-------------- */
 
+
+ 
   res.json({
     success: true,
     data: {
@@ -241,6 +267,11 @@ exports.getAllServiceRequests = async (req, res, next) => {
 exports.getServiceRequestsStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
+
+
+  if(loadCache("SR",req,res,next)!==-1){
+    return next();
+   }
   const response = await UserModel.findById(userId).populate([
     {
       path: "service_requests",
@@ -282,7 +313,7 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
     }
   }
 
-  res.json({
+  const RESPONSE={
     success: true,
     data: {
       total: sArray.length,
@@ -291,12 +322,25 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
       need_attention: need_attention,
       closed: closed,
     },
-  });
+  };
+
+
+  setCache("SR",req,RESPONSE)
+
+  res.json(RESPONSE);
 };
 
 exports.getServiceRequestById = async (req, res, next) => {
   const { id } = req.params;
   console.log("ID", id);
+
+
+  if(loadCache("SR",req,res,next)!==-1){
+    return next();
+   }
+
+
+
   try {
     const foundRecord = await ServiceRequestModel.findById(id).populate([
       {
@@ -310,10 +354,18 @@ exports.getServiceRequestById = async (req, res, next) => {
     ]);
 
     if (foundRecord) {
-      res.json({
+      const RESPONSE={
         success: true,
         data: foundRecord,
-      });
+      };
+
+
+
+      setCache("SR",req,RESPONSE)
+      res.json(RESPONSE);
+
+
+
     } else {
       res.json({
         success: false,
@@ -350,6 +402,13 @@ exports.patchServiceRequest = async (req, res, next) => {
       // create a new note for internal
     }
 
+    const keys=myCache.keys();
+    keys.forEach((e)=>{
+      if(e[0]=='S' && e[1]=='R'){
+        myCache.del(e);
+      }
+    })
+ 
     if (response) {
       res.json({
         success: true,
