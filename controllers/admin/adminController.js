@@ -238,7 +238,8 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
   let closed = 0,
     neww = 0,
     working = 0,
-    need_attention = 0;
+    need_attention = 0,
+    hpd_review=0;
 
   for (let i = 0; i < sArray.length; i++) {
     switch (sArray[i].status) {
@@ -254,6 +255,8 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       case 4:
         closed += 1;
         break;
+        case 5:
+          hpd_review+=1;
     }
   }
 
@@ -265,6 +268,7 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       working: working,
       need_attention: need_attention,
       closed: closed,
+      hpd_review:hpd_review
     },
   });
 };
