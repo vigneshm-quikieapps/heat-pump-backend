@@ -181,7 +181,8 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     ],
   })
     .skip(perPage * (page - 1))
-    .limit(perPage);
+    .limit(perPage)
+    .sort({createdAt:-1});
   const total_records = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid) },

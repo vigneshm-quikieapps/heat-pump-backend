@@ -23,6 +23,13 @@ exports.postServiceRequest = async (req, res, next) => {
       errorMessage: errors.array(),
     });
   }
+  const keys=myCache.keys();
+  keys.forEach((e)=>{
+    if(e[0]=='S' && e[1]=='R'){
+      myCache.del(e);
+    }
+  })
+
   const {
     title,
     type,
@@ -204,7 +211,7 @@ if(loadCache("SR",req,res,next)!==-1){
         ],
       },
       options: {
-        sort: {},
+        sort: {createdAt:-1},
         skip: perPage * (page - 1),
         limit: perPage,
       },
