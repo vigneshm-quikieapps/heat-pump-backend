@@ -138,9 +138,11 @@ const QuoteSchema = new mongoose.Schema(
         },
       ],
     },
-
-    raditator_size: String,
-    window_size: String,
+    radiator_and_window_sizes:[{
+      room_desc:String,
+      raditator_size: String,
+      window_size: String,
+    }],
     heating_system: {
       type: Number,
     },
