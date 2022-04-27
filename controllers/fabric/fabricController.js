@@ -34,8 +34,8 @@ exports.getAllFabricFromType = async (req, res, next) => {
       .skip((page - 1) * perPage)
       .limit(perPage);
 
-    const total_records = await fabricModels.find({}).countDocuments();
-    const total_pages = Math.floor(total_records / perPage);
+    const total_records = await fabricModels.find({type:type}).countDocuments();
+    const total_pages = Math.ceil(total_records / perPage);
 
     res.json({
       success: true,
