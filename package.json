@@ -40,7 +40,6 @@
     "consola": "^2.15.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "crypto-random-string": "^4.0.0",
     "debug": "^4.3.3",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
