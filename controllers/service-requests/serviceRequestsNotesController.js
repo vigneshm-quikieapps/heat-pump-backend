@@ -60,16 +60,14 @@ exports.postServiceRequestNote = async (req, res, next) => {
     if (attachments) {
       attachments.forEach((e) => sr.attachments.push(e));
     }
-
-    if (title == "--closed--") {
-      sr.status = 4;
-    }
-    sr.last_updated_by = name;
-
-    if(userDetail.admin===false && userDetail.business_admin===false){
+    if(userDetail.admin===false && userDetail.business_admin===false ){ // customer
       sr.status=5;
     }
 
+    if (title == "--closed--") { //adtiitonal check
+      sr.status = 4;
+    }
+    sr.last_updated_by = name;
 
     await sr.save();
 

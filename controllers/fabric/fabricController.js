@@ -3,6 +3,7 @@
  * @Since 07 Mar 2022
  */
 const crypto = require("crypto");
+const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
@@ -57,7 +58,9 @@ exports.createFabric = async (req, res, next) => {
   // create a fabric
   var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor } = req.body;
 
+
   try {
+    
     const newFabric = new fabricModels({
       type,
       wall_construction,
