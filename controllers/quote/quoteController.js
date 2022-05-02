@@ -102,6 +102,7 @@ exports.patchQuote = async (req, res, next) => {
     questions,
     drawings,
     photos,
+    status,
     radiator_and_window_sizes,
     heating_system,
     amount_of_electricity,
