@@ -69,9 +69,21 @@ app.get("/swagger.json", function (req, res) {
 
 const corsOpts = {
   origin: "*",
+  credentials:true,
   methods: ["GET", "POST", "PATCH","PUT","DELETE","OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+app.use((req,res,next)=>{ //cors browser security mechansim 
+  res.header("Access-Control-Allow-Origin","*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin,X-Requested-With,Content-Type,Accept,Authorization");
+  if(req.method==='OPTIONS'){ //you can't avoid to check 
+    res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET')
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use(cors(corsOpts));
 app.use(helmet());

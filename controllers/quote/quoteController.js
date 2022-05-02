@@ -32,7 +32,6 @@ exports.getAllQuote=async (req,res,next)=>{
 
   try {
     const response = await quoteModels.find({});
-
     res.json({
       success: true,
       message: "OK",
