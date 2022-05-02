@@ -28,6 +28,24 @@ exports.getQuote=async (req,res,next)=>{
 
 }
 
+exports.getAllQuote=async (req,res,next)=>{
+
+  try {
+    const response = await quoteModels.find({});
+
+    res.json({
+      success: true,
+      message: "OK",
+      data: response,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+}
+}
+
 
 
 exports.createQuote = async (req, res, next) => {

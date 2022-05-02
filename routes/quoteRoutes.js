@@ -11,5 +11,7 @@ const quoteController = require("../controllers/quote/quoteController");
 router.patch("/quote", quoteController.patchQuote);
 router.post("/quote", quoteController.createQuote);
 router.get('/quote',quoteController.getQuote);
+router.get('/all-quote',quoteController.getAllQuote);
+
 
 module.exports = router;
