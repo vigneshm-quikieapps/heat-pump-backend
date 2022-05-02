@@ -11,6 +11,25 @@ const { getJwtToken, reversedNum } = require("../../utils/helpers");
 const { constants } = require("../../utils");
 const quoteModels = require("../../models/quote.models");
 
+exports.getQuote=async (req,res,next)=>{
+  var { qid } = req.query;
+  try {
+    const response = await quoteModels.findById(qid);
+    res.json({
+      success: true,
+      data: response
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+  }
+
+}
+
+
+
 exports.createQuote = async (req, res, next) => {
   // create a Quote
   var obj = ({
