@@ -152,6 +152,10 @@ const QuoteSchema = new mongoose.Schema(
     cost_of_gas: Number,
     other_details: String,
     quote_reference_number: String,
+    status: {
+      type: Number,
+      default:1
+    },
   },
   { timestamps: true }
 );
