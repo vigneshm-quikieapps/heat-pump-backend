@@ -13,7 +13,9 @@ const quoteModels = require("../../models/quote.models");
 
 exports.getQuote=async (req,res,next)=>{
   var { qid } = req.query;
+  console.log("RQ",req.query);
   try {
+    console.log(qid);
     const response = await quoteModels.findById(qid);
     res.json({
       success: true,
