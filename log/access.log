@@ -126,3 +126,6 @@
 90281@sky.local/8dad4ab92b3a825c535dbb53-0000000000000001 => ::1 - - [02/May/2022:07:20:23 +0000] "method /api/v1/services/all-quote HTTP/1.1" 200 39627
 97432@sky.local/e7c76a22bc28d58ecf07db70-0000000000000001 => ::1 - - [02/May/2022:08:56:20 +0000] "method /api/v1/services/quote?qird= HTTP/1.1" 200 28
 97432@sky.local/e7c76a22bc28d58ecf07db70-0000000000000002 => ::1 - - [02/May/2022:08:56:33 +0000] "method /api/v1/services/quote HTTP/1.1" 200 1865
+3176@sky.local/eb73f2c8f48ddce489032216-0000000000000001 => ::1 - - [05/May/2022:10:06:33 +0000] "method /api/v1/auth/login HTTP/1.1" 200 479
+3176@sky.local/eb73f2c8f48ddce489032216-0000000000000002 => ::1 - - [05/May/2022:10:12:06 +0000] "method /api/v1/services/quote HTTP/1.1" 200 51
+3176@sky.local/eb73f2c8f48ddce489032216-0000000000000003 => ::1 - - [05/May/2022:10:12:22 +0000] "method /api/v1/services/quote HTTP/1.1" 200 1865

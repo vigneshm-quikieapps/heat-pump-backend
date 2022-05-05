@@ -30,8 +30,23 @@ exports.getQuote=async (req,res,next)=>{
 
 exports.getAllQuote=async (req,res,next)=>{
 
+
+  var { page, perPage, status } = req.query;
+  if (!page) {
+    page = 1;
+  }
+  if (!perPage) {
+    perPage = 10;
+  }
+
+
+
   try {
-    const response = await quoteModels.find({});
+    const response = await quoteModels.find({
+      status: status || !null
+    }).skip((page - 1) * perPage)
+    .limit(perPage);
+
     res.json({
       success: true,
       message: "OK",
