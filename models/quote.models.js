@@ -156,6 +156,7 @@ const QuoteSchema = new mongoose.Schema(
       type: Number,
       default:1
     },
+    creator_customer_id: Schema.Types.ObjectId,
   },
   { timestamps: true }
 );

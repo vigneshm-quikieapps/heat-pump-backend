@@ -10,10 +10,11 @@ const otpGenerator = require("otp-generator");
 const { getJwtToken, reversedNum } = require("../../utils/helpers");
 const { constants } = require("../../utils");
 const quoteModels = require("../../models/quote.models");
+const { default: mongoose } = require("mongoose");
 
 exports.getQuote=async (req,res,next)=>{
   var { qid } = req.query;
-  console.log("RQ",req.query);
+ 
   try {
     console.log(qid);
     const response = await quoteModels.findById(qid);
@@ -33,22 +34,41 @@ exports.getQuote=async (req,res,next)=>{
 exports.getAllQuote=async (req,res,next)=>{
 
 
-  var { page, perPage, status } = req.query;
+  var { page, perPage, status,cst=false } = req.query;
+
+
+ console.log("CST",cst);
+
+  const userId = req.decodedAccessToken.id;
+
+
+
   if (!page) {
     page = 1;
   }
   if (!perPage) {
     perPage = 10;
   }
+  
+  var customerSide=undefined;
+  if(cst){
+    customerSide=mongoose.Types.ObjectId(userId)
+  }
 
+  var filter={
+    status: status || !null,
+  };
+
+  if(cst){
+   filter.creator_customer_id=customerSide
+  }
 
 
   try {
-    const response = await quoteModels.find({
-      status: status || !null
-    }).skip((page - 1) * perPage)
+    const response = await quoteModels.find(filter).skip((page - 1) * perPage)
     .limit(perPage);
 
+    console.log("LENGTH",response.length);
     res.json({
       success: true,
       message: "OK",
@@ -66,6 +86,9 @@ exports.getAllQuote=async (req,res,next)=>{
 
 exports.createQuote = async (req, res, next) => {
   // create a Quote
+
+  const userId = req.decodedAccessToken.id;
+  console.log("ID",userId);
   var obj = ({
     site_details,
     occupancuy,
@@ -93,6 +116,8 @@ exports.createQuote = async (req, res, next) => {
   obj.quote_reference_number = quote_reference_number;
 
   try {
+    obj.creator_customer_id=userId
+    console.log("OBJ",obj)
     const newQuote = new quoteModels(obj);
     const response = await newQuote.save();
     res.json({
