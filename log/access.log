@@ -225,3 +225,4 @@
 87783@sky.local/1a1c95967732e4616678e332-0000000000000001 => ::1 - - [10/May/2022:05:00:26 +0000] "method /api/v1/services/all-quote?status=1 HTTP/1.1" 200 11295
 87987@sky.local/5ea1d152919d14320b616815-0000000000000001 => ::1 - - [10/May/2022:05:01:16 +0000] "method /api/v1/services/all-quote?status=1 HTTP/1.1" 200 11295
 87987@sky.local/5ea1d152919d14320b616815-0000000000000002 => ::1 - - [10/May/2022:05:01:20 +0000] "method /api/v1/services/all-quote?status=1&cst=true HTTP/1.1" 200 5668
+26258@sky.local/9ccdf43337240f5e73b093ff-0000000000000001 => ::1 - - [10/May/2022:07:45:23 +0000] "method /api/v1/services/fabric-details?perPage=3&type=2&page=1 HTTP/1.1" 200 448

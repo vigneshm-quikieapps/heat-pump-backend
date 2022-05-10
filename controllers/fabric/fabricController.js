@@ -56,7 +56,7 @@ exports.getAllFabricFromType = async (req, res, next) => {
 
 exports.createFabric = async (req, res, next) => {
   // create a fabric
-  var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor } = req.body;
+  var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor ,status=1} = req.body;
 
 
   try {
@@ -70,7 +70,8 @@ exports.createFabric = async (req, res, next) => {
       shortness_of_suspended_floor,
       longness_of_suspended_floor,
       description,
-      details
+      details,
+      status
     });
 
     const response = await newFabric.save();
@@ -99,7 +100,8 @@ exports.patchFabric=async (req,res,next)=>{
     fabric_type,
     length_of_exposed_wall,
     shortness,
-    longness
+    longness,
+    status
   } = req.body);
 
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);

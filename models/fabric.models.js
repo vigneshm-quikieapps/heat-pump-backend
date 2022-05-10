@@ -26,7 +26,8 @@ const FabricSchema = new mongoose.Schema(
     fabric_type: Number,
     length_of_exposed_wall:String,
     shortness_of_suspended_floor:String,
-    longness_of_suspended_floor:String
+    longness_of_suspended_floor:String,
+    status:Number
   },
   { timestamps: true }
 );
