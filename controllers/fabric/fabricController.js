@@ -106,7 +106,8 @@ exports.patchFabric=async (req,res,next)=>{
 
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
 
-  try {``
+  try {
+
     const response = await fabricModels.findByIdAndUpdate(fid, obj);
     res.json({
       success: true,
@@ -125,9 +126,10 @@ exports.patchFabric=async (req,res,next)=>{
 }
 
 exports.deleteFabric=async(req,res,next)=>{
-  var {fid}=req.params;
+  var {fid}=req.query;
+  
 try{
-  const response=fabricModels.findByIdAndDelete(fid);
+  const response=await fabricModels.findByIdAndDelete(fid);
   res.json({
     success: true,
     message: "DELETED",
