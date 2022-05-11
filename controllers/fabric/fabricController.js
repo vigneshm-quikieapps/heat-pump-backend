@@ -18,10 +18,8 @@ const fabricModels = require("../../models/fabric.models");
 
 exports.getAllFabricFromType = async (req, res, next) => {
   // paginatied data return
-  var { page, perPage, type ,f_status,f_ftype,f_desc} = req.query;
+  var { page, perPage, type ,f_status,f_ftype,f_desc,f_wc} = req.query;
 
-
-  
 
   if (!page) {
     page = 1;
@@ -36,16 +34,18 @@ exports.getAllFabricFromType = async (req, res, next) => {
         type: type || !null,
         status: f_status || { $exists: true },
         fabric_type:f_ftype || { $exists: true },
-        description:new RegExp(f_desc) ||{ $exists: true }
+        description:new RegExp(f_desc) ||{ $exists: true },
+        wall_construction:new RegExp(f_wc) ||{ $exists: true }
       })
       .skip((page - 1) * perPage)
       .limit(perPage);
 
     const total_records = await fabricModels.find({
       type: type || !null,
-      status: f_status || !null,
-      fabric_type:f_ftype || !null,
-      // description:new RegExp(f_desc) || !null
+      status: f_status || { $exists: true },
+      fabric_type:f_ftype || { $exists: true },
+      description:new RegExp(f_desc) ||{ $exists: true },
+      wall_construction:new RegExp(f_wc) ||{ $exists: true }
     }).countDocuments();
     const total_pages = Math.ceil(total_records / perPage);
 
