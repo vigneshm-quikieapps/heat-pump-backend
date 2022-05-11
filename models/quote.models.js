@@ -138,9 +138,11 @@ const QuoteSchema = new mongoose.Schema(
         },
       ],
     },
-
-    raditator_size: String,
-    window_size: String,
+    radiator_and_window_sizes:[{
+      room_desc:String,
+      raditator_size: String,
+      window_size: String,
+    }],
     heating_system: {
       type: Number,
     },
@@ -150,6 +152,11 @@ const QuoteSchema = new mongoose.Schema(
     cost_of_gas: Number,
     other_details: String,
     quote_reference_number: String,
+    status: {
+      type: Number,
+      default:1
+    },
+    creator_customer_id: Schema.Types.ObjectId,
   },
   { timestamps: true }
 );

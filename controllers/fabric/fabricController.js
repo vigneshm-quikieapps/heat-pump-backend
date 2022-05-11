@@ -3,6 +3,7 @@
  * @Since 07 Mar 2022
  */
 const crypto = require("crypto");
+const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
@@ -17,7 +18,9 @@ const fabricModels = require("../../models/fabric.models");
 
 exports.getAllFabricFromType = async (req, res, next) => {
   // paginatied data return
-  var { page, perPage, type } = req.query;
+  var { page, perPage, type ,f_status,f_ftype,f_desc,f_wc} = req.query;
+
+
   if (!page) {
     page = 1;
   }
@@ -29,12 +32,22 @@ exports.getAllFabricFromType = async (req, res, next) => {
     const FabricData = await fabricModels
       .find({
         type: type || !null,
+        status: f_status || { $exists: true },
+        fabric_type:f_ftype || { $exists: true },
+        description:new RegExp(f_desc) ||{ $exists: true },
+        wall_construction:new RegExp(f_wc) ||{ $exists: true }
       })
       .skip((page - 1) * perPage)
       .limit(perPage);
 
-    const total_records = await fabricModels.find({}).countDocuments();
-    const total_pages = Math.floor(total_records / perPage);
+    const total_records = await fabricModels.find({
+      type: type || !null,
+      status: f_status || { $exists: true },
+      fabric_type:f_ftype || { $exists: true },
+      description:new RegExp(f_desc) ||{ $exists: true },
+      wall_construction:new RegExp(f_wc) ||{ $exists: true }
+    }).countDocuments();
+    const total_pages = Math.ceil(total_records / perPage);
 
     res.json({
       success: true,
@@ -55,9 +68,11 @@ exports.getAllFabricFromType = async (req, res, next) => {
 
 exports.createFabric = async (req, res, next) => {
   // create a fabric
-  var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor } = req.body;
+  var { type, wall_construction,description, details, image_url, fabric_type,length_of_exposed_wall,longness_of_suspended_floor,shortness_of_suspended_floor ,status=1} = req.body;
+
 
   try {
+    
     const newFabric = new fabricModels({
       type,
       wall_construction,
@@ -67,7 +82,8 @@ exports.createFabric = async (req, res, next) => {
       shortness_of_suspended_floor,
       longness_of_suspended_floor,
       description,
-      details
+      details,
+      status
     });
 
     const response = await newFabric.save();
@@ -96,12 +112,14 @@ exports.patchFabric=async (req,res,next)=>{
     fabric_type,
     length_of_exposed_wall,
     shortness,
-    longness
+    longness,
+    status
   } = req.body);
 
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
 
-  try {``
+  try {
+
     const response = await fabricModels.findByIdAndUpdate(fid, obj);
     res.json({
       success: true,
@@ -120,9 +138,10 @@ exports.patchFabric=async (req,res,next)=>{
 }
 
 exports.deleteFabric=async(req,res,next)=>{
-  var {fid}=req.params;
+  var {fid}=req.query;
+  
 try{
-  const response=fabricModels.findByIdAndDelete(fid);
+  const response=await fabricModels.findByIdAndDelete(fid);
   res.json({
     success: true,
     message: "DELETED",

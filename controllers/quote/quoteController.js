@@ -10,9 +10,85 @@ const otpGenerator = require("otp-generator");
 const { getJwtToken, reversedNum } = require("../../utils/helpers");
 const { constants } = require("../../utils");
 const quoteModels = require("../../models/quote.models");
+const { default: mongoose } = require("mongoose");
+
+exports.getQuote=async (req,res,next)=>{
+  var { qid } = req.query;
+ 
+  try {
+    console.log(qid);
+    const response = await quoteModels.findById(qid);
+    res.json({
+      success: true,
+      data: response
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+  }
+
+}
+
+exports.getAllQuote=async (req,res,next)=>{
+
+
+  var { page, perPage, status,cst=false } = req.query;
+
+
+ console.log("CST",cst);
+
+  const userId = req.decodedAccessToken.id;
+
+
+
+  if (!page) {
+    page = 1;
+  }
+  if (!perPage) {
+    perPage = 10;
+  }
+  
+  var customerSide=undefined;
+  if(cst){
+    customerSide=mongoose.Types.ObjectId(userId)
+  }
+
+  var filter={
+    status: status || !null,
+  };
+
+  if(cst){
+   filter.creator_customer_id=customerSide
+  }
+
+
+  try {
+    const response = await quoteModels.find(filter).skip((page - 1) * perPage)
+    .limit(perPage);
+
+    console.log("LENGTH",response.length);
+    res.json({
+      success: true,
+      message: "OK",
+      data: response,
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+}
+}
+
+
 
 exports.createQuote = async (req, res, next) => {
   // create a Quote
+
+  const userId = req.decodedAccessToken.id;
+  console.log("ID",userId);
   var obj = ({
     site_details,
     occupancuy,
@@ -40,6 +116,8 @@ exports.createQuote = async (req, res, next) => {
   obj.quote_reference_number = quote_reference_number;
 
   try {
+    obj.creator_customer_id=userId
+    console.log("OBJ",obj)
     const newQuote = new quoteModels(obj);
     const response = await newQuote.save();
     res.json({
@@ -65,8 +143,8 @@ exports.patchQuote = async (req, res, next) => {
     questions,
     drawings,
     photos,
-    raditator_size,
-    window_size,
+    status,
+    radiator_and_window_sizes,
     heating_system,
     amount_of_electricity,
     amount_of_gas,

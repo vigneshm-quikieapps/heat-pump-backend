@@ -13,7 +13,16 @@ exports.postServiceRequestNote = async (req, res, next) => {
   console.log("CALLED");
   const { title, description, status, attachments, type = 1 } = req.body;
   const name = req.decodedAccessToken.name;
-  console.log(name);
+  
+
+  const userDetail=req.decodedAccessToken;
+ 
+
+
+
+
+
+
   try {
     // for(var i=0;i<10;i++){
 
@@ -51,11 +60,15 @@ exports.postServiceRequestNote = async (req, res, next) => {
     if (attachments) {
       attachments.forEach((e) => sr.attachments.push(e));
     }
+    if(userDetail.admin===false && userDetail.business_admin===false ){ // customer
+      sr.status=5;
+    }
 
-    if (title == "--closed--") {
+    if (title == "--closed--") { //adtiitonal check
       sr.status = 4;
     }
     sr.last_updated_by = name;
+
     await sr.save();
 
     const rp = await ServiceRequestModel.findById(srid).populate("notes");
