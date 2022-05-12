@@ -335,3 +335,5 @@
 44393@sky.local/60dcd1a4845562164998d48a-0000000000000017 => ::1 - - [11/May/2022:06:58:23 +0000] "method /api/v1/services/fabric-details?perPage=100&type=1&f_ftype=23&f_desc=tion&f_status=1 HTTP/1.1" 200 526
 46275@sky.local/b8c23d21fd5e87f50e59bc76-0000000000000001 => ::1 - - [11/May/2022:07:04:27 +0000] "method /api/v1/services/fabric-details?perPage=100&type=1&f_ftype=23&f_desc=tion&f_status=1&f_wc=again HTTP/1.1" 200 526
 46275@sky.local/b8c23d21fd5e87f50e59bc76-0000000000000002 => ::1 - - [11/May/2022:07:04:37 +0000] "method /api/v1/services/fabric-details?perPage=100&type=1&f_wc=again HTTP/1.1" 200 3136
+32908@LAPTOP-1714RVSL/0eb62a9f40c8e06426ee314e-0000000000000001 => ::1 - - [12/May/2022:11:55:09 +0000] "method /api/v1/auth/login HTTP/1.1" 422 122
+32908@LAPTOP-1714RVSL/0eb62a9f40c8e06426ee314e-0000000000000002 => ::1 - - [12/May/2022:11:55:41 +0000] "method /api/v1/auth/login HTTP/1.1" 200 479
