@@ -13,7 +13,7 @@ const NOT_FOUND_RESET_TOKEN = "No Reset Token provied";
 const NOT_FOUND_ACCESS_TOKEN = "No Access Token provied";
 
 const USER_ALREADY_EXISTS =
-  "User already exists with the provided email address";
+  "Customer Account already exists with the provided email";
 const USER_NOT_FOUND = "User not found";
 const INVALID_CREDENTIALS = "Invalid Credentials";
 

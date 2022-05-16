@@ -74,21 +74,22 @@ exports.createFabric = async (req, res, next) => {
   try {
     
     const newFabric = new fabricModels({
-      type,
+      type, 
       wall_construction,
-      image_url,
+      image_url, 
       fabric_type,
       length_of_exposed_wall,
       shortness_of_suspended_floor,
       longness_of_suspended_floor,
       description,
-      details,
-      status
+      details, 
+      status 
     });
 
     const response = await newFabric.save();
     res.json({
       success: true,
+      message: "New Fabric has been added",
       data: response,
     });
   } catch (err) {
@@ -123,7 +124,7 @@ exports.patchFabric=async (req,res,next)=>{
     const response = await fabricModels.findByIdAndUpdate(fid, obj);
     res.json({
       success: true,
-      message: "UPDATED",
+      message: "The fabric has been updated",
       data: obj
     });
   } catch (err) {
@@ -144,7 +145,7 @@ try{
   const response=await fabricModels.findByIdAndDelete(fid);
   res.json({
     success: true,
-    message: "DELETED",
+    message: "The fabric has been deleted",
     data: [],
   });
 }catch(err){

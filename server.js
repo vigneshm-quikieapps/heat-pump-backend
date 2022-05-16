@@ -138,6 +138,7 @@ mongoose
     myCache.flushAll();
   })
   .catch((err) => {
+    console.log(err);
     if (err.code === "ECONNREFUSED")
       console.log(
         "Failed to Connect with MongoDB Please check your Internet Connection"
