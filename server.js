@@ -135,7 +135,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then((response)=>{
-    myCache.flushAll();
+  //  myCache.flushall();
   })
   .catch((err) => {
     console.log(err);

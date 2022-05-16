@@ -16,6 +16,45 @@ const UserModel = require("../../models/users.model");
 const { GmailTransport } = require("../../config/mail");
 const fabricModels = require("../../models/fabric.models");
 
+exports.getFabric=async (req,res,next)=>{
+
+  var { fid } = req.query;
+
+  try {
+    const response = await fabricModels.findById(fid);
+    res.json({
+      success: true,
+      data: response
+    });
+  } catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+  }
+
+
+
+}
+
+exports.deleteFabric=async(req,res,next)=>{
+  var {fid}=req.query;
+  
+try{
+  const response=await fabricModels.findByIdAndDelete(fid);
+  res.json({
+    success: true,
+    message: "DELETED",
+    data: [],
+  });
+}catch(err){
+  res.json({
+    success: false,
+    message: err.toString(),
+    data: [],
+  });
+}
+}
 exports.getAllFabricFromType = async (req, res, next) => {
   // paginatied data return
   var { page, perPage, type ,f_status,f_ftype,f_desc,f_wc} = req.query;
