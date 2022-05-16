@@ -205,7 +205,7 @@ exports.sendMail = (req, res, next) => {
           (err) => console.log(err)
         );
 
-        sgMail.setApiKey(KEY);
+        // sgMail.setApiKey(KEY);
 
         const msg = {
           to: email, // Change to your recipient
