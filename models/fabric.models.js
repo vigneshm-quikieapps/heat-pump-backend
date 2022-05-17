@@ -9,12 +9,12 @@ const mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
 
-var CounterSchema = Schema({
-    _id: {type: String, required: true},
-    seq: { type: Number, default: 0 }
-});
+// var CounterSchema = Schema({
+//     _id: {type: String, required: true},
+//     seq: { type: Number, default: 0 }
+// });
 
-var counter = mongoose.model('counter', CounterSchema);
+// var counter = mongoose.model('counter', CounterSchema);
 
 const FabricSchema = new mongoose.Schema(
   {
@@ -33,24 +33,24 @@ const FabricSchema = new mongoose.Schema(
 );
 
 
-FabricSchema.pre('save', function(next) {
-  var doc = this;
-  counter.find({},function (error,counter){
-    console.log(counter);
-  });
-  counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter)   {
-      if(error){
-        console.warn(error);
-          return next(error);
-  }
-      doc.fabric_type = counter.seq;
-      next();
-  });
-});
+// FabricSchema.pre('save', function(next) {
+//   var doc = this;
+//   counter.find({},function (error,counter){
+//     console.log(counter);
+//   });
+//   counter.findByIdAndUpdate({_id: 'entityId'}, {$inc: { seq: 1} }, function(error, counter)   {
+//       if(error){
+//         console.warn(error);
+//           return next(error);
+//   }
+//       doc.fabric_type = counter.seq;
+//       next();
+//   });
+// });
 
-FabricSchema.post("save", (doc, next) => {
-  console.log("Saved in FabricSchema");
-  next();
-});
+// FabricSchema.post("save", (doc, next) => {
+//   console.log("Saved in FabricSchema");
+//   next();
+// });
 
 module.exports = mongoose.model("Fabric", FabricSchema);

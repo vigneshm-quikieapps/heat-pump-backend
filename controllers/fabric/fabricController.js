@@ -74,7 +74,7 @@ exports.getAllFabricFromType = async (req, res, next) => {
         status: f_status || { $exists: true },
         fabric_type:f_ftype || { $exists: true },
         description:new RegExp(f_desc) ||{ $exists: true },
-        wall_construction:new RegExp(f_wc) ||{ $exists: true }
+        // wall_construction:new RegExp(f_wc) ||{ $exists: true }
       })
       .skip((page - 1) * perPage)
       .limit(perPage);
@@ -84,7 +84,7 @@ exports.getAllFabricFromType = async (req, res, next) => {
       status: f_status || { $exists: true },
       fabric_type:f_ftype || { $exists: true },
       description:new RegExp(f_desc) ||{ $exists: true },
-      wall_construction:new RegExp(f_wc) ||{ $exists: true }
+      // wall_construction:new RegExp(f_wc) ||{ $exists: true }
     }).countDocuments();
     const total_pages = Math.ceil(total_records / perPage);
 
