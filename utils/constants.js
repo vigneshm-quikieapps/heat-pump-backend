@@ -14,7 +14,7 @@ const NOT_FOUND_ACCESS_TOKEN = "No Access Token provied";
 
 const USER_ALREADY_EXISTS =
   "Customer Account already exists with the provided email";
-const USER_NOT_FOUND = "User not found";
+const USER_NOT_FOUND = "It appears that your email is not registered with us. If you'd like to register with us, use the Sign Up option below.";
 const INVALID_CREDENTIALS = "Invalid Credentials";
 
 const EMAIL_SENT = "Email has been successfully sent";
