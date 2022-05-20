@@ -9,7 +9,7 @@ require("dotenv").config();
 module.exports.GmailTransport = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "siddharth@quikieapps.com",
-    pass: "Lk)G)c2S%FgrFU123123",
+    user: "hsingh@quikieapps.com",
+    pass: "Rajugopal@#+-",
   },
 });
