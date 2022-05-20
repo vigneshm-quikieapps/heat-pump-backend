@@ -48,11 +48,14 @@ exports.postServiceRequest = async (req, res, next) => {
 
     const time = new Date().getTime();
 
+    console.log(time);
+
     const id = reversedNum(time);
+    console.log(id);
     const service_ref_number =
-      "SR" + reversedNum(parseInt(id + Math.random() * 100));
-    console.log(service_ref_number);
-    console.log("JRID", job_reference_id);
+      "SR" + parseInt(id + Math.random() * 100);
+    console.log(id , service_ref_number);
+    // console.log("JRID", job_reference_id);
     const sr = new ServiceRequestModel({
       title: title,
       type: type,
@@ -87,7 +90,7 @@ exports.postServiceRequest = async (req, res, next) => {
     
     */
 
-    const response = await sr.save();
+    const response = await sr;
    
     const objectId = response._id.toString();
 
@@ -103,7 +106,7 @@ exports.postServiceRequest = async (req, res, next) => {
 
     const msg = {
       to: usr.email, // Change to your recipient
-      from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
+      from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name} <br/>
     Thank you for taking time to contact Luths Services, Glasgow today.

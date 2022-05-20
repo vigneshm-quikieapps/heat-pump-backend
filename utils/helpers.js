@@ -56,7 +56,7 @@ const uploadUtil = multer({ storage: storage, fileFilter: fileFilter });
 
 function reversedNum(num) {
   return (
-    parseFloat(num.toString().split("").reverse().join("")) * Math.sign(num)
+    parseFloat(num.toString().split("").reverse().join("").slice(4)) * Math.sign(num)
   );
 }
 
