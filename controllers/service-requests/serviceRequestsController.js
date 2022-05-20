@@ -90,7 +90,7 @@ exports.postServiceRequest = async (req, res, next) => {
     
     */
 
-    const response = await sr;
+    const response = await sr.save();
    
     const objectId = response._id.toString();
 
