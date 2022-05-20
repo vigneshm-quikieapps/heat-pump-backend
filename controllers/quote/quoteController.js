@@ -65,7 +65,7 @@ exports.getAllQuote=async (req,res,next)=>{
 
 
   try {
-    const response = await quoteModels.find(filter).skip((page - 1) * perPage)
+    const response = await quoteModels.find(filter).sort({updatedAT : -1}).skip((page - 1) * perPage)
     .limit(perPage);
 
     console.log("LENGTH",response.length);
@@ -112,7 +112,7 @@ exports.createQuote = async (req, res, next) => {
   const time = new Date().getTime();
   const id = reversedNum(time);
   const quote_reference_number =
-    "QE" + reversedNum(parseInt(id + Math.random() * 100));
+    "JR" + parseInt(id + Math.random() * 100);
   obj.quote_reference_number = quote_reference_number;
 
   try {
