@@ -128,6 +128,10 @@ app.use(
   userRoutes
 );
 
+app.get(test = "/api/v1/test", (req, res) => {
+  res.send("Hello World");
+});
+
 // DATABASE CONNECTIVITY AND SERVER INITIALIZATION
 mongoose
   .connect(database.dbConnection, {
