@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev-test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: "8ef01bea-a97b-4187-901f-4674937c78bf"
+          heroku_app_name: "heat-pump-backend" #Must be unique in Heroku
+          heroku_email: "siddharthsk101@gmail.com"
