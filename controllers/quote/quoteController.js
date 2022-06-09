@@ -37,7 +37,7 @@ exports.getAllQuote=async (req,res,next)=>{
   var { page, perPage, status,cst=false } = req.query;
 
 
- console.log("CST",cst);
+//  console.log("CST",cst);
 
   const userId = req.decodedAccessToken.id;
 
@@ -65,10 +65,10 @@ exports.getAllQuote=async (req,res,next)=>{
 
 
   try {
-    const response = await quoteModels.find(filter).sort({updatedAT : -1}).skip((page - 1) * perPage)
+    const response = await quoteModels.find(filter).sort({createdAt: -1, updatedAT : -1 }).skip((page - 1) * perPage)
     .limit(perPage);
-
-    console.log("LENGTH",response.length);
+  console.log(response, response.length);
+    // console.log("LENGTH",response.length);
     res.json({
       success: true,
       message: "OK",

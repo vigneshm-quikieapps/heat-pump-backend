@@ -207,9 +207,9 @@ if(loadCache("SR",req,res,next)!==-1){
 
       match: {
         $and: [
-          { service_ref_number: new RegExp(f_srid) },
+          { service_ref_number: new RegExp(f_srid, 'i') },
           { priority: f_priority ? f_priority : { $exists: true } },
-          { title: new RegExp(f_title) },
+          { title: new RegExp(f_title, 'i') },
           { $or: searchArray },
         ],
       },
