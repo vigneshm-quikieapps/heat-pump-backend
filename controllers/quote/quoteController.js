@@ -97,23 +97,24 @@ exports.createQuote = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   console.log("ID",userId);
-  var obj = ({
-    site_details,
-    occupancuy,
-    equipments,
-    high_energy_equipments,
-    questions,
-    drawings,
-    photos,
-    raditator_size,
-    window_size,
-    heating_system,
-    amount_of_electricity,
-    amount_of_gas,
-    cost_of_electricity,
-    cost_of_gas,
-    other_details,
-  } = req.body);
+  // var obj = ({
+  //   site_details,
+  //   occupancuy,
+  //   equipments,
+  //   high_energy_equipments,
+  //   questions,
+  //   drawings,
+  //   photos,
+  //   raditator_size,
+  //   window_size,
+  //   heating_system,
+  //   amount_of_electricity,
+  //   amount_of_gas,
+  //   cost_of_electricity,
+  //   cost_of_gas,
+  //   other_details,
+  // } = req.body);
+  const obj = req.body;
 
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
 

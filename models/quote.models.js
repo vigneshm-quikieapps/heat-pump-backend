@@ -86,14 +86,44 @@ const QuoteSchema = new mongoose.Schema(
     },
     fabric_details:[
       {
-      age:String,
+      Age:String,
       label:String,
-      external_walls:{type:String},
-      internal_walls:{type:String},
-      root_type:{type:String},
-      windows:{type:String},
-      suspended_floors:{type:String},
-      internal_floors:{type:String},
+      "External Walls":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      "Internal Walls":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+
+      },
+      "Internal Floors":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+      },
+
+      "Roof Type":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      Windows:{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      "Suspended Floors":{
+        description:String,
+        fabric_type: Number,
+        length: Number,
+
+      },
     }
   ],
     drawings: {
