@@ -67,16 +67,24 @@ exports.getAllQuote=async (req,res,next)=>{
   try {
     const response = await quoteModels.find(filter).sort({createdAt: -1, updatedAT : -1 }).skip((page - 1) * perPage)
     .limit(perPage);
+    const total_records = await quoteModels.find(filter).sort({createdAt: -1, updatedAT : -1 }).countDocuments();
+    const total_pages = Math.ceil(total_records / perPage);
   console.log(response, response.length);
     // console.log("LENGTH",response.length);
     res.json({
       success: true,
       message: "OK",
+      current_page: page,
+      total_records: total_records,
+      total_pages: total_pages,
       data: response,
     });
   } catch (err) {
     res.json({
       success: false,
+      current_page: page,
+      total_records: total_records,
+      total_pages: total_pages,
       message: err.toString(),
     });
 }

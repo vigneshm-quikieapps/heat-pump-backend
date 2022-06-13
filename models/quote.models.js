@@ -162,7 +162,7 @@ const QuoteSchema = new mongoose.Schema(
       default:1
     },
     creator_customer_id: Schema.Types.ObjectId,
-    exsisting: {
+    existing: {
       data: [String],
       other: String,
     },
@@ -175,7 +175,7 @@ const QuoteSchema = new mongoose.Schema(
     ],
     ventilation_draught: {
       draught: String,
-      data: [String],
+      ventilation: [String],
       other: String,
     },
     pricing: String,
