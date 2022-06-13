@@ -178,7 +178,7 @@ const QuoteSchema = new mongoose.Schema(
     },
     radiator_and_window_sizes:[{
       room_desc:String,
-      raditator_size: String,
+      radiator_size: String,
       window_size: String,
     }],
     heating_system: {
