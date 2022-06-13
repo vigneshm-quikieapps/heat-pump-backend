@@ -40,7 +40,10 @@ const QuoteSchema = new mongoose.Schema(
         "1400 - 1800": [{ type: Number }],
         "1800 - 2359": [{ type: Number }],
       },
-      property_usage: [String],
+      property_usage: {
+        data:[],
+        other: String,
+      },
       // yearly: {
       //   Jan: [{ type: Number }],
       //   Feb: [{ type: Number }],
@@ -95,7 +98,7 @@ const QuoteSchema = new mongoose.Schema(
         {
           type: String,
         },
-      ],
+      ], 
       elevations: [
         {
           type: String,
