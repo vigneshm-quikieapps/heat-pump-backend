@@ -135,10 +135,10 @@ exports.getUserByID = async (req, res, next) => {
   }
 
   const userId = req.decodedAccessToken.id;
-  // const email = req.decodedAccessToken.email;
-  // const userIdParam = req.params.id;
 
-  const user = await UserModel.findById(userId);
+  const user = await UserModel.findById(userId).select('+password').exec();
+
+  console.log(user.password);
 
   if (!user) {
     return res.status(404).json({
