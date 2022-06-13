@@ -33,38 +33,39 @@ const QuoteSchema = new mongoose.Schema(
     },
     occupancy: {
       weekly: {
-        slot1: [{ type: Number }],
-        slot2: [{ type: Number }],
-        slot3: [{ type: Number }],
-        slot4: [{ type: Number }],
-        slot5: [{ type: Number }],
-        slot6: [{ type: Number }],
+        "0000 - 0600": [{ type: Number }],
+        "0600 - 0800": [{ type: Number }],
+        "0800 - 1000": [{ type: Number }],
+        "1000 - 1400": [{ type: Number }],
+        "1400 - 1800": [{ type: Number }],
+        "1800 - 2359": [{ type: Number }],
       },
-      yearly: {
-        Jan: [{ type: Number }],
-        Feb: [{ type: Number }],
-        Mar: [{ type: Number }],
-        Apr: [{ type: Number }],
-        May: [{ type: Number }],
-        Jun: [{ type: Number }],
-        July: [{ type: Number }],
-        Aug: [{ type: Number }],
-        Sep: [{ type: Number }],
-        Oct: [{ type: Number }],
-        Nov: [{ type: Number }],
-        Dec: [{ type: Number }],
-      },
+      property_usage: [String],
+      // yearly: {
+      //   Jan: [{ type: Number }],
+      //   Feb: [{ type: Number }],
+      //   Mar: [{ type: Number }],
+      //   Apr: [{ type: Number }],
+      //   May: [{ type: Number }],
+      //   Jun: [{ type: Number }],
+      //   July: [{ type: Number }],
+      //   Aug: [{ type: Number }],
+      //   Sep: [{ type: Number }],
+      //   Oct: [{ type: Number }],
+      //   Nov: [{ type: Number }],
+      //   Dec: [{ type: Number }],
+      // },
       number_of_adultOccupants: Number,
       number_of_childrenOccupants: Number,
       number_of_typicalOccupantsPerBedroom: Number,
     },
-    equipments: {
-      tvs: Number,
-      laptops: Number,
-      Monitors: Number,
-      itServers: Number,
-      PhotoCopiers: Number,
-    },
+    // equipments: {
+    //   tvs: Number,
+    //   laptops: Number,
+    //   Monitors: Number,
+    //   itServers: Number,
+    //   PhotoCopiers: Number,
+    // },
     high_energy_equipments: {
       sauna: Number,
       swimmingPool: Number,
@@ -76,11 +77,12 @@ const QuoteSchema = new mongoose.Schema(
 
     questions: {
       hotwater_importance: Number,
-      woodStove_importance: Number,
-      electricity_than_uk_average: Number,
+      // woodStove_importance: Number,
+      // electricity_than_uk_average: Number,
       heating_then_uk_average:Number
     },
     fabric_details:{
+      age:[String],
       external_walls:[{type:String}],
       internal_walls:[{type:String}],
       root_type:[{type:String}],
@@ -146,9 +148,9 @@ const QuoteSchema = new mongoose.Schema(
     heating_system: {
       type: Number,
     },
-    amount_of_electricity: Number,
+    // amount_of_electricity: Number,
     amount_of_gas: Number,
-    cost_of_electricity: Number,
+    // cost_of_electricity: Number,
     cost_of_gas: Number,
     other_details: String,
     quote_reference_number: String,
@@ -157,6 +159,23 @@ const QuoteSchema = new mongoose.Schema(
       default:1
     },
     creator_customer_id: Schema.Types.ObjectId,
+    exsisting: {
+      data: [String],
+      other: String,
+    },
+    proposed: {
+      data: [String],
+      other: String,
+    },
+    other_design_factor : [
+      {type: String}
+    ],
+    ventilation_draught: {
+      draught: String,
+      data: [String],
+      other: String,
+    },
+    pricing: String,
   },
   { timestamps: true }
 );

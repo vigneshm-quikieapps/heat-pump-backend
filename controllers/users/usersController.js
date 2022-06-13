@@ -126,6 +126,36 @@ exports.getAllUsers = async (req, res, next) => {
   // });
 };
 
+exports.getUserByID = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      errorMessage: errors.array(),
+    });
+  }
+
+  const userId = req.decodedAccessToken.id;
+  // const email = req.decodedAccessToken.email;
+  // const userIdParam = req.params.id;
+
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    return res.status(404).json({
+      errorMessage: "User not found",
+    });
+  }
+
+  res.json({
+    success: true,
+    data: {
+      message: "OK",
+      data: user,
+    },
+  });
+}
+
+
 exports.patchUser = async (req, res, next) => {
   const { id } = req.query;
 

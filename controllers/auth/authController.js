@@ -154,6 +154,7 @@ exports.postLoginUser = (req, res, next) => {
         res.json({
           sucess: true,
           data: {
+            id: userTobeLogin._id.toString(),
             name: userTobeLogin.name,
             email: userTobeLogin.email,
             business_trade_name: userTobeLogin.business_trade_name,

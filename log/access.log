@@ -462,3 +462,8 @@
 20144@LAPTOP-1714RVSL/f13ae6a1e10ddbcdfb2bdf7e-0000000000000004 => ::1 - - [09/Jun/2022:12:31:19 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&f_srid=sR4948547149582&status=1 HTTP/1.1" 200 1503
 20144@LAPTOP-1714RVSL/f13ae6a1e10ddbcdfb2bdf7e-0000000000000005 => ::1 - - [09/Jun/2022:12:31:35 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&status=1&f_title=HEATING HTTP/1.1" 200 1503
 20144@LAPTOP-1714RVSL/f13ae6a1e10ddbcdfb2bdf7e-0000000000000006 => ::1 - - [09/Jun/2022:12:31:46 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&status=1&f_title=hEATING HTTP/1.1" 200 1503
+22232@LAPTOP-1714RVSL/5cbb157a3f7cff734975cc70-0000000000000001 => ::1 - - [13/Jun/2022:06:00:59 +0000] "method /api/v1/auth/login HTTP/1.1" 200 511
+22232@LAPTOP-1714RVSL/5cbb157a3f7cff734975cc70-0000000000000002 => ::1 - - [13/Jun/2022:06:01:39 +0000] "method /api/v1/services/users?id=6241f51ed61e01587df713e0 HTTP/1.1" 200 45
+22232@LAPTOP-1714RVSL/5cbb157a3f7cff734975cc70-0000000000000003 => ::1 - - [13/Jun/2022:06:01:46 +0000] "method /api/v1/auth/login HTTP/1.1" 200 512
+22232@LAPTOP-1714RVSL/5cbb157a3f7cff734975cc70-0000000000000004 => ::1 - - [13/Jun/2022:06:07:59 +0000] "method /api/v1/services/user-id HTTP/1.1" 404 162
+3428@LAPTOP-1714RVSL/265f6a4acf5aff514c9d9177-0000000000000001 => ::1 - - [13/Jun/2022:06:08:23 +0000] "method /api/v1/services/user-id HTTP/1.1" 200 32026
