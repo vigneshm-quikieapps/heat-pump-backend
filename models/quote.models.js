@@ -182,12 +182,12 @@ const QuoteSchema = new mongoose.Schema(
       window_size: String,
     }],
     heating_system: {
-      type: Number,
+      type: String,
     },
-    // amount_of_electricity: Number,
-    amount_of_gas: Number,
+    // amount_of_electricity: String,
+    amount_of_gas: String,
     // cost_of_electricity: Number,
-    cost_of_gas: Number,
+    cost_of_gas: String,
     other_details: String,
     quote_reference_number: String,
     status: {
