@@ -58,9 +58,9 @@ const QuoteSchema = new mongoose.Schema(
       //   Nov: [{ type: Number }],
       //   Dec: [{ type: Number }],
       // },
-      number_of_adultOccupants: Number,
-      number_of_childrenOccupants: Number,
-      number_of_typicalOccupantsPerBedroom: Number,
+      number_of_adultOccupants: String,
+      number_of_childrenOccupants: String,
+      number_of_typicalOccupantsPerBedroom: String,
     },
     // equipments: {
     //   tvs: Number,
@@ -70,13 +70,13 @@ const QuoteSchema = new mongoose.Schema(
     //   PhotoCopiers: Number,
     // },
     high_energy_equipments: {
-      sauna: Number,
-      swimmingPool: Number,
-      hotTub: Number,
-      kilns: Number,
-      other: Number,
+      sauna: String,
+      swimmingPool: String,
+      hotTub: String,
+      kilns: String,
+      other: String,
     },
-    number_of_guests:Number,
+    number_of_guests:String,
 
     questions: {
       hotwater_importance: Number,
