@@ -22,6 +22,7 @@ exports.getFabric=async (req,res,next)=>{
 
   try {
     const response = await fabricModels.findById(fid);
+    console.log(response);
     res.json({
       success: true,
       data: response
