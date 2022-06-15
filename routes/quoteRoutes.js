@@ -9,9 +9,10 @@ const router = express.Router();
 const quoteController = require("../controllers/quote/quoteController");
 
 router.get('/all-quote',quoteController.getAllQuote);
-router.patch("/quote", quoteController.patchQuote);
+router.patch("/quote/:id", quoteController.patchQuote);
 router.post("/quote", quoteController.createQuote);
 router.get('/quote',quoteController.getQuote);
+router.get('/quote-status',quoteController.getQuoteStatus);
 
 
 module.exports = router;

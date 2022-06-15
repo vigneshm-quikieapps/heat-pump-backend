@@ -194,7 +194,10 @@ const QuoteSchema = new mongoose.Schema(
       type: Number,
       default:1
     },
-    creator_customer_id: Schema.Types.ObjectId,
+    creator_customer_id:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     existing: {
       data: [String],
       other: String,

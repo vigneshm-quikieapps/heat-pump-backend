@@ -11,6 +11,7 @@ const { getJwtToken, reversedNum } = require("../../utils/helpers");
 const { constants } = require("../../utils");
 const quoteModels = require("../../models/quote.models");
 const { default: mongoose } = require("mongoose");
+const UserSchema = require("../../models/users.model");
 
 exports.getQuote=async (req,res,next)=>{
   var { qid } = req.query;
@@ -34,7 +35,7 @@ exports.getQuote=async (req,res,next)=>{
 exports.getAllQuote=async (req,res,next)=>{
 
 
-  var { page, perPage, status,cst=false } = req.query;
+  var { page, perPage, status,cst=false , siteDetails, customerName} = req.query;
 
 
 //  console.log("CST",cst);
@@ -65,8 +66,17 @@ exports.getAllQuote=async (req,res,next)=>{
 
 
   try {
-    const response = await quoteModels.find(filter).sort({createdAt: -1, updatedAT : -1 }).skip((page - 1) * perPage)
-    .limit(perPage);
+
+    const response = await quoteModels.find({
+      filter,
+      ...(siteDetails && {site_details: new RegExp(siteDetails, "i")}),
+      ...(customerName && {customer_name: new RegExp(customerName, "i")}),
+    })
+    .sort({createdAt: -1, updatedAT : -1 })
+    .skip((page - 1) * perPage)
+    .limit(perPage)
+    .populate("creator_customer_id","" , UserSchema);
+
     const total_records = await quoteModels.find(filter).sort({createdAt: -1, updatedAT : -1 }).countDocuments();
     const total_pages = Math.ceil(total_records / perPage);
   console.log(response, response.length);
@@ -143,7 +153,7 @@ exports.createQuote = async (req, res, next) => {
 };
 
 exports.patchQuote = async (req, res, next) => {
-  var { qid } = req.query;
+  const id  = req.params.id;
   var obj = ({
     site_details,
     occupancuy,
@@ -165,7 +175,7 @@ exports.patchQuote = async (req, res, next) => {
   Object.keys(obj).forEach((key) => obj[key] === undefined && delete obj[key]);
 
   try {
-    const response = await quoteModels.findByIdAndUpdate(qid, obj);
+    const response = await quoteModels.findByIdAndUpdate(id, obj);
     res.json({
       success: true,
       message: "UPDATED",
@@ -178,3 +188,59 @@ exports.patchQuote = async (req, res, next) => {
     });
   }
 };
+
+module.exports.getQuoteStatus = async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const response = await quoteModels.find();
+
+  //   const response = await UserModel.find({ admin: false });
+  // const sArray = response;
+
+  let newUnpaid = 0,
+      newPaid = 0,
+     inprogress = 0,
+     complete = 0,
+     snagging = 0 ;
+  let total_records = response.length;
+  for (let i = 0; i < response.length; i++) {
+    switch (response[i].status) {
+      case 1:
+        newUnpaid += 1;
+        break;
+      case 2:
+        newPaid += 1;
+        break;
+      case 3:
+        inprogress += 1;
+        break;
+      case 3:
+        complete += 1;
+        break;
+      case 3:
+        snagging += 1;
+        break;
+      default:
+        total_records -= 1;
+    }
+  }
+    res.json({
+      success: true,
+      message: "OK",
+      data: {
+        newUnpaid: newUnpaid,
+        newPaid: newPaid,
+        inprogress: inprogress,
+        complete: complete,
+        snagging: snagging,
+        total_records: total_records,
+      },
+    });
+  }
+  catch (err) {
+    res.json({
+      success: false,
+      message: err.toString(),
+    });
+  }
+}
