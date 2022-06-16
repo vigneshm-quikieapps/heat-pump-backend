@@ -41,7 +41,6 @@ exports.getAllQuote = async (req, res, next) => {
     customerName,
   } = req.query;
 
-
   const userId = req.decodedAccessToken.id;
 
   if (!page) {
@@ -67,33 +66,36 @@ exports.getAllQuote = async (req, res, next) => {
   try {
     let response = await quoteModels
       .find({
-        filter,
-        ...(siteDetails && {
-          "site_details.address_1": new RegExp(siteDetails, "i"),
-        }),
+        ...filter,
+        $or: [
+         { 'site_details.address_1': new RegExp(siteDetails, 'i')  || !null},
+         { 'site_details.address_2': new RegExp(siteDetails, 'i')  || !null},
+         { 'site_details.city': new RegExp(siteDetails, 'i')  || !null},
+         { 'site_details.postcode': new RegExp(siteDetails, 'i')  || !null}
+
+        ] 
       })
       .sort({ createdAt: -1, updatedAT: -1 })
       .skip((page - 1) * perPage)
       .limit(perPage)
-      .populate("creator_customer_id","" , UserSchema);
-      
+      .populate("creator_customer_id", "", UserSchema);
+
       if(customerName){
         response = response.filter(item => {
           return item.creator_customer_id.name.toLowerCase().includes(customerName.toLowerCase())
         }
         );
       };
-       
 
-      
 
     const total_records = await quoteModels
-      .find(filter)
+      .find({
+        ...filter,
+      })
       .sort({ createdAt: -1, updatedAT: -1 })
       .countDocuments();
     const total_pages = Math.ceil(total_records / perPage);
-    console.log(response, response.length);
-    // console.log("LENGTH",response.length);
+
     res.json({
       success: true,
       message: "OK",
