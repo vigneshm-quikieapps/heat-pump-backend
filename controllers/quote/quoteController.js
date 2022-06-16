@@ -41,7 +41,6 @@ exports.getAllQuote = async (req, res, next) => {
     customerName,
   } = req.query;
 
-  //  console.log("CST",cst);
 
   const userId = req.decodedAccessToken.id;
 
@@ -84,7 +83,8 @@ exports.getAllQuote = async (req, res, next) => {
         }
         );
       };
-      
+       
+
       
 
     const total_records = await quoteModels
