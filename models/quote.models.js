@@ -100,7 +100,7 @@ const QuoteSchema = new mongoose.Schema(
         fabric_type: Number,
 
       },
-      "Internal Floors":{
+      "Inner Floors":{
         description:String,
         detail: String,
         fabric_type: Number,
