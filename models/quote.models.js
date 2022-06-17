@@ -214,7 +214,10 @@ const QuoteSchema = new mongoose.Schema(
       ventilation: [String],
       other: String,
     },
-    pricing: String,
+    pricing:{
+      data:  [ String],
+      discount: {type: Boolean, default: false},
+      },
   },
   { timestamps: true }
 );
