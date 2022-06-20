@@ -133,7 +133,6 @@ exports.postLoginUser = (req, res, next) => {
     .then((user) => {
       if (user !== null && user.status === 3) {
         userTobeLogin = user;
-        console.log(user.password);
         return bcrypt.compare(password, user.password);
       } else {
         console.log(user);
