@@ -122,6 +122,7 @@ Luths Services Support Staff <br/>
     //     console.log("SENT");
     //   })
     //   .catch((er) => {
+    //     console.log("ERROR", er);
     //     console.log("FAILED TO SEND");
     //   });
 

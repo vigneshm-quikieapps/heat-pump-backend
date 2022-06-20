@@ -224,26 +224,26 @@ exports.sendMail = (req, res, next) => {
 
         console.log(otp_token);
 
-        GmailTransport.sendMail(msg)
-          .then((r) => {
-            console.log(r);
-            res.json({
-              success: true,
-              data: {
-                message: constants.EMAIL_SENT,
-                otp_token: otp_token,
-                // otp_not_to_display: otp,
-              },
-            });
-          })
-          .catch((err) => {
-            res.json({
-              success: false,
-              data: {
-                message: err.toString(),
-              },
-            });
-          });
+        // GmailTransport.sendMail(msg)
+        //   .then((r) => {
+        //     console.log(r);
+        //     res.json({
+        //       success: true,
+        //       data: {
+        //         message: constants.EMAIL_SENT,
+        //         otp_token: otp_token,
+        //         // otp_not_to_display: otp,
+        //       },
+        //     });
+        //   })
+        //   .catch((err) => {
+        //     res.json({
+        //       success: false,
+        //       data: {
+        //         message: err.toString(),
+        //       },
+        //     });
+        //   });
 
         /*
       
