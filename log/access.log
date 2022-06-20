@@ -877,3 +877,9 @@
 9248@LAPTOP-1714RVSL/d06af8b6a5cbdeb7c3e463fb-0000000000000001 => ::1 - - [16/Jun/2022:13:24:39 +0000] "method /api/v1/services/all-quote?page=1&perPage=10&customerName=Vicky HTTP/1.1" 200 252700
 9248@LAPTOP-1714RVSL/d06af8b6a5cbdeb7c3e463fb-0000000000000002 => ::1 - - [16/Jun/2022:13:24:55 +0000] "method /api/v1/services/all-quote?page=1&perPage=10&siteDetails=2%20 HTTP/1.1" 200 33788
 9248@LAPTOP-1714RVSL/d06af8b6a5cbdeb7c3e463fb-0000000000000003 => ::1 - - [16/Jun/2022:13:25:03 +0000] "method /api/v1/services/all-quote?page=1&perPage=10&customerName=Vicky HTTP/1.1" 200 252700
+19268@LAPTOP-1714RVSL/758b3f7838bafc5cbc046328-0000000000000001 => ::1 - - [20/Jun/2022:06:58:49 +0000] "method /api/v1/auth/login HTTP/1.1" 200 512
+19268@LAPTOP-1714RVSL/758b3f7838bafc5cbc046328-0000000000000002 => ::1 - - [20/Jun/2022:06:59:09 +0000] "method /api/v1/services/service-requests HTTP/1.1" 200 437
+14524@LAPTOP-1714RVSL/db6dce62df55f43f0387457b-0000000000000001 => ::1 - - [20/Jun/2022:07:00:18 +0000] "method /api/v1/services/service-requests HTTP/1.1" 200 437
+14524@LAPTOP-1714RVSL/db6dce62df55f43f0387457b-0000000000000002 => ::1 - - [20/Jun/2022:07:04:00 +0000] "method /api/v1/auth/login HTTP/1.1" 200 164
+14524@LAPTOP-1714RVSL/db6dce62df55f43f0387457b-0000000000000003 => ::1 - - [20/Jun/2022:07:04:53 +0000] "method /api/v1/auth/login HTTP/1.1" 200 497
+14524@LAPTOP-1714RVSL/db6dce62df55f43f0387457b-0000000000000004 => ::1 - - [20/Jun/2022:07:05:17 +0000] "method /api/v1/services/service-requests HTTP/1.1" 200 427

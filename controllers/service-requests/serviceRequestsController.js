@@ -117,13 +117,13 @@ Luths Services Support Staff <br/>
     `,
     };
 
-    GmailTransport.sendMail(msg)
-      .then((rr) => {
-        console.log("SENT");
-      })
-      .catch((er) => {
-        console.log("FAILED TO SEND");
-      });
+    // GmailTransport.sendMail(msg)
+    //   .then((rr) => {
+    //     console.log("SENT");
+    //   })
+    //   .catch((er) => {
+    //     console.log("FAILED TO SEND");
+    //   });
 
     res.json({
       success: true,

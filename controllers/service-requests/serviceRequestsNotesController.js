@@ -8,20 +8,14 @@ const ServiceRequestNoteModel = require("../../models/service-request-note.model
 const ServiceRequestModel = require("../../models/service-request.model");
 const { default: faker } = require("@faker-js/faker");
 const { GmailTransport } = require("../../config/mail");
+
 exports.postServiceRequestNote = async (req, res, next) => {
   const { srid } = req.query;
   console.log("CALLED");
   const { title, description, status, attachments, type = 1 } = req.body;
   const name = req.decodedAccessToken.name;
-  
 
-  const userDetail=req.decodedAccessToken;
- 
-
-
-
-
-
+  const userDetail = req.decodedAccessToken;
 
   try {
     // for(var i=0;i<10;i++){
@@ -60,11 +54,13 @@ exports.postServiceRequestNote = async (req, res, next) => {
     if (attachments) {
       attachments.forEach((e) => sr.attachments.push(e));
     }
-    if(userDetail.admin===false && userDetail.business_admin===false ){ // customer
-      sr.status=5;
+    if (userDetail.admin === false && userDetail.business_admin === false) {
+      // customer
+      sr.status = 5;
     }
 
-    if (title == "--closed--") { //adtiitonal check
+    if (title == "--closed--") {
+      //adtiitonal check
       sr.status = 4;
     }
     sr.last_updated_by = name;
@@ -89,7 +85,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
       from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
       subject: `Update: ${sr.service_ref_number} - ${sr.title} `,
       html: `Hello ${sr.creator_name} <br/>
-    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated. To view updates, please access our customer support portal at https://css.heatpumpdesigner.com/ and navigate to the My Service Requests page. <br/><br/>
+    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated. To view updates, please access our customer support portal at https://jsp.heatpumpdesigner.com/ and navigate to the My Service Requests page. <br/><br/>
 Regards,<br/>
 Luths Services Support Staff <br/>
     
@@ -109,13 +105,13 @@ Luths Services Support Staff <br/>
     `,
     };
 
-    GmailTransport.sendMail(title == "--closed--" ? closeMsg : msg)
-      .then((rr) => {
-        console.log("SENT");
-      })
-      .catch((er) => {
-        console.log("FAILED TO SEND");
-      });
+    // GmailTransport.sendMail(title == "--closed--" ? closeMsg : msg)
+    //   .then((rr) => {
+    //     console.log("SENT");
+    //   })
+    //   .catch((er) => {
+    //     console.log("FAILED TO SEND");
+    //   });
 
     // process.exit(1);
 
