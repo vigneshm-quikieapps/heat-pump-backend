@@ -902,3 +902,10 @@
 9360@LAPTOP-1714RVSL/764be83195d667c048af5e52-0000000000000004 => ::1 - - [20/Jun/2022:12:09:47 +0000] "method /api/v1/auth/register HTTP/1.1" 201 349
 23996@LAPTOP-1714RVSL/3269e47b21caac0dda186e72-0000000000000001 => ::1 - - [20/Jun/2022:12:11:37 +0000] "method /api/v1/auth/login HTTP/1.1" 200 58
 23996@LAPTOP-1714RVSL/3269e47b21caac0dda186e72-0000000000000002 => ::1 - - [20/Jun/2022:12:11:43 +0000] "method /api/v1/auth/login HTTP/1.1" 200 477
+21032@LAPTOP-1714RVSL/5e46f6ea53e7b9b0cbfaed84-0000000000000001 => ::1 - - [20/Jun/2022:12:16:55 +0000] "method /api/v1/services/users?id=62b061abae3fb1fca778b2b8 HTTP/1.1" 200 137
+21032@LAPTOP-1714RVSL/5e46f6ea53e7b9b0cbfaed84-0000000000000002 => ::1 - - [20/Jun/2022:12:17:09 +0000] "method /api/v1/services/users?id=62b061abae3fb1fca778b2b8 HTTP/1.1" 200 45
+21032@LAPTOP-1714RVSL/5e46f6ea53e7b9b0cbfaed84-0000000000000003 => ::1 - - [20/Jun/2022:12:17:20 +0000] "method /api/v1/auth/login HTTP/1.1" 200 477
+18992@LAPTOP-1714RVSL/4090cd46dad360341b3900ad-0000000000000001 => ::1 - - [21/Jun/2022:15:58:04 +0000] "method /api/v1/auth/login HTTP/1.1" 200 505
+11368@LAPTOP-1714RVSL/e4caa5ba618fdecca82960a8-0000000000000001 => ::1 - - [21/Jun/2022:16:22:43 +0000] "method /api/v1/services/fabric-details-single HTTP/1.1" 200 28
+11368@LAPTOP-1714RVSL/e4caa5ba618fdecca82960a8-0000000000000002 => ::1 - - [21/Jun/2022:16:22:56 +0000] "method /api/v1/services/fabric-details HTTP/1.1" 200 3240
+11368@LAPTOP-1714RVSL/e4caa5ba618fdecca82960a8-0000000000000003 => ::1 - - [21/Jun/2022:16:23:17 +0000] "method /api/v1/services/all-quote?page=1&perPage=10 HTTP/1.1" 200 4730
