@@ -33,67 +33,105 @@ const QuoteSchema = new mongoose.Schema(
     },
     occupancy: {
       weekly: {
-        slot1: [{ type: Number }],
-        slot2: [{ type: Number }],
-        slot3: [{ type: Number }],
-        slot4: [{ type: Number }],
-        slot5: [{ type: Number }],
-        slot6: [{ type: Number }],
+        "0000 - 0600": [{ type: Number }],
+        "0600 - 0800": [{ type: Number }],
+        "0800 - 1000": [{ type: Number }],
+        "1000 - 1400": [{ type: Number }],
+        "1400 - 1800": [{ type: Number }],
+        "1800 - 2359": [{ type: Number }],
       },
-      yearly: {
-        Jan: [{ type: Number }],
-        Feb: [{ type: Number }],
-        Mar: [{ type: Number }],
-        Apr: [{ type: Number }],
-        May: [{ type: Number }],
-        Jun: [{ type: Number }],
-        July: [{ type: Number }],
-        Aug: [{ type: Number }],
-        Sep: [{ type: Number }],
-        Oct: [{ type: Number }],
-        Nov: [{ type: Number }],
-        Dec: [{ type: Number }],
+      property_usage: {
+        data:[],
+        other: String,
       },
-      number_of_adultOccupants: Number,
-      number_of_childrenOccupants: Number,
-      number_of_typicalOccupantsPerBedroom: Number,
+      // yearly: {
+      //   Jan: [{ type: Number }],
+      //   Feb: [{ type: Number }],
+      //   Mar: [{ type: Number }],
+      //   Apr: [{ type: Number }],
+      //   May: [{ type: Number }],
+      //   Jun: [{ type: Number }],
+      //   July: [{ type: Number }],
+      //   Aug: [{ type: Number }],
+      //   Sep: [{ type: Number }],
+      //   Oct: [{ type: Number }],
+      //   Nov: [{ type: Number }],
+      //   Dec: [{ type: Number }],
+      // },
+      number_of_adultOccupants: String,
+      number_of_childrenOccupants: String,
+      number_of_typicalOccupantsPerBedroom: String,
     },
-    equipments: {
-      tvs: Number,
-      laptops: Number,
-      Monitors: Number,
-      itServers: Number,
-      PhotoCopiers: Number,
-    },
+    // equipments: {
+    //   tvs: Number,
+    //   laptops: Number,
+    //   Monitors: Number,
+    //   itServers: Number,
+    //   PhotoCopiers: Number,
+    // },
     high_energy_equipments: {
-      sauna: Number,
-      swimmingPool: Number,
-      hotTub: Number,
-      kilns: Number,
-      other: Number,
+      sauna: String,
+      swimmingPool: String,
+      hotTub: String,
+      kilns: String,
+      other: String,
     },
-    number_of_guests:Number,
+    number_of_guests:String,
 
     questions: {
       hotwater_importance: Number,
-      woodStove_importance: Number,
-      electricity_than_uk_average: Number,
+      // woodStove_importance: Number,
+      // electricity_than_uk_average: Number,
       heating_then_uk_average:Number
     },
-    fabric_details:{
-      external_walls:[{type:String}],
-      internal_walls:[{type:String}],
-      root_type:[{type:String}],
-      windows:[{type:String}],
-      suspended_floors:[{type:String}],
-      internal_floors:[{type:String}],
-    },
+    fabric_details:[
+      {
+      Age:String,
+      label:String,
+      "External Walls":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      "Internal Walls":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+
+      },
+      "Inner Floors":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+      },
+
+      "Roof Type":{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      Windows:{
+        description:String,
+        detail: String,
+        fabric_type: Number,
+        length: Number,
+      },
+      "Suspended Floors":{
+        description:String,
+        fabric_type: Number,
+        length: Number,
+
+      },
+    }
+  ],
     drawings: {
       plans: [
         {
           type: String,
         },
-      ],
+      ], 
       elevations: [
         {
           type: String,
@@ -140,23 +178,46 @@ const QuoteSchema = new mongoose.Schema(
     },
     radiator_and_window_sizes:[{
       room_desc:String,
-      raditator_size: String,
+      radiator_size: String,
       window_size: String,
     }],
     heating_system: {
-      type: Number,
+      type: String,
     },
-    amount_of_electricity: Number,
-    amount_of_gas: Number,
-    cost_of_electricity: Number,
-    cost_of_gas: Number,
+    // amount_of_electricity: String,
+    amount_of_gas: String,
+    // cost_of_electricity: Number,
+    cost_of_gas: String,
     other_details: String,
     quote_reference_number: String,
     status: {
       type: Number,
       default:1
     },
-    creator_customer_id: Schema.Types.ObjectId,
+    creator_customer_id:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    existing: {
+      data: [String],
+      other: String,
+    },
+    proposed: {
+      data: [String],
+      other: String,
+    },
+    other_design_factor : [
+      {type: String}
+    ],
+    ventilation_draught: {
+      draught: String,
+      ventilation: [String],
+      other: String,
+    },
+    pricing:{
+      data:  [ String],
+      discount: {type: Boolean, default: false},
+      },
   },
   { timestamps: true }
 );

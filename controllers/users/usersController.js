@@ -126,6 +126,36 @@ exports.getAllUsers = async (req, res, next) => {
   // });
 };
 
+exports.getUserByID = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({
+      errorMessage: errors.array(),
+    });
+  }
+
+  const userId = req.decodedAccessToken.id;
+
+  const user = await UserModel.findById(userId).select('+password').exec();
+
+  console.log(user.password);
+
+  if (!user) {
+    return res.status(404).json({
+      errorMessage: "User not found",
+    });
+  }
+
+  res.json({
+    success: true,
+    data: {
+      message: "OK",
+      data: user,
+    },
+  });
+}
+
+
 exports.patchUser = async (req, res, next) => {
   const { id } = req.query;
 

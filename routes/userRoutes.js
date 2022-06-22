@@ -8,6 +8,7 @@ const router = require("express").Router();
 const usersController = require("../controllers/users/usersController");
 
 router.get("/users", usersController.getAllUsers);
+router.get("/user-id", usersController.getUserByID);
 router.patch("/users", usersController.patchUser);
 router.get("/users-count", usersController.getUsersStatus);
 
