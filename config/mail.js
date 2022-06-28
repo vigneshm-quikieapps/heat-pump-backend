@@ -4,12 +4,20 @@
  */
 
 let nodemailer = require("nodemailer");
+var sgTransport = require('nodemailer-sendgrid-transport');
 require("dotenv").config();
 
-module.exports.GmailTransport = nodemailer.createTransport({
-  service: "gmail",
+// module.exports.GmailTransport = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "hsingh@quikieapps.com",
+//     pass: "",
+//   },
+// });
+
+var options = {
   auth: {
-    user: "hsingh@quikieapps.com",
-    pass: "Rajugopal@#+-",
-  },
-});
+    api_key: process.env.SENDGRID_API_KEY
+  }
+}
+module.exports.GmailTransport = nodemailer.createTransport(sgTransport(options));

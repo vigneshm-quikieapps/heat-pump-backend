@@ -209,7 +209,7 @@ exports.sendMail = (req, res, next) => {
 
         const msg = {
           to: email, // Change to your recipient
-          from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
+          from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
           subject: "Password Reset",
           html: `<strong>Your OTP is ${otp}</strong>`,
         };
@@ -223,26 +223,26 @@ exports.sendMail = (req, res, next) => {
 
         console.log(otp_token);
 
-        // GmailTransport.sendMail(msg)
-        //   .then((r) => {
-        //     console.log(r);
-        //     res.json({
-        //       success: true,
-        //       data: {
-        //         message: constants.EMAIL_SENT,
-        //         otp_token: otp_token,
-        //         // otp_not_to_display: otp,
-        //       },
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     res.json({
-        //       success: false,
-        //       data: {
-        //         message: err.toString(),
-        //       },
-        //     });
-        //   });
+        GmailTransport.sendMail(msg)
+          .then((r) => {
+            console.log(r);
+            res.json({
+              success: true,
+              data: {
+                message: constants.EMAIL_SENT,
+                otp_token: otp_token,
+                // otp_not_to_display: otp,
+              },
+            });
+          })
+          .catch((err) => {
+            res.json({
+              success: false,
+              data: {
+                message: err.toString(),
+              },
+            });
+          });
 
         /*
       

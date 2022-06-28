@@ -106,7 +106,7 @@ exports.postServiceRequest = async (req, res, next) => {
 
     const msg = {
       to: usr.email, // Change to your recipient
-      from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name} <br/>
     Thank you for taking time to contact Luths Services, Glasgow today.
@@ -117,14 +117,14 @@ Luths Services Support Staff <br/>
     `,
     };
 
-    // GmailTransport.sendMail(msg)
-    //   .then((rr) => {
-    //     console.log("SENT");
-    //   })
-    //   .catch((er) => {
-    //     console.log("ERROR", er);
-    //     console.log("FAILED TO SEND");
-    //   });
+    GmailTransport.sendMail(msg)
+      .then((rr) => {
+        console.log("SENT");
+      })
+      .catch((er) => {
+        console.log("ERROR", er);
+        console.log("FAILED TO SEND");
+      });
 
     res.json({
       success: true,
