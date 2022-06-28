@@ -16,6 +16,7 @@ exports.postJob = async (req, res, next) => {
     status = "1",
   } = req.body;
 
+  
   const time = new Date().getTime();
 
   const userId = req.decodedAccessToken.id;
