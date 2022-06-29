@@ -232,10 +232,10 @@ module.exports.getQuoteStatus = async (req, res, next) => {
         case 3:
           inprogress += 1;
           break;
-        case 3:
+        case 4:
           complete += 1;
           break;
-        case 3:
+        case 5:
           snagging += 1;
           break;
         default:
