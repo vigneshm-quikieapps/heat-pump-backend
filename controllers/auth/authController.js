@@ -209,7 +209,7 @@ exports.sendMail = (req, res, next) => {
 
         const msg = {
           to: email, // Change to your recipient
-          from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender //
+          from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender //info@heatpumpdesigner.com
           subject: "Password Reset",
           html: `<strong>Your OTP is ${otp}</strong>`,
         };
