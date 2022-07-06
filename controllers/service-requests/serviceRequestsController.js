@@ -120,6 +120,8 @@ Luths Services Support Staff <br/>
     GmailTransport.sendMail(msg)
       .then((rr) => {
         console.log("SENT");
+        console.log(rr);
+        
       })
       .catch((er) => {
         console.log("ERROR", er);

@@ -66,7 +66,7 @@ exports.getAllQuote = async (req, res, next) => {
   try {
     let response = await quoteModels
       .find({
-        ...filter,
+        ...(status && { status: status }),
         $or: [
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
           { "site_details.address_2": new RegExp(siteDetails, "i") || !null },
@@ -89,8 +89,9 @@ exports.getAllQuote = async (req, res, next) => {
 
     const total_records = await quoteModels
       .find({
-        ...filter,
+        ...(status && { status: status }),
         $or: [
+          {"status" : status || !null},
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
           { "site_details.address_2": new RegExp(siteDetails, "i") || !null },
           { "site_details.city": new RegExp(siteDetails, "i") || !null },
