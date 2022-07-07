@@ -16,6 +16,8 @@ const { default: faker } = require("@faker-js/faker");
 const { GmailTransport } = require("../../config/mail");
 const { myCache, loadCache, setCache } = require("../../utils/cache");
 
+
+
 exports.postServiceRequest = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -103,10 +105,25 @@ exports.postServiceRequest = async (req, res, next) => {
     // }
 
     // process.exit(1);
+    // const msg1 = {
+    //   to: 'nizam.mogal@ismartapps.co.uk', // Change to your recipient
+    //   from: 'hello@ismartapps.co.uk', // Change to your verified sender
+    //   subject: 'Sending with SendGrid is Fun',
+    //   text: 'and easy to do anywhere, even with Node.js',
+    //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    // }
+    // sgMail
+    //   .send(msg1)
+    //   .then(() => {
+    //     console.log('Email sent')
+    //   })
+    //   .catch((error) => {
+    //     console.error(error)
+    //   })
 
     const msg = {
-      to: usr.email, // Change to your recipient
-      from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name} <br/>
     Thank you for taking time to contact Luths Services, Glasgow today.
