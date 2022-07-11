@@ -55,9 +55,9 @@ exports.getAllQuote = async (req, res, next) => {
     customerSide = mongoose.Types.ObjectId(userId);
   }
 
-  var filter = {
-    status: status || !null,
-  };
+  // var filter = {
+  //   status: status || !null,
+  // };
 
   if (cst) {
     filter.creator_customer_id = customerSide;
@@ -66,6 +66,7 @@ exports.getAllQuote = async (req, res, next) => {
   try {
     let response = await quoteModels
       .find({
+        ...filter,
         ...(status && { status: status }),
         $or: [
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
@@ -89,6 +90,7 @@ exports.getAllQuote = async (req, res, next) => {
 
     const total_records = await quoteModels
       .find({
+        ...filter,
         ...(status && { status: status }),
         $or: [
           {"status" : status || !null},
