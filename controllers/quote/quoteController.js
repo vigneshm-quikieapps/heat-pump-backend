@@ -55,9 +55,9 @@ exports.getAllQuote = async (req, res, next) => {
     customerSide = mongoose.Types.ObjectId(userId);
   }
 
-  // var filter = {
-  //   status: status || !null,
-  // };
+  var filter = {
+    // status: status || !null,
+  };
 
   if (cst) {
     filter.creator_customer_id = customerSide;
