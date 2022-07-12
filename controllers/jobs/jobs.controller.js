@@ -73,6 +73,8 @@ exports.postJob = async (req, res, next) => {
     user.jobs.push(objId);
     user.save();
 
+    
+
     res.json({
       success: true,
       data: response,

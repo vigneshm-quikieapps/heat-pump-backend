@@ -12,6 +12,7 @@ const { constants } = require("../../utils");
 const quoteModels = require("../../models/quote.models");
 const { default: mongoose } = require("mongoose");
 const UserSchema = require("../../models/users.model");
+const { GmailTransport } = require("../../config/mail");
 
 exports.getQuote = async (req, res, next) => {
   var { qid } = req.query;
@@ -93,7 +94,7 @@ exports.getAllQuote = async (req, res, next) => {
         ...filter,
         ...(status && { status: status }),
         $or: [
-          {"status" : status || !null},
+          { status: status || !null },
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
           { "site_details.address_2": new RegExp(siteDetails, "i") || !null },
           { "site_details.city": new RegExp(siteDetails, "i") || !null },
@@ -129,6 +130,8 @@ exports.createQuote = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
   console.log("ID", userId);
+  const usr = await UserSchema.findById(userId);
+  console.log(usr)
   // var obj = ({
   //   site_details,
   //   occupancuy,
@@ -160,6 +163,31 @@ exports.createQuote = async (req, res, next) => {
     console.log("OBJ", obj);
     const newQuote = new quoteModels(obj);
     const response = await newQuote.save();
+
+    const msg = {
+      to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      subject: `Acknowledgment: Job Request  `,
+      html: `Hello ${usr.name} <br/>
+   Thank you for taking time to contact Luths Services, Glasgow today.
+   We have received your job request and is being reviewed.
+    The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/><br/>
+Regards,<br/>
+Luths Services Support Staff <br/>
+   
+   `,
+    };
+
+    GmailTransport.sendMail(msg)
+      .then((rr) => {
+        console.log("SENT");
+        console.log(rr);
+      })
+      .catch((er) => {
+        console.log("ERROR", er);
+        console.log("FAILED TO SEND");
+      });
+
     res.json({
       success: true,
       message: "OK",
@@ -175,6 +203,8 @@ exports.createQuote = async (req, res, next) => {
 
 exports.patchQuote = async (req, res, next) => {
   const id = req.params.id;
+  const userId = req.decodedAccessToken.id;
+
   var obj = ({
     site_details,
     occupancuy,
@@ -197,6 +227,33 @@ exports.patchQuote = async (req, res, next) => {
 
   try {
     const response = await quoteModels.findByIdAndUpdate(id, obj);
+    const usr = await UserSchema.findById(userId);
+
+    const msg = {
+      to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      subject: `Update: ${response.quote_reference_number}`,
+      html: `Hello ${usr.name} <br/>
+   Thank you for taking time to contact Luths Services, Glasgow today.
+   Please note that your job request <strong>${response.quote_reference_number}</strong>.
+    status has been updated. To view updates,
+     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/and navigate to the My Jobs page.
+    <br/><br/>
+Regards,<br/>
+Luths Services Support Staff <br/>
+   
+   `,
+    };
+    GmailTransport.sendMail(msg)
+      .then((rr) => {
+        console.log("SENT");
+        console.log(rr);
+      })
+      .catch((er) => {
+        console.log("ERROR", er);
+        console.log("FAILED TO SEND");
+      });
+
     res.json({
       success: true,
       message: "UPDATED",

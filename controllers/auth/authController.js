@@ -76,6 +76,30 @@ exports.postRegisterUser = async (req, res, next) => {
       user.save();
     })
     .then((resp) => {
+      const msg = {
+        to: email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+        from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+        subject: `Acknowledgment: Customer Account Request `,
+        html: `Hello ${name} <br/>
+     Thank you for taking time to contact Luths Services, Glasgow today.
+     We have received your request to create an account with us.
+    We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
+  Regards,<br/>
+  Luths Services Support Staff <br/>
+     
+     `,
+      };
+
+      GmailTransport.sendMail(msg)
+        .then((rr) => {
+          console.log("SENT");
+          console.log(rr);
+        })
+        .catch((er) => {
+          console.log("ERROR", er);
+          console.log("FAILED TO SEND");
+        });
+
       res.status(201).json({
         sucess: true,
         data: {
