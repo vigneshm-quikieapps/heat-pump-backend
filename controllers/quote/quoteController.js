@@ -38,6 +38,7 @@ exports.getAllQuote = async (req, res, next) => {
     perPage,
     status,
     cst = false,
+    creatorId,
     siteDetails,
     customerName,
   } = req.query;
@@ -69,6 +70,7 @@ exports.getAllQuote = async (req, res, next) => {
       .find({
         ...filter,
         ...(status && { status: status }),
+        ...(creatorId && { creator_customer_id: creatorId }),
         $or: [
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
           { "site_details.address_2": new RegExp(siteDetails, "i") || !null },
@@ -93,6 +95,7 @@ exports.getAllQuote = async (req, res, next) => {
       .find({
         ...filter,
         ...(status && { status: status }),
+        ...(creatorId && { creator_customer_id: creatorId }),
         $or: [
           { status: status || !null },
           { "site_details.address_1": new RegExp(siteDetails, "i") || !null },
