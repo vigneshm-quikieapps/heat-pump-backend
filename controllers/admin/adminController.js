@@ -173,10 +173,10 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   console.log("FNAME",new RegExp(f_name)+'i');
   const response = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid) },
+      { service_ref_number: new RegExp(f_srid, 'i') },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title) },
-      {creator_name:new RegExp(f_name)},
+      { title: new RegExp(f_title, 'i') },
+      {creator_name:new RegExp(f_name, 'i')},
       { $or: searchArray },
     ],
   })
@@ -185,10 +185,10 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     .sort({updateddAt:-1});
   const total_records = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid) },
+      { service_ref_number: new RegExp(f_srid, 'i') },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title) },
-      {creator_name:new RegExp(f_name)},
+      { title: new RegExp(f_title, 'i') },
+      {creator_name:new RegExp(f_name, 'i')},
       { $or: searchArray },
     ],
   }).countDocuments();
@@ -234,7 +234,7 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
     e.service_requests.forEach((f) => {
       sArray.push(f);
     });
-  });
+  }); 
 
   let closed = 0,
     neww = 0,
@@ -269,7 +269,7 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       working: working,
       need_attention: need_attention,
       closed: closed,
-      hpd_review:hpd_review
+      hpd_review:hpd_review      
     },
   });
 };
