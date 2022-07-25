@@ -85,7 +85,7 @@ exports.postServiceRequestNote = async (req, res, next) => {
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Update: ${sr.service_ref_number} - ${sr.title} `,
       html: `Hello ${sr.creator_name}, <br/>
-    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated. To view updates, please access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Service Requests page. <br/><br/>
+    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated. To view updates, please access our customer support portal at https://jsp-testing-instance.vercel.app/ and navigate to the My Service Requests page. <br/><br/>
 Regards,<br/>
 Luths Services Support Staff <br/>
     
@@ -99,7 +99,7 @@ Luths Services Support Staff <br/>
       html: `Hello ${sr.creator_name}, <br/>
     Please be aware that your service request <strong> ${sr.service_ref_number} </strong> has been closed.  <br/>
     Reason for closing : ${description} <br/>
-    If you would like to re-engage Luths Services, Glasgow on this matter, access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Service Requests page. <br/> 
+    If you would like to re-engage Luths Services, Glasgow on this matter, access our customer support portal at https://jsp-testing-instance.vercel.app/ and navigate to the My Service Requests page. <br/> 
     Regards,<br/>
     Luths Services Support Staff <br/>   
     `,

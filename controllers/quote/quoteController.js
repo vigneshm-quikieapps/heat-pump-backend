@@ -240,7 +240,7 @@ exports.patchQuote = async (req, res, next) => {
    Thank you for taking time to contact Luths Services, Glasgow today.
    Please note that your job request <strong>${response.quote_reference_number}</strong>.
     status has been updated. To view updates,
-     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/and navigate to the My Jobs page.
+     please access our job services portal at https://jsp-testing-instance.vercel.app/ and navigate to the My Jobs page.
     <br/><br/>
 Regards,<br/>
 Luths Services Support Staff <br/>
