@@ -129,7 +129,7 @@ const UserModel = require("../../models/users.model");
 //       current_page: page,
 //       data: dataArray,
 //     },
-//   });
+// });
 // };
 
 exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
