@@ -171,7 +171,7 @@ exports.createQuote = async (req, res, next) => {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: Job Request  `,
-      html: `Hello ${usr.name} <br/>
+      html: `Hello ${usr.name}, <br/>
    Thank you for taking time to contact Luths Services, Glasgow today.
    We have received your job request and is being reviewed.
     The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/><br/>
@@ -236,7 +236,7 @@ exports.patchQuote = async (req, res, next) => {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Update: ${response.quote_reference_number}`,
-      html: `Hello ${usr.name} <br/>
+      html: `Hello ${usr.name}, <br/>
    Thank you for taking time to contact Luths Services, Glasgow today.
    Please note that your job request <strong>${response.quote_reference_number}</strong>.
     status has been updated. To view updates,
