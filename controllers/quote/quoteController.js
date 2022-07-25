@@ -134,7 +134,7 @@ exports.createQuote = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
   console.log("ID", userId);
   const usr = await UserSchema.findById(userId);
-  console.log(usr)
+  console.log(usr);
   // var obj = ({
   //   site_details,
   //   occupancuy,
@@ -172,11 +172,11 @@ exports.createQuote = async (req, res, next) => {
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: Job Request  `,
       html: `Hello ${usr.name}, <br/>
-   Thank you for taking time to contact Luths Services, Glasgow today.
-   We have received your job request and is being reviewed.
-    The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/><br/>
-Regards,<br/>
-Luths Services Support Staff <br/>
+      Thank you for taking time to contact Luths Services, Glasgow today. <br/>
+      We have received your job request and is being reviewed.
+      The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/>
+      Regards,<br/>
+      Luths Services Support Staff <br/>
    
    `,
     };
@@ -237,13 +237,11 @@ exports.patchQuote = async (req, res, next) => {
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Update: ${response.quote_reference_number}`,
       html: `Hello ${usr.name}, <br/>
-   Thank you for taking time to contact Luths Services, Glasgow today.
-   Please note that your job request <strong>${response.quote_reference_number}</strong>.
-    status has been updated. To view updates,
-     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Jobs page.
-    <br/><br/>
-Regards,<br/>
-Luths Services Support Staff <br/>
+      Please note that your job request <strong>${response.quote_reference_number}</strong>.
+      status has been updated. To view updates,
+     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Jobs page.<br/>
+     Regards,<br/>
+     Luths Services Support Staff <br/>
    
    `,
     };

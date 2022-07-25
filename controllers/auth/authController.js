@@ -81,11 +81,11 @@ exports.postRegisterUser = async (req, res, next) => {
         from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
         subject: `Acknowledgment: Customer Account Request `,
         html: `Hello ${name}, <br/>
-     Thank you for taking time to contact Luths Services, Glasgow today.
-     We have received your request to create an account with us.
-    We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
-  Regards,<br/>
-  Luths Services Support Staff <br/>
+        Thank you for being interested in Luths Services, Glasgow. <br/>
+        We have received your request to create an account with us.
+        We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/>
+        Regards,<br/>
+        Luths Services Support Staff <br/>
      
      `,
       };

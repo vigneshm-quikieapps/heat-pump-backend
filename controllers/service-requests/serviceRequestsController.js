@@ -126,8 +126,9 @@ exports.postServiceRequest = async (req, res, next) => {
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/>
-    Thank you for taking time to contact Luths Services, Glasgow today.
-Your request has been received and is being reviewed. The reference number for your service request is <strong>${response.service_ref_number}</strong>. <br/><br/>
+    Thank you for taking time to contact Luths Services, Glasgow today. <br/>
+Your request has been received and is being reviewed. 
+The reference number for your service request is <strong>${response.service_ref_number}</strong>. <br/><br/>
 Regards,<br/>
 Luths Services Support Staff <br/>
     
