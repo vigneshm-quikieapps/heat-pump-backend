@@ -237,7 +237,7 @@ exports.sendMail = (req, res, next) => {
           subject: "OTP to Reset Password",
           html: `Hello ${user.name},<br/>
           Here is your One Time Password
-          <strong>Your OTP is ${otp}</strong>
+          <strong>${otp}</strong>
           to set a new pasword for your account with our HPD Job Services app.<br/>
           Regards,<br/>
           Luths Services Support Staff`,
