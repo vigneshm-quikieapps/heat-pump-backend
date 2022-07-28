@@ -32,7 +32,7 @@ exports.postServiceRequest = async (req, res, next) => {
     }
   })
 
-  const {
+  var {
     title,
     type,
     description,

@@ -216,25 +216,25 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
     {
       path: "service_requests",
       model: "ServiceRequest",
-      populate: [
-        {
-          path: "job_reference_id",
-          model: "Job",
-        },
-        {
-          path: "notes",
-          model: "ServiceRequestNote",
-        },
-      ],
+      // populate: [
+      //   {
+      //     path: "job_reference_id",
+      //     model: "Job",
+      //   },
+      //   {
+      //     path: "notes",
+      //     model: "ServiceRequestNote",
+      //   },
+      // ],
     },
   ]);
-
+  
   const sArray = [];
   response.forEach((e) => {
     e.service_requests.forEach((f) => {
       sArray.push(f);
     });
-  }); 
+  });  
 
   let closed = 0,
     neww = 0,

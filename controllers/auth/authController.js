@@ -217,7 +217,7 @@ exports.sendMail = (req, res, next) => {
   const KEY = process.env.SENDGRID_API_KEY;
   var isEmailInDb = false;
   console.log(email);
-  UserModel.findOne({ email: email })
+  const user = UserModel.findOne({ email: email })
     .then((us) => {
       console.log(us);
       if (us !== null) {
@@ -234,8 +234,13 @@ exports.sendMail = (req, res, next) => {
         const msg = {
           to: email, // Change to your recipient
           from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender //info@heatpumpdesigner.com
-          subject: "Password Reset",
-          html: `<strong>Your OTP is ${otp}</strong>`,
+          subject: "OTP to Reset Password",
+          html: `Hello ${user.name},<br/>
+          Here is your One Time Password
+          <strong>Your OTP is ${otp}</strong>
+          to set a new pasword for your account with our HPD Job Services app.<br/>
+          Regards,<br/>
+          Luths Services Support Staff`,
         };
 
         const otp_token = getJwtToken(
