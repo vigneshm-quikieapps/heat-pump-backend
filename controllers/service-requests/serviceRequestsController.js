@@ -40,6 +40,7 @@ exports.postServiceRequest = async (req, res, next) => {
     priority,
     status = 1,
     job_reference_id = null,
+    job_reference_number,
     assigned_to = "none",
   } = req.body;
   const userName = req.decodedAccessToken.name;
@@ -68,6 +69,7 @@ exports.postServiceRequest = async (req, res, next) => {
       creator_name: userName,
       creator_id: userId,
       job_reference_id: job_reference_id,
+      job_reference_number: job_reference_number,
       service_ref_number: service_ref_number,
       assigned_to: assigned_to,
     });
