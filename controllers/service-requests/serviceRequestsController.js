@@ -220,7 +220,7 @@ if(loadCache("SR",req,res,next)!==-1){
       populate: [
         {
           path: "job_reference_id",
-          model: "Job",
+          model: "Quote",
         },
         {
           path: "notes",
@@ -381,7 +381,7 @@ exports.getServiceRequestById = async (req, res, next) => {
     const foundRecord = await ServiceRequestModel.findById(id).populate([
       {
         path: "job_reference_id",
-        model: "Job",
+        model: "Quote",
       },
       {
         path: "notes",
