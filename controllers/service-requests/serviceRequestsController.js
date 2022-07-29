@@ -365,16 +365,16 @@ exports.getServiceRequestById = async (req, res, next) => {
 
   try {
     const foundRecord = await ServiceRequestModel.findById(id)
-    // .populate([
-    //   {
-    //     path: "job_reference_id",
-    //     model: "Quote",
-    //   },
-    //   {
-    //     path: "notes",
-    //     model: "ServiceRequestNote",
-    //   },
-    // ]);
+    .populate([
+      // {
+      //   path: "job_reference_id",
+      //   model: "Quote",
+      // },
+      {
+        path: "notes",
+        model: "ServiceRequestNote",
+      },
+    ]);
 
     if (foundRecord) {
       const RESPONSE={
