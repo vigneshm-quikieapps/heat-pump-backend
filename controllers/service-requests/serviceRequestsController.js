@@ -16,8 +16,6 @@ const { default: faker } = require("@faker-js/faker");
 const { GmailTransport } = require("../../config/mail");
 const { myCache, loadCache, setCache } = require("../../utils/cache");
 
-
-
 exports.postServiceRequest = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -25,12 +23,12 @@ exports.postServiceRequest = async (req, res, next) => {
       errorMessage: errors.array(),
     });
   }
-  const keys=myCache.keys();
-  keys.forEach((e)=>{
-    if(e[0]=='S' && e[1]=='R'){
+  const keys = myCache.keys();
+  keys.forEach((e) => {
+    if (e[0] == "S" && e[1] == "R") {
       myCache.del(e);
     }
-  })
+  });
 
   var {
     title,
@@ -55,9 +53,8 @@ exports.postServiceRequest = async (req, res, next) => {
 
     const id = reversedNum(time);
     console.log(id);
-    const service_ref_number =
-      "SR" + parseInt(id + Math.random() * 100);
-    console.log(id , service_ref_number);
+    const service_ref_number = "SR" + parseInt(id + Math.random() * 100);
+    console.log(id, service_ref_number);
     // console.log("JRID", job_reference_id);
     const sr = new ServiceRequestModel({
       title: title,
@@ -95,7 +92,7 @@ exports.postServiceRequest = async (req, res, next) => {
     */
 
     const response = await sr.save();
-   
+
     const objectId = response._id.toString();
 
     let usr = await UserModel.findById(userId);
@@ -124,7 +121,7 @@ exports.postServiceRequest = async (req, res, next) => {
     //   })
 
     const msg = {
-       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/>
@@ -141,7 +138,6 @@ Luths Services Support Staff <br/>
       .then((rr) => {
         console.log("SENT");
         console.log(rr);
-        
       })
       .catch((er) => {
         console.log("ERROR", er);
@@ -183,15 +179,13 @@ exports.getAllServiceRequests = async (req, res, next) => {
   const statuses = status.split(",");
   // console.log(statuses);
 
-
-const k=myCache.keys();
-console.log("KEYS++++++++>",k);
+  const k = myCache.keys();
+  console.log("KEYS++++++++>", k);
   /*  ------------ CACHE LOGIC-------------- */
-if(loadCache("SR",req,res,next)!==-1){
- return next();
-}
+  if (loadCache("SR", req, res, next) !== -1) {
+    return next();
+  }
   /*  ------------ CACHE LOGIC-------------- */
-
 
   var mp = new Map();
   const searchArray = [];
@@ -218,10 +212,10 @@ if(loadCache("SR",req,res,next)!==-1){
       path: "service_requests",
       model: "ServiceRequest",
       populate: [
-        {
-          path: "job_reference_id",
-          model: "Job",
-        },
+        // {
+        //   path: "job_reference_id",
+        //   model: "Quote",
+        // },
         {
           path: "notes",
           model: "ServiceRequestNote",
@@ -230,14 +224,14 @@ if(loadCache("SR",req,res,next)!==-1){
 
       match: {
         $and: [
-          { service_ref_number: new RegExp(f_srid, 'i') },
+          { service_ref_number: new RegExp(f_srid, "i") },
           { priority: f_priority ? f_priority : { $exists: true } },
-          { title: new RegExp(f_title, 'i') },
+          { title: new RegExp(f_title, "i") },
           { $or: searchArray },
         ],
       },
       options: {
-        sort: {updatedAt:-1},
+        sort: { updatedAt: -1 },
         skip: perPage * (page - 1),
         limit: perPage,
       },
@@ -271,9 +265,9 @@ if(loadCache("SR",req,res,next)!==-1){
   }
 
   const total_pages = Math.ceil(total_records / perPage);
- 
+
   /*  ------------ CACHE LOGIC-------------- */
-  setCache("SR",req,{
+  setCache("SR", req, {
     success: true,
     data: {
       total_records: total_records,
@@ -284,8 +278,6 @@ if(loadCache("SR",req,res,next)!==-1){
   });
   /*  ------------ CACHE LOGIC-------------- */
 
-
- 
   res.json({
     success: true,
     data: {
@@ -300,11 +292,9 @@ if(loadCache("SR",req,res,next)!==-1){
 exports.getServiceRequestsStatus = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
-
-
-  if(loadCache("SR",req,res,next)!==-1){
+  if (loadCache("SR", req, res, next) !== -1) {
     return next();
-   }
+  }
   const response = await UserModel.findById(userId).populate([
     {
       path: "service_requests",
@@ -328,7 +318,7 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
     neww = 0,
     working = 0,
     need_attention = 0,
-    hpd_review=0;
+    hpd_review = 0;
   for (let i = 0; i < sArray.length; i++) {
     switch (sArray[i].status) {
       case 1:
@@ -344,11 +334,11 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
         closed += 1;
         break;
       case 5:
-        hpd_review+=1;
+        hpd_review += 1;
     }
   }
 
-  const RESPONSE={
+  const RESPONSE = {
     success: true,
     data: {
       total: sArray.length,
@@ -356,12 +346,11 @@ exports.getServiceRequestsStatus = async (req, res, next) => {
       working: working,
       need_attention: need_attention,
       closed: closed,
-      hpd_review:hpd_review
+      hpd_review: hpd_review,
     },
   };
 
-
-  setCache("SR",req,RESPONSE)
+  setCache("SR", req, RESPONSE);
 
   res.json(RESPONSE);
 };
@@ -370,24 +359,22 @@ exports.getServiceRequestById = async (req, res, next) => {
   const { id } = req.params;
   console.log("ID", id);
 
-
   if(loadCache("SR",req,res,next)!==-1){
     return next();
    }
 
-
-
   try {
-    const foundRecord = await ServiceRequestModel.findById(id).populate([
-      {
-        path: "job_reference_id",
-        model: "Job",
-      },
-      {
-        path: "notes",
-        model: "ServiceRequestNote",
-      },
-    ]);
+    const foundRecord = await ServiceRequestModel.findById(id)
+    // .populate([
+    //   {
+    //     path: "job_reference_id",
+    //     model: "Quote",
+    //   },
+    //   {
+    //     path: "notes",
+    //     model: "ServiceRequestNote",
+    //   },
+    // ]);
 
     if (foundRecord) {
       const RESPONSE={
@@ -395,12 +382,8 @@ exports.getServiceRequestById = async (req, res, next) => {
         data: foundRecord,
       };
 
-
-
       setCache("SR",req,RESPONSE)
       res.json(RESPONSE);
-
-
 
     } else {
       res.json({
@@ -438,13 +421,13 @@ exports.patchServiceRequest = async (req, res, next) => {
       // create a new note for internal
     }
 
-    const keys=myCache.keys();
-    keys.forEach((e)=>{
-      if(e[0]=='S' && e[1]=='R'){
+    const keys = myCache.keys();
+    keys.forEach((e) => {
+      if (e[0] == "S" && e[1] == "R") {
         myCache.del(e);
       }
-    })
- 
+    });
+
     if (response) {
       res.json({
         success: true,
@@ -471,3 +454,45 @@ exports.patchServiceRequest = async (req, res, next) => {
     });
   }
 };
+
+// exports.getServiceRequestById = async (req, res, next) => {
+//   const id = req.params.id;
+//   if (loadCache("SR", req, res, next) !== -1) {
+//     return next();
+//   }
+//   try {
+//     const serviceData = await ServiceRequestModel.findById(id).populate(
+//       "job_reference_id",
+//       "",
+//       "Quote"
+//     );
+
+//     if (serviceData) {
+//             const RESPONSE={
+//               success: true,
+//               data: serviceData,
+//             };
+      
+//             setCache("SR",req,RESPONSE)
+//             res.json(RESPONSE);
+      
+//           } else {
+//             res.json({
+//               success: false,
+//               data: {
+//                 message: "Not found",
+//               },
+//             });
+//           }
+
+//     res.json({
+//       success: true,
+//       data: serviceData,
+//     });
+//   } catch (err) {
+//     res.json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// };
