@@ -175,11 +175,11 @@ exports.patchUser = async (req, res, next) => {
       to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Approved: Customer Account Request `,
-      html: `Hello ${rsp.name}, <br/>
+      html: `Hello ${rsp.name}, <br/><br/>
       We have approved your account with us.
       You can start accessing our job services portal https://jsp-heatpumpdesigner.vercel.app/ 
       to purchase design services with us and ask questions.
-      We’ll be happy to help you. Thank you once again for being interested in Luths Services, Glasgow. <br/>
+      We’ll be happy to help you. Thank you once again for being interested in Luths Services, Glasgow. <br/><br/>
       Regards,<br/>
       Luths Services Support Staff <br/>
 `,
@@ -188,8 +188,8 @@ exports.patchUser = async (req, res, next) => {
       to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Declined: Customer Account Request  `,
-      html: `Hello ${rsp.name}, <br/>
-      Sorry, we cannot create an account for you with us at this time. Thank you for being interested in Luths Services, Glasgow. <br/>
+      html: `Hello ${rsp.name}, <br/><br/>
+      Sorry, we cannot create an account for you with us at this time. Thank you for being interested in Luths Services, Glasgow. <br/><br/>
       Regards,<br/>
       Luths Services Support Staff <br/>
 `,

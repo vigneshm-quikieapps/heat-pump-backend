@@ -78,12 +78,12 @@ exports.postRegisterUser = async (req, res, next) => {
     .then((resp) => {
       const msg = {
         to: email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
-        from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+        from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender hello@ismartapps.co.uk
         subject: `Acknowledgment: Customer Account Request `,
-        html: `Hello ${name}, <br/>
-        Thank you for being interested in Luths Services, Glasgow. <br/>
+        html: `Hello ${name}, <br/> <br/>
+        Thank you for being interested in Luths Services, Glasgow. <br/><br/>
         We have received your request to create an account with us.
-        We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/>
+        We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
         Regards,<br/>
         Luths Services Support Staff <br/>
      
@@ -232,13 +232,13 @@ exports.sendMail = (req, res, next) => {
         // sgMail.setApiKey(KEY);
 
         const msg = {
-          to: email, // Change to your recipient
-          from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender //info@heatpumpdesigner.com
+          to: email, // Change to youruk recipient
+          from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender //info@heatpumpdesigner.com 
           subject: "OTP to Reset Password",
-          html: `Hello ${user.name},<br/>
+          html: `Hello ${us.name},<br/><br/>
           Here is your One Time Password
           <strong>${otp}</strong>
-          to set a new pasword for your account with our HPD Job Services app.<br/>
+          to set a new pasword for your account with our HPD Job Services app.<br/><br/>
           Regards,<br/>
           Luths Services Support Staff`,
         };
