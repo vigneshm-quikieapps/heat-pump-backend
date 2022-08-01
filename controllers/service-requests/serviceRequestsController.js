@@ -106,7 +106,7 @@ exports.postServiceRequest = async (req, res, next) => {
     // process.exit(1);
     // const msg1 = {
     //   to: 'nizam.mogal@ismartapps.co.uk', // Change to your recipient
-    //   from: 'hello@ismartapps.co.uk', // Change to your verified sender
+    //   from: 'info@heatpumpdesigner.com', // Change to your verified sender
     //   subject: 'Sending with SendGrid is Fun',
     //   text: 'and easy to do anywhere, even with Node.js',
     //   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
@@ -122,7 +122,7 @@ exports.postServiceRequest = async (req, res, next) => {
 
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
-      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/> <br/>
     Thank you for taking time to contact Luths Services, Glasgow today. <br/> <br/>
