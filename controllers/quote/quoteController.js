@@ -171,16 +171,19 @@ exports.createQuote = async (req, res, next) => {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: Job Request  `,
-      html: `Hello ${usr.name}, <br/>
-      Thank you for taking time to contact Luths Services, Glasgow today. <br/>
-      We have received your job request and is being reviewed.
-      The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/>
+      html: `Hello ${usr.name}, <br/><br/>
+       Thank you for taking time to submit a job with Luths Services, Glasgow.
+       We have received your job request and is being reviewed.
+      The reference number for your job request is<strong>${response.quote_reference_number}</strong>.
+      We’ll contact you shortly if we need any additional information <br/><br/>
       Regards,<br/>
       Luths Services Support Staff <br/>
    
    `,
     };
-
+      // Thank you for taking time to contact Luths Services, Glasgow today. <br/>
+      // We have received your job request and is being reviewed.
+      // The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/>
     GmailTransport.sendMail(msg)
       .then((rr) => {
         console.log("SENT");
