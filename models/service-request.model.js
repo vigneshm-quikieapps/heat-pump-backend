@@ -27,8 +27,9 @@ const ServiceRequestSchema = new mongoose.Schema(
     },
     job_reference_id: {
       type: Schema.Types.ObjectId,
-      ref: "Job",
+      ref: "Quote",
     },
+    job_reference_number: String,
     status: {
       type: Number,
     },

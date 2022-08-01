@@ -1,6 +1,7 @@
 const UserModel = require("../../models/users.model");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
+const { GmailTransport } = require("../../config/mail");
 
 exports.getAllUsers = async (req, res, next) => {
   const errors = validationResult(req);
@@ -136,7 +137,7 @@ exports.getUserByID = async (req, res, next) => {
 
   const userId = req.decodedAccessToken.id;
 
-  const user = await UserModel.findById(userId).select('+password').exec();
+  const user = await UserModel.findById(userId).select("+password").exec();
 
   console.log(user.password);
 
@@ -153,8 +154,7 @@ exports.getUserByID = async (req, res, next) => {
       data: user,
     },
   });
-}
-
+};
 
 exports.patchUser = async (req, res, next) => {
   const { id } = req.query;
@@ -169,6 +169,53 @@ exports.patchUser = async (req, res, next) => {
       obj.password = hpwd;
     }
     const rsp = await UserModel.findByIdAndUpdate(id, obj);
+    //approved status 3
+    // rejected status 5
+    const aprrovedMsg = {
+      to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      subject: `Approved: Customer Account Request `,
+      html: `Hello ${rsp.name}, <br/><br/>
+      We have approved your account with us.
+      You can start accessing our job services portal https://jsp-heatpumpdesigner.vercel.app/ 
+      to purchase design services with us and ask questions.
+      We’ll be happy to help you. Thank you once again for being interested in Luths Services, Glasgow. <br/><br/>
+      Regards,<br/>
+      Luths Services Support Staff <br/>
+`,
+    };
+    const rejectedMsg = {
+      to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      subject: `Declined: Customer Account Request  `,
+      html: `Hello ${rsp.name}, <br/><br/>
+      Sorry, we cannot create an account for you with us at this time. Thank you for being interested in Luths Services, Glasgow. <br/><br/>
+      Regards,<br/>
+      Luths Services Support Staff <br/>
+`,
+    };
+
+    if (obj.status == 3) {
+      GmailTransport.sendMail(aprrovedMsg)
+        .then((rr) => {
+          console.log("SENT");
+          console.log(rr);
+        })
+        .catch((er) => {
+          console.log("ERROR", er);
+          console.log("FAILED TO SEND");
+        });
+    } else if (obj.status == 5) {
+      GmailTransport.sendMail(rejectedMsg)
+        .then((rr) => {
+          console.log("SENT");
+          console.log(rr);
+        })
+        .catch((er) => {
+          console.log("ERROR", er);
+          console.log("FAILED TO SEND");
+        });
+    }
 
     res.send({
       success: true,

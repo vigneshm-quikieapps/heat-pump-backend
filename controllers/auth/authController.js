@@ -76,6 +76,30 @@ exports.postRegisterUser = async (req, res, next) => {
       user.save();
     })
     .then((resp) => {
+      const msg = {
+        to: email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
+        from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender hello@ismartapps.co.uk
+        subject: `Acknowledgment: Customer Account Request `,
+        html: `Hello ${name}, <br/> <br/>
+        Thank you for being interested in Luths Services, Glasgow. <br/><br/>
+        We have received your request to create an account with us.
+        We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
+        Regards,<br/>
+        Luths Services Support Staff <br/>
+     
+     `,
+      };
+
+      GmailTransport.sendMail(msg)
+        .then((rr) => {
+          console.log("SENT");
+          console.log(rr);
+        })
+        .catch((er) => {
+          console.log("ERROR", er);
+          console.log("FAILED TO SEND");
+        });
+
       res.status(201).json({
         sucess: true,
         data: {
@@ -193,7 +217,7 @@ exports.sendMail = (req, res, next) => {
   const KEY = process.env.SENDGRID_API_KEY;
   var isEmailInDb = false;
   console.log(email);
-  UserModel.findOne({ email: email })
+  const user = UserModel.findOne({ email: email })
     .then((us) => {
       console.log(us);
       if (us !== null) {
@@ -208,10 +232,15 @@ exports.sendMail = (req, res, next) => {
         // sgMail.setApiKey(KEY);
 
         const msg = {
-          to: email, // Change to your recipient
-          from: '"Heat-Pump Support" siddharthsk1234@gmail.com', // Change to your verified sender
-          subject: "Password Reset",
-          html: `<strong>Your OTP is ${otp}</strong>`,
+          to: email, // Change to youruk recipient
+          from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender //info@heatpumpdesigner.com 
+          subject: "OTP to Reset Password",
+          html: `Hello ${us.name},<br/><br/>
+          Here is your One Time Password
+          <strong>${otp}</strong>
+          to set a new pasword for your account with our HPD Job Services app.<br/><br/>
+          Regards,<br/>
+          Luths Services Support Staff`,
         };
 
         const otp_token = getJwtToken(
@@ -223,26 +252,26 @@ exports.sendMail = (req, res, next) => {
 
         console.log(otp_token);
 
-        // GmailTransport.sendMail(msg)
-        //   .then((r) => {
-        //     console.log(r);
-        //     res.json({
-        //       success: true,
-        //       data: {
-        //         message: constants.EMAIL_SENT,
-        //         otp_token: otp_token,
-        //         // otp_not_to_display: otp,
-        //       },
-        //     });
-        //   })
-        //   .catch((err) => {
-        //     res.json({
-        //       success: false,
-        //       data: {
-        //         message: err.toString(),
-        //       },
-        //     });
-        //   });
+        GmailTransport.sendMail(msg)
+          .then((r) => {
+            console.log(r);
+            res.json({
+              success: true,
+              data: {
+                message: constants.EMAIL_SENT,
+                otp_token: otp_token,
+                // otp_not_to_display: otp,
+              },
+            });
+          })
+          .catch((err) => {
+            res.json({
+              success: false,
+              data: {
+                message: err.toString(),
+              },
+            });
+          });
 
         /*
       

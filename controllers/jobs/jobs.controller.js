@@ -16,6 +16,7 @@ exports.postJob = async (req, res, next) => {
     status = "1",
   } = req.body;
 
+  
   const time = new Date().getTime();
 
   const userId = req.decodedAccessToken.id;
@@ -71,6 +72,8 @@ exports.postJob = async (req, res, next) => {
     const user = await UserModel.findById(userId);
     user.jobs.push(objId);
     user.save();
+
+    
 
     res.json({
       success: true,

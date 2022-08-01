@@ -35,7 +35,7 @@
   "homepage": "https://github.com/vigneshm-quikieapps/heat-pump-backend#readme",
   "dependencies": {
     "@faker-js/faker": "^6.0.0",
-    "@sendgrid/mail": "^7.6.2",
+    "@sendgrid/mail": "^7.7.0",
     "aws-sdk": "^2.1096.0",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
@@ -57,7 +57,7 @@
     "helmet": "^5.0.2",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.4",
+    "mongoose": "^6.5.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
     "node-cache": "^5.1.2",
