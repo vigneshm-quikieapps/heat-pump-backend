@@ -105,7 +105,6 @@ exports.postRegisterUser = async (req, res, next) => {
         data: {
           name: name,
           email: email,
-          password: null,
           mobile: mobile,
           business_registered_name: business_registered_name,
           business_trade_name: business_trade_name,

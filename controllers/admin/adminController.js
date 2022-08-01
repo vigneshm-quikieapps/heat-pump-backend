@@ -96,8 +96,6 @@ const UserModel = require("../../models/users.model");
 //     }
 //   });
 
-
-
 //   var total_records = 0;
 
 //   response2.forEach((e) => {
@@ -147,7 +145,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     f_srid = "SR",
     f_priority,
     f_title = "",
-    f_name=""
+    f_name = "",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -170,25 +168,25 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
-  console.log("FNAME",new RegExp(f_name)+'i');
+  console.log("FNAME", new RegExp(f_name) + "i");
   const response = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid, 'i') },
+      { service_ref_number: new RegExp(f_srid, "i") },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title, 'i') },
-      {creator_name:new RegExp(f_name, 'i')},
+      { title: new RegExp(f_title, "i") },
+      { creator_name: new RegExp(f_name, "i") },
       { $or: searchArray },
     ],
   })
     .skip(perPage * (page - 1))
     .limit(perPage)
-    .sort({updateddAt:-1});
+    .sort({ updateddAt: -1 });
   const total_records = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid, 'i') },
+      { service_ref_number: new RegExp(f_srid, "i") },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title, 'i') },
-      {creator_name:new RegExp(f_name, 'i')},
+      { title: new RegExp(f_title, "i") },
+      { creator_name: new RegExp(f_name, "i") },
       { $or: searchArray },
     ],
   }).countDocuments();
@@ -212,11 +210,24 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
 exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
-  const response = await UserModel.find({ admin: false }).populate([
+  const response = await UserModel.find({ admin: false }).populate(
     {
       path: "service_requests",
       model: "ServiceRequest",
-      // populate: [
+
+    },
+  );
+  const count = await UserModel.find({ admin: false }).populate(
+    {
+      path: "service_requests",
+      model: "ServiceRequest",
+
+    },
+  ).countDocuments();
+
+  console.log(count);
+
+  // populate: [
       //   {
       //     path: "job_reference_id",
       //     model: "Quote",
@@ -226,15 +237,13 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       //     model: "ServiceRequestNote",
       //   },
       // ],
-    },
-  ]);
-  
+
   const sArray = [];
   response.forEach((e) => {
     e.service_requests.forEach((f) => {
       sArray.push(f);
     });
-  });  
+  });
 
   let closed = 0,
     neww = 0,
@@ -269,7 +278,69 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       working: working,
       need_attention: need_attention,
       closed: closed,
-      hpd_review:hpd_review      
+      hpd_review:hpd_review
     },
   });
 };
+
+// exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
+//   const userData = await UserModel.find({ admin: false }).populate({
+//     path: "service_requests",
+//     model: "ServiceRequest",
+//   });
+
+//   const newArray = [];
+//   let closed = 0,
+//     neww = 0,
+//     working = 0,
+//     need_attention = 0,
+//     hpd_review = 0;
+
+//   try {
+//     await Promise.all(
+//       userData.map(async (val) => {
+//         val.service_requests.map((val2) => {
+//           newArray.push(val2);
+//         });
+//       })
+//     );
+
+//     for (let i = 0; i < newArray.length; i++) {
+//       switch (newArray[i].status) {
+//         case 1:
+//           neww += 1;
+//           break;
+//         case 2:
+//           working += 1;
+//           break;
+//         case 3:
+//           need_attention += 1;
+//           break;
+//         case 4:
+//           closed += 1;
+//           break;
+//         case 5:
+//           hpd_review += 1;
+//       }
+//     }
+
+//     res.json({
+//       success: true,
+//       data: {
+//         total: newArray.length,
+//         new: neww,
+//         working: working,
+//         need_attention: need_attention,
+//         closed: closed,
+//         hpd_review: hpd_review,
+//       },
+//     });
+//   } catch (err) {
+//     res.json(
+//       {
+//         success: false,
+//         message: err.message,
+//       }
+//     )
+//   }
+// };

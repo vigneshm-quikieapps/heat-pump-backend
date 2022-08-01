@@ -91,15 +91,25 @@ exports.postServiceRequest = async (req, res, next) => {
     
     */
 
-    const response = await sr.save();
+    const response = await sr.save().then( async(e) => {
+    await UserModel.findByIdAndUpdate(userId, { $push: { service_requests: e._id } });
+    return e;
+    }
+    )
+    .catch((err) => {
+      console.log(err);
+    }
+    )
+    
+    console.log(response);
 
-    const objectId = response._id.toString();
+    // const objectId = response._id.toString();
 
-    let usr = await UserModel.findById(userId);
-    let srArray = usr.service_requests;
-    srArray.push(objectId);
+    const usr = await UserModel.findById(userId);
+    // let srArray = usr.service_requests;
+    // srArray.push(objectId);
 
-    const resp = await usr.save();
+    // const resp = await usr.save();
 
     // }
 
@@ -148,6 +158,7 @@ Luths Services Support Staff <br/>
       success: true,
       data: response,
     });
+
   } catch (e) {
     res.json({
       success: false,
