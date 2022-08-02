@@ -1374,3 +1374,6 @@
 22356@LAPTOP-1714RVSL/918d33d3879dbac80ec110c8-0000000000000002 => ::1 - - [02/Aug/2022:09:50:29 +0000] "method /api/v1/services/quote?qid=62de6455e2885e8de2e8f10b HTTP/1.1" 200 28
 22356@LAPTOP-1714RVSL/918d33d3879dbac80ec110c8-0000000000000003 => ::1 - - [02/Aug/2022:09:50:48 +0000] "method /api/v1/services/service-requests/62e8e191e597d3c754099e8d HTTP/1.1" 200 455
 25908@LAPTOP-1714RVSL/877e2574553678227be27670-0000000000000001 => ::1 - - [02/Aug/2022:09:51:26 +0000] "method /api/v1/services/service-requests/62e8e191e597d3c754099e8d HTTP/1.1" 200 2917
+22848@LAPTOP-1714RVSL/cb37ebdc7bfc41d7d27989c6-0000000000000001 => ::1 - - [02/Aug/2022:10:16:16 +0000] "method /api/v1/admin/service-requests?status=1,2,3,4,5&perPage=10 HTTP/1.1" 200 6395
+22848@LAPTOP-1714RVSL/cb37ebdc7bfc41d7d27989c6-0000000000000002 => ::1 - - [02/Aug/2022:10:17:22 +0000] "method /api/v1/admin/service-requests?status=1&perPage=10 HTTP/1.1" 200 13042
+22848@LAPTOP-1714RVSL/cb37ebdc7bfc41d7d27989c6-0000000000000003 => ::1 - - [02/Aug/2022:10:17:35 +0000] "method /api/v1/admin/service-requests-count HTTP/1.1" 200 102

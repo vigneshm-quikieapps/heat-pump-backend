@@ -178,6 +178,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
       { $or: searchArray },
     ],
   })
+  .populate('job_reference_id','','Quote')
     .skip(perPage * (page - 1))
     .limit(perPage)
     .sort({ updateddAt: -1 });
@@ -189,7 +190,9 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
       { creator_name: new RegExp(f_name, "i") },
       { $or: searchArray },
     ],
-  }).countDocuments();
+  })
+  .populate('job_reference_id','','Quote')
+  .countDocuments();
 
   console.log(total_records);
 
