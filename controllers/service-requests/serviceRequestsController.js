@@ -377,10 +377,10 @@ exports.getServiceRequestById = async (req, res, next) => {
   try {
     const foundRecord = await ServiceRequestModel.findById(id)
     .populate([
-      // {
-      //   path: "job_reference_id",
-      //   model: "Quote",
-      // },
+      {
+        path: "job_reference_id",
+        model: "Quote",
+      },
       {
         path: "notes",
         model: "ServiceRequestNote",
@@ -393,7 +393,7 @@ exports.getServiceRequestById = async (req, res, next) => {
         data: foundRecord,
       };
 
-      setCache("SR",req,RESPONSE)
+      // setCache("SR",req,RESPONSE)
       res.json(RESPONSE);
 
     } else {
