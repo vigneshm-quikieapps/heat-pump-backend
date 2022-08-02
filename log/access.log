@@ -1358,3 +1358,11 @@
 18976@LAPTOP-1714RVSL/679edd3ea91b8e52086e6ffa-0000000000000010 => ::1 - - [01/Aug/2022:12:57:56 +0000] "method /api/v1/services/users?page=2&perPage=10&status=1,2,3,4 HTTP/1.1" 200 1702
 18976@LAPTOP-1714RVSL/679edd3ea91b8e52086e6ffa-0000000000000011 => ::1 - - [01/Aug/2022:12:59:01 +0000] "method /api/v1/services/users?page=2&perPage=10&status=1,2,3, HTTP/1.1" 200 1702
 18976@LAPTOP-1714RVSL/679edd3ea91b8e52086e6ffa-0000000000000012 => ::1 - - [01/Aug/2022:12:59:10 +0000] "method /api/v1/services/users?page=2&perPage=10&status=1,2,3 HTTP/1.1" 200 1702
+10104@LAPTOP-1714RVSL/0568b01290ca7cf52733b8ea-0000000000000001 => ::1 - - [02/Aug/2022:08:39:14 +0000] "method /api/v1/auth/login HTTP/1.1" 200 482
+10104@LAPTOP-1714RVSL/0568b01290ca7cf52733b8ea-0000000000000002 => ::1 - - [02/Aug/2022:08:40:01 +0000] "method /api/v1/services/service-requests?page=1&perPage=20 HTTP/1.1" 422 90
+10104@LAPTOP-1714RVSL/0568b01290ca7cf52733b8ea-0000000000000003 => ::1 - - [02/Aug/2022:08:40:12 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&status=1 HTTP/1.1" 200 20660
+13936@LAPTOP-1714RVSL/16fcec20746dcb05ff531b80-0000000000000001 => ::1 - - [02/Aug/2022:08:41:11 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&status=1 HTTP/1.1" 200 20660
+23184@LAPTOP-1714RVSL/35af5508af040a6f00e08836-0000000000000001 => ::1 - - [02/Aug/2022:08:44:54 +0000] "method /api/v1/services/service-requests/62e26aff7668496b1b769381 HTTP/1.1" 200 424
+20400@LAPTOP-1714RVSL/0d8a5639929376200cb0035b-0000000000000001 => ::1 - - [02/Aug/2022:08:48:57 +0000] "method /api/v1/services/service-requests?page=1&perPage=10&status=1 HTTP/1.1" 200 20660
+20400@LAPTOP-1714RVSL/0d8a5639929376200cb0035b-0000000000000002 => ::1 - - [02/Aug/2022:08:53:54 +0000] "method /api/v1/admin/service-requests?status=1,2,3,4,5&perPage=30 HTTP/1.1" 200 12257
+20400@LAPTOP-1714RVSL/0d8a5639929376200cb0035b-0000000000000003 => ::1 - - [02/Aug/2022:08:56:43 +0000] "method /api/v1/admin/service-requests?status=1,2,3,4,5&perPage=100 HTTP/1.1" 200 18302

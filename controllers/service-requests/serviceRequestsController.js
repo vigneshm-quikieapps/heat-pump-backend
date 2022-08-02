@@ -223,10 +223,10 @@ exports.getAllServiceRequests = async (req, res, next) => {
       path: "service_requests",
       model: "ServiceRequest",
       populate: [
-        // {
-        //   path: "job_reference_id",
-        //   model: "Quote",
-        // },
+        {
+          path: "job_reference_id",
+          model: "Quote",
+        },
         {
           path: "notes",
           model: "ServiceRequestNote",
@@ -278,15 +278,15 @@ exports.getAllServiceRequests = async (req, res, next) => {
   const total_pages = Math.ceil(total_records / perPage);
 
   /*  ------------ CACHE LOGIC-------------- */
-  setCache("SR", req, {
-    success: true,
-    data: {
-      total_records: total_records,
-      total_pages: total_pages,
-      current_page: page,
-      data: respArray,
-    },
-  });
+  // setCache("SR", req, {
+  //   success: true,
+  //   data: {
+  //     total_records: total_records,
+  //     total_pages: total_pages,
+  //     current_page: page,
+  //     data: respArray,
+  //   },
+  // });
   /*  ------------ CACHE LOGIC-------------- */
 
   res.json({

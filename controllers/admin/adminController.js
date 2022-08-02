@@ -225,9 +225,7 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
     },
   ).countDocuments();
 
-  console.log(count);
-
-  // populate: [
+// populate: [
       //   {
       //     path: "job_reference_id",
       //     model: "Quote",
@@ -237,6 +235,7 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       //     model: "ServiceRequestNote",
       //   },
       // ],
+  
 
   const sArray = [];
   response.forEach((e) => {
