@@ -129,6 +129,7 @@ const UserModel = require("../../models/users.model");
 //     },
 // });
 // };
+/*--------------------------------------------------------------------------------*/
 
 exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   const errors = validationResult(req);
@@ -168,6 +169,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
+  const skip = perPage * (page - 1);
   console.log("FNAME", new RegExp(f_name) + "i");
   const response = await ServiceRequestModel.find({
     $and: [
@@ -179,9 +181,8 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     ],
   })
   .populate('job_reference_id','','Quote')
-    .skip(perPage * (page - 1))
+    .skip(skip)
     .limit(perPage)
-    .sort({ updateddAt: -1 });
   const total_records = await ServiceRequestModel.find({
     $and: [
       { service_ref_number: new RegExp(f_srid, "i") },
@@ -346,3 +347,60 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
 //     )
 //   }
 // };
+
+// exports.getAllServiceRequestsAdminSide2= async (req, res, next) => {
+
+//   // const errors = validationResult(req);
+//   //   if (!errors.isEmpty()) {
+//   //     return res.status(422).json({
+//   //       errorMessage: errors.array(),
+//   //     });
+//   //   }
+
+//   var {
+//         page,
+//         perPage,
+//         status,
+//         f_srid = "SR",
+//         f_priority,
+//         f_title = "",
+//         f_name = "",
+//       } = req.query;
+
+//       if (!page) {
+//             page = 1;
+//           }
+//           if (!perPage) {
+//             perPage = 10;
+//           }
+// const skip = (page - 1) * perPage;
+//   const serviceData = await ServiceRequestModel.find({
+//    ...(f_srid && { service_ref_number: new RegExp(f_srid, "i") }),
+//    ...(f_title && { title: new RegExp(f_title, "i") }),
+//    ...(f_name && { creator_name: new RegExp(f_name, "i") }),
+
+//   })
+//   .skip(skip)
+//   .limit(perPage)
+
+//   const total_records = await ServiceRequestModel.find({
+//     ...(f_srid && { service_ref_number: new RegExp(f_srid, "i") }),
+//     ...(f_title && { title: new RegExp(f_title, "i") }),
+//     ...(f_name && { creator_name: new RegExp(f_name, "i") }),  
+
+//   }).countDocuments();
+//   const total_pages = Math.ceil(parseInt(total_records) / perPage);
+
+//   res.json({
+//         success: true,
+//         data: {
+//           total_records: total_records,
+//           total_pages: total_pages,
+//           current_page: page,
+//           data: serviceData,
+//         },
+//       });
+  
+
+
+// }
