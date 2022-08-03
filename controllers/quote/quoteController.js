@@ -172,7 +172,7 @@ exports.createQuote = async (req, res, next) => {
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Acknowledgment: Job Request  `,
       html: `Hello ${usr.name}, <br/><br/>
-       Thank you for taking time to submit a job with Luths Services, Glasgow.
+       Thank you for taking time to submit a job with Luths Services, Glasgow. <br/> <br/>
        We have received your job request and is being reviewed.
       The reference number for your job request is<strong>${response.quote_reference_number}</strong>.
       We’ll contact you shortly if we need any additional information <br/><br/>
@@ -239,10 +239,10 @@ exports.patchQuote = async (req, res, next) => {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
       subject: `Update: ${response.quote_reference_number}`,
-      html: `Hello ${usr.name}, <br/>
+      html: `Hello ${usr.name}, <br/><br/>
       Please note that your job request <strong>${response.quote_reference_number}</strong>.
       status has been updated. To view updates,
-     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Jobs page.<br/>
+     please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Jobs page.<br/><br/>
      Regards,<br/>
      Luths Services Support Staff <br/>
    
