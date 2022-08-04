@@ -233,7 +233,8 @@ exports.patchQuote = async (req, res, next) => {
 
   try {
     const response = await quoteModels.findByIdAndUpdate(id, obj);
-    const usr = await UserSchema.findById(userId);
+    const customerID = response.creator_customer_id;
+    const usr = await UserSchema.findById(customerID);
 
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
