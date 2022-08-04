@@ -205,7 +205,7 @@ exports.postLoginUser = (req, res, next) => {
     });
 };
 
-exports.sendMail = (req, res, next) => {
+exports.sendMail = async (req, res, next) => {
   const { email } = req.body;
   var otp = otpGenerator.generate(4, {
     upperCaseAlphabets: false,
@@ -213,21 +213,19 @@ exports.sendMail = (req, res, next) => {
     lowerCaseAlphabets: false,
   });
 
-  const KEY = process.env.SENDGRID_API_KEY;
   var isEmailInDb = false;
   console.log(email);
-  const user = UserModel.findOne({ email: email })
-    .then((us) => {
+  const user = await UserModel.findOne({ email: email })
+    .then(async(us) => {
       console.log(us);
       if (us !== null) {
         isEmailInDb = true;
       }
 
       if (true) {
-        UserModel.findOneAndUpdate({ email: email }, { reset_otp: otp }).catch(
+      await  UserModel.findOneAndUpdate({ email: email }, { reset_otp: otp }).catch(
           (err) => console.log(err)
         );
-
         // sgMail.setApiKey(KEY);
 
         const msg = {
