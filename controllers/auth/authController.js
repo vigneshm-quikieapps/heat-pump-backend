@@ -379,7 +379,7 @@ exports.changePassword = async (req, res, next) => {
       },
     });
   }
-  const oldPassword = await UserModel.findOne({ email: email });
+  const oldPassword = await UserModel.findOne({ email: email }).select('password');
   console.log(oldPassword.password, new_password, confirm_new_password);
   const match =  await bcrypt.compare(new_password,oldPassword.password);
   // console.log(match);
