@@ -17,7 +17,7 @@ require("dotenv").config();
 
 var options = {
   auth: {
-    api_key: process.env.SENDGRID_API_KEY,
+    api_key: process.env.SENDGRID_API_KEY_TEST,
   }
 }
 module.exports.GmailTransport = nodemailer.createTransport(sgTransport(options));

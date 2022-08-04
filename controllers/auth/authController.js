@@ -77,8 +77,8 @@ exports.postRegisterUser = async (req, res, next) => {
     })
     .then((resp) => {
       const msg = {
-        to: email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
-        from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender hello@ismartapps.co.uk
+        to: email, // Change to your recipient  
+        from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender hello@ismartapps.co.uk
         subject: `Acknowledgment: Customer Account Request `,
         html: `Hello ${name}, <br/> <br/>
         Thank you for being interested in Luths Services, Glasgow. <br/><br/>
@@ -232,7 +232,7 @@ exports.sendMail = (req, res, next) => {
 
         const msg = {
           to: email, // Change to youruk recipient
-          from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender //info@heatpumpdesigner.com 
+          from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender //info@heatpumpdesigner.com 
           subject: "OTP to Reset Password",
           html: `Hello ${us.name},<br/><br/>
           Here is your One Time Password
