@@ -22,7 +22,7 @@ router.post(
   [
     check("email")
       .isEmail()
-      .normalizeEmail()
+      // .normalizeEmail()
       .withMessage("Please enter valid Email Address"),
   ],
   auth.sendMail

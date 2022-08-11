@@ -96,8 +96,6 @@ const UserModel = require("../../models/users.model");
 //     }
 //   });
 
-
-
 //   var total_records = 0;
 
 //   response2.forEach((e) => {
@@ -131,6 +129,7 @@ const UserModel = require("../../models/users.model");
 //     },
 // });
 // };
+/*--------------------------------------------------------------------------------*/
 
 exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   const errors = validationResult(req);
@@ -147,7 +146,7 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
     f_srid = "SR",
     f_priority,
     f_title = "",
-    f_name=""
+    f_name = "",
   } = req.query;
   const statuses = status.split(",");
   console.log(statuses);
@@ -170,28 +169,31 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
   if (!perPage) {
     perPage = 10;
   }
-  console.log("FNAME",new RegExp(f_name)+'i');
+  const skip = perPage * (page - 1);
+  console.log("FNAME", new RegExp(f_name) + "i");
   const response = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid, 'i') },
+      { service_ref_number: new RegExp(f_srid, "i") },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title, 'i') },
-      {creator_name:new RegExp(f_name, 'i')},
+      { title: new RegExp(f_title, "i") },
+      { creator_name: new RegExp(f_name, "i") },
       { $or: searchArray },
     ],
   })
-    .skip(perPage * (page - 1))
+  .populate('job_reference_id','','Quote')
+    .skip(skip)
     .limit(perPage)
-    .sort({updateddAt:-1});
   const total_records = await ServiceRequestModel.find({
     $and: [
-      { service_ref_number: new RegExp(f_srid, 'i') },
+      { service_ref_number: new RegExp(f_srid, "i") },
       { priority: f_priority ? f_priority : { $exists: true } },
-      { title: new RegExp(f_title, 'i') },
-      {creator_name:new RegExp(f_name, 'i')},
+      { title: new RegExp(f_title, "i") },
+      { creator_name: new RegExp(f_name, "i") },
       { $or: searchArray },
     ],
-  }).countDocuments();
+  })
+  .populate('job_reference_id','','Quote')
+  .countDocuments();
 
   console.log(total_records);
 
@@ -212,11 +214,22 @@ exports.getAllServiceRequestsAdminSide2 = async (req, res, next) => {
 exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
   const userId = req.decodedAccessToken.id;
 
-  const response = await UserModel.find({ admin: false }).populate([
+  const response = await UserModel.find({ admin: false }).populate(
     {
       path: "service_requests",
       model: "ServiceRequest",
-      // populate: [
+
+    },
+  );
+  const count = await UserModel.find({ admin: false }).populate(
+    {
+      path: "service_requests",
+      model: "ServiceRequest",
+
+    },
+  ).countDocuments();
+
+// populate: [
       //   {
       //     path: "job_reference_id",
       //     model: "Quote",
@@ -226,15 +239,14 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       //     model: "ServiceRequestNote",
       //   },
       // ],
-    },
-  ]);
   
+
   const sArray = [];
   response.forEach((e) => {
     e.service_requests.forEach((f) => {
       sArray.push(f);
     });
-  });  
+  });
 
   let closed = 0,
     neww = 0,
@@ -269,7 +281,126 @@ exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
       working: working,
       need_attention: need_attention,
       closed: closed,
-      hpd_review:hpd_review      
+      hpd_review:hpd_review
     },
   });
 };
+
+// exports.getServiceRequestsStatusAdminSide = async (req, res, next) => {
+//   const userData = await UserModel.find({ admin: false }).populate({
+//     path: "service_requests",
+//     model: "ServiceRequest",
+//   });
+
+//   const newArray = [];
+//   let closed = 0,
+//     neww = 0,
+//     working = 0,
+//     need_attention = 0,
+//     hpd_review = 0;
+
+//   try {
+//     await Promise.all(
+//       userData.map(async (val) => {
+//         val.service_requests.map((val2) => {
+//           newArray.push(val2);
+//         });
+//       })
+//     );
+
+//     for (let i = 0; i < newArray.length; i++) {
+//       switch (newArray[i].status) {
+//         case 1:
+//           neww += 1;
+//           break;
+//         case 2:
+//           working += 1;
+//           break;
+//         case 3:
+//           need_attention += 1;
+//           break;
+//         case 4:
+//           closed += 1;
+//           break;
+//         case 5:
+//           hpd_review += 1;
+//       }
+//     }
+
+//     res.json({
+//       success: true,
+//       data: {
+//         total: newArray.length,
+//         new: neww,
+//         working: working,
+//         need_attention: need_attention,
+//         closed: closed,
+//         hpd_review: hpd_review,
+//       },
+//     });
+//   } catch (err) {
+//     res.json(
+//       {
+//         success: false,
+//         message: err.message,
+//       }
+//     )
+//   }
+// };
+
+// exports.getAllServiceRequestsAdminSide2= async (req, res, next) => {
+
+//   // const errors = validationResult(req);
+//   //   if (!errors.isEmpty()) {
+//   //     return res.status(422).json({
+//   //       errorMessage: errors.array(),
+//   //     });
+//   //   }
+
+//   var {
+//         page,
+//         perPage,
+//         status,
+//         f_srid = "SR",
+//         f_priority,
+//         f_title = "",
+//         f_name = "",
+//       } = req.query;
+
+//       if (!page) {
+//             page = 1;
+//           }
+//           if (!perPage) {
+//             perPage = 10;
+//           }
+// const skip = (page - 1) * perPage;
+//   const serviceData = await ServiceRequestModel.find({
+//    ...(f_srid && { service_ref_number: new RegExp(f_srid, "i") }),
+//    ...(f_title && { title: new RegExp(f_title, "i") }),
+//    ...(f_name && { creator_name: new RegExp(f_name, "i") }),
+
+//   })
+//   .skip(skip)
+//   .limit(perPage)
+
+//   const total_records = await ServiceRequestModel.find({
+//     ...(f_srid && { service_ref_number: new RegExp(f_srid, "i") }),
+//     ...(f_title && { title: new RegExp(f_title, "i") }),
+//     ...(f_name && { creator_name: new RegExp(f_name, "i") }),  
+
+//   }).countDocuments();
+//   const total_pages = Math.ceil(parseInt(total_records) / perPage);
+
+//   res.json({
+//         success: true,
+//         data: {
+//           total_records: total_records,
+//           total_pages: total_pages,
+//           current_page: page,
+//           data: serviceData,
+//         },
+//       });
+  
+
+
+// }

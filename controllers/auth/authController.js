@@ -78,7 +78,8 @@ exports.postRegisterUser = async (req, res, next) => {
     .then((resp) => {
       const msg = {
         to: email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
-        from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender info@heatpumpdesigner.com
+        from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender hello@ismartapps.co.uk
+        cc: "info@heatpumpdesigner.com",
         subject: `Acknowledgment: Customer Account Request `,
         html: `Hello ${name}, <br/> <br/>
         Thank you for being interested in Luths Services, Glasgow. <br/><br/>
@@ -105,7 +106,6 @@ exports.postRegisterUser = async (req, res, next) => {
         data: {
           name: name,
           email: email,
-          password: null,
           mobile: mobile,
           business_registered_name: business_registered_name,
           business_trade_name: business_trade_name,
@@ -206,7 +206,7 @@ exports.postLoginUser = (req, res, next) => {
     });
 };
 
-exports.sendMail = (req, res, next) => {
+exports.sendMail = async (req, res, next) => {
   const { email } = req.body;
   var otp = otpGenerator.generate(4, {
     upperCaseAlphabets: false,
@@ -214,26 +214,26 @@ exports.sendMail = (req, res, next) => {
     lowerCaseAlphabets: false,
   });
 
-  const KEY = process.env.SENDGRID_API_KEY;
   var isEmailInDb = false;
   console.log(email);
-  const user = UserModel.findOne({ email: email })
-    .then((us) => {
+  const user = await UserModel.findOne({ email: email })
+    .then(async (us) => {
       console.log(us);
       if (us !== null) {
         isEmailInDb = true;
       }
 
       if (true) {
-        UserModel.findOneAndUpdate({ email: email }, { reset_otp: otp }).catch(
-          (err) => console.log(err)
-        );
-
+        await UserModel.findOneAndUpdate(
+          { email: email },
+          { reset_otp: otp }
+        ).catch((err) => console.log(err));
         // sgMail.setApiKey(KEY);
 
         const msg = {
           to: email, // Change to youruk recipient
           from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender //info@heatpumpdesigner.com 
+          cc: "info@heatpumpdesigner.com",
           subject: "OTP to Reset Password",
           html: `Hello ${us.name},<br/><br/>
           Here is your One Time Password
@@ -368,7 +368,7 @@ exports.postVerifyOtp = (req, res, next) => {
     });
 };
 
-exports.changePassword = (req, res, next) => {
+exports.changePassword = async (req, res, next) => {
   const { new_password, confirm_new_password } = req.body;
 
   var { email } = req.decodedResetToken;
@@ -381,25 +381,52 @@ exports.changePassword = (req, res, next) => {
       },
     });
   }
-
-  bcrypt
-    .hash(new_password, 12)
-    .then(async (hashedPassword) => {
-      const ok = await UserModel.findOneAndUpdate(
-        { email: email },
-        { password: hashedPassword }
-      );
-    })
-    .then((r) => {
-      res.json({
-        success: true,
-        data: {
-          message: constants.PASSWORD_CHANGED,
-        },
-      });
-    })
-    .catch((err) => {
-      res.status(503);
-      return next(err);
+  const oldPassword = await UserModel.findOne({ email: email }).select('password');
+  console.log(oldPassword.password, new_password, confirm_new_password);
+  const match =  await bcrypt.compare(new_password,oldPassword.password);
+  // console.log(match);
+  if (match) {
+    res.json({
+      success: false,
+      data: {
+        message: "This password is already used",
+      },
     });
+  } else {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+    await UserModel.findOneAndUpdate(
+      { email: email },
+      { password: hashedPassword }
+    ).catch((err) => console.log(err));
+    res.json({
+      success: true,
+      data: {
+        message: constants.PASSWORD_CHANGED,
+      },
+    });
+  }
 };
+
+// bcrypt
+//   .hash(new_password, 12)
+//   .then(async (hashedPassword) => {
+
+//     const ok = await UserModel.findOneAndUpdate(
+//       { email: email },
+//       { password: hashedPassword }
+//     );
+//   })
+//   .then((r) => {
+//     res.json({
+//       success: true,
+//       data: {
+//         message: constants.PASSWORD_CHANGED,
+//       },
+//     });
+//   })
+//   .catch((err) => {
+//     res.status(503);
+//     return next(err);
+//   });
+// }

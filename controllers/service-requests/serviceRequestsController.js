@@ -91,15 +91,25 @@ exports.postServiceRequest = async (req, res, next) => {
     
     */
 
-    const response = await sr.save();
+    const response = await sr.save().then( async(e) => {
+    await UserModel.findByIdAndUpdate(userId, { $push: { service_requests: e._id } });
+    return e;
+    }
+    )
+    .catch((err) => {
+      console.log(err);
+    }
+    )
+    
+    console.log(response);
 
-    const objectId = response._id.toString();
+    // const objectId = response._id.toString();
 
-    let usr = await UserModel.findById(userId);
-    let srArray = usr.service_requests;
-    srArray.push(objectId);
+    const usr = await UserModel.findById(userId);
+    // let srArray = usr.service_requests;
+    // srArray.push(objectId);
 
-    const resp = await usr.save();
+    // const resp = await usr.save();
 
     // }
 
@@ -123,6 +133,7 @@ exports.postServiceRequest = async (req, res, next) => {
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
+      cc: "info@heatpumpdesigner.com",
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/> <br/>
     Thank you for taking time to contact Luths Services, Glasgow today. <br/> <br/>
@@ -148,6 +159,7 @@ Luths Services Support Staff <br/>
       success: true,
       data: response,
     });
+
   } catch (e) {
     res.json({
       success: false,
@@ -212,10 +224,10 @@ exports.getAllServiceRequests = async (req, res, next) => {
       path: "service_requests",
       model: "ServiceRequest",
       populate: [
-        // {
-        //   path: "job_reference_id",
-        //   model: "Quote",
-        // },
+        {
+          path: "job_reference_id",
+          model: "Quote",
+        },
         {
           path: "notes",
           model: "ServiceRequestNote",
@@ -267,15 +279,15 @@ exports.getAllServiceRequests = async (req, res, next) => {
   const total_pages = Math.ceil(total_records / perPage);
 
   /*  ------------ CACHE LOGIC-------------- */
-  setCache("SR", req, {
-    success: true,
-    data: {
-      total_records: total_records,
-      total_pages: total_pages,
-      current_page: page,
-      data: respArray,
-    },
-  });
+  // setCache("SR", req, {
+  //   success: true,
+  //   data: {
+  //     total_records: total_records,
+  //     total_pages: total_pages,
+  //     current_page: page,
+  //     data: respArray,
+  //   },
+  // });
   /*  ------------ CACHE LOGIC-------------- */
 
   res.json({
@@ -366,10 +378,10 @@ exports.getServiceRequestById = async (req, res, next) => {
   try {
     const foundRecord = await ServiceRequestModel.findById(id)
     .populate([
-      // {
-      //   path: "job_reference_id",
-      //   model: "Quote",
-      // },
+      {
+        path: "job_reference_id",
+        model: "Quote",
+      },
       {
         path: "notes",
         model: "ServiceRequestNote",
@@ -382,7 +394,7 @@ exports.getServiceRequestById = async (req, res, next) => {
         data: foundRecord,
       };
 
-      setCache("SR",req,RESPONSE)
+      // setCache("SR",req,RESPONSE)
       res.json(RESPONSE);
 
     } else {

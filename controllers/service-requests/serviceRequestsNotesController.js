@@ -83,8 +83,9 @@ exports.postServiceRequestNote = async (req, res, next) => {
     const msg = {
       to: usr.email, // Change to your recipient
       from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
+      cc: "info@heatpumpdesigner.com",
       subject: `Update: ${sr.service_ref_number} - ${sr.title} `,
-      html: `Hello ${sr.creator_name}, <br/>
+      html: `Hello ${sr.creator_name}, <br/> <br/>
     Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated.
      To view updates, please access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ 
      and navigate to the My Service Requests page. <br/><br/>
@@ -97,13 +98,14 @@ exports.postServiceRequestNote = async (req, res, next) => {
     const closeMsg = {
       to: usr.email, // Change to your recipient
       from: '"Heat-Pump Support" info@heatpumpdesigner.com', // Change to your verified sender
+      cc: "info@heatpumpdesigner.com",
       subject: `Closed: ${sr.service_ref_number} - ${sr.title} `,
-      html: `Hello ${sr.creator_name}, <br/>
+      html: `Hello ${sr.creator_name}, <br/> <br/>
     Please be aware that your service request <strong> ${sr.service_ref_number} </strong> has been closed.  <br/>
     Reason for closing : ${description} <br/>
     If you would like to re-engage Luths Services,
     Glasgow on this matter, access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ 
-    and navigate to the My Service Requests page. <br/> 
+    and navigate to the My Service Requests page. <br/> <br/> 
     Regards,<br/>
     Luths Services Support Staff <br/>   
     `,
