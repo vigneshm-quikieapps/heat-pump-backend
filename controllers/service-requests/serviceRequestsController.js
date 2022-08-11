@@ -133,6 +133,7 @@ exports.postServiceRequest = async (req, res, next) => {
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/> <br/>
     Thank you for taking time to contact Luths Services, Glasgow today. <br/> <br/>

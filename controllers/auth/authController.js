@@ -79,6 +79,7 @@ exports.postRegisterUser = async (req, res, next) => {
       const msg = {
         to: email, // Change to your recipient
         from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender hello@ismartapps.co.uk
+        cc: "rajugopalsinghh@gmail.com",
         subject: `Acknowledgment: Customer Account Request `,
         html: `Hello ${name}, <br/> <br/>
         Thank you for being interested in Luths Services, Glasgow. <br/><br/>
@@ -232,6 +233,7 @@ exports.sendMail = async (req, res, next) => {
         const msg = {
           to: email, // Change to youruk recipient
           from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender //info@heatpumpdesigner.com
+          cc: "rajugopalsinghh@gmail.com",
           subject: "OTP to Reset Password",
           html: `Hello ${us.name},<br/><br/>
           Here is your One Time Password

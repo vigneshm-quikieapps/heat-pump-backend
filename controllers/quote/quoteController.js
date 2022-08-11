@@ -170,6 +170,7 @@ exports.createQuote = async (req, res, next) => {
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Acknowledgment: Job Request  `,
       html: `Hello ${usr.name}, <br/><br/>
        Thank you for taking time to submit a job with Luths Services, Glasgow. <br/> <br/>
@@ -239,6 +240,7 @@ exports.patchQuote = async (req, res, next) => {
     const msg = {
       to: usr.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Update: ${response.quote_reference_number}`,
       html: `Hello ${usr.name}, <br/><br/>
       Please note that your job request <strong>${response.quote_reference_number}</strong>.

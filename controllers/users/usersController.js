@@ -174,6 +174,7 @@ exports.patchUser = async (req, res, next) => {
     const aprrovedMsg = {
       to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Approved: Customer Account Request `,
       html: `Hello ${rsp.name}, <br/><br/>
       We have approved your account with us.
@@ -187,6 +188,7 @@ exports.patchUser = async (req, res, next) => {
     const rejectedMsg = {
       to: rsp.email, // Change to your recipient  "nizam.mogal@ismartapps.co.uk"
       from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Declined: Customer Account Request  `,
       html: `Hello ${rsp.name}, <br/><br/>
       Sorry, we cannot create an account for you with us at this time. Thank you for being interested in Luths Services, Glasgow. <br/><br/>

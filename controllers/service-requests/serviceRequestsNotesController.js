@@ -82,7 +82,8 @@ exports.postServiceRequestNote = async (req, res, next) => {
 
     const msg = {
       to: usr.email, // Change to your recipient
-      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Update: ${sr.service_ref_number} - ${sr.title} `,
       html: `Hello ${sr.creator_name}, <br/> <br/>
     Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated.
@@ -96,7 +97,8 @@ exports.postServiceRequestNote = async (req, res, next) => {
 
     const closeMsg = {
       to: usr.email, // Change to your recipient
-      from: '"Heat-Pump Support" hello@ismartapps.co.uk', // Change to your verified sender
+      from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender
+      cc: "rajugopalsinghh@gmail.com",
       subject: `Closed: ${sr.service_ref_number} - ${sr.title} `,
       html: `Hello ${sr.creator_name}, <br/> <br/>
     Please be aware that your service request <strong> ${sr.service_ref_number} </strong> has been closed.  <br/>
