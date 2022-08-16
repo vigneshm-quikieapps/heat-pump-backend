@@ -77,7 +77,7 @@ exports.postRegisterUser = async (req, res, next) => {
     })
     .then((resp) => {
       const msg = {
-        to: email, // Change to your recipient
+        to: email, // Change to your recipient  
         from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender hello@ismartapps.co.uk
         cc: "rajugopalsinghh@gmail.com",
         subject: `Acknowledgment: Customer Account Request `,
