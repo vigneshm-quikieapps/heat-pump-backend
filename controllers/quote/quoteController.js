@@ -163,7 +163,7 @@ exports.createQuote = async (req, res, next) => {
 
   try {
     obj.creator_customer_id = userId;
-    console.log("OBJ", obj);
+    // console.log("OBJ", obj);
     const newQuote = new quoteModels(obj);
     const response = await newQuote.save();
 
@@ -182,11 +182,19 @@ exports.createQuote = async (req, res, next) => {
    
    `,
     };
+
+    const adminMssg = {
+      to: "rajugopalsinghh@gmail.com",
+      from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+      subject: `${usr.name},${usr.city}`,
+      html: `A new job request: <strong>${response.quote_reference_number}</strong> has been submitted by customer: <strong>${usr.name}</strong> , <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `
+    }
       // Thank you for taking time to contact Luths Services, Glasgow today. <br/>
       // We have received your job request and is being reviewed.
       // The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/>
     GmailTransport.sendMail(msg)
       .then((rr) => {
+        GmailTransport.sendMail(adminMssg).then((ad) => console.log('admin mssg sent',ad)).catch((err) => console.log(err));
         console.log("SENT");
         console.log(rr);
       })

@@ -77,7 +77,7 @@ exports.postRegisterUser = async (req, res, next) => {
     })
     .then((resp) => {
       const msg = {
-        to: email, // Change to your recipient  
+        to: email, // Change to your recipient
         from: '"Heat-Pump Support" rajugopalsinghh@gmail.com', // Change to your verified sender hello@ismartapps.co.uk
         cc: "rajugopalsinghh@gmail.com",
         subject: `Acknowledgment: Customer Account Request `,
@@ -90,9 +90,17 @@ exports.postRegisterUser = async (req, res, next) => {
      
      `,
       };
-
+      const adminMssg = {
+        to: "rajugopalsinghh@gmail.com",
+        from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+        subject: `${name},${city}`,
+        html: `A new customer account request: CR17677891 has been submitted by <strong>${name}</strong> , <strong>${business_registered_name}</strong>, <strong>${city}</strong> `,
+      };
       GmailTransport.sendMail(msg)
         .then((rr) => {
+          GmailTransport.sendMail(adminMssg)
+            .then((ad) => console.log("Admin message sent", ad))
+            .catch((err) => console.log(err));
           console.log("SENT");
           console.log(rr);
         })
@@ -381,9 +389,11 @@ exports.changePassword = async (req, res, next) => {
       },
     });
   }
-  const oldPassword = await UserModel.findOne({ email: email }).select('password');
+  const oldPassword = await UserModel.findOne({ email: email }).select(
+    "password"
+  );
   console.log(oldPassword.password, new_password, confirm_new_password);
-  const match =  await bcrypt.compare(new_password,oldPassword.password);
+  const match = await bcrypt.compare(new_password, oldPassword.password);
   // console.log(match);
   if (match) {
     res.json({

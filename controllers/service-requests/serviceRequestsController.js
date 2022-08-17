@@ -145,8 +145,17 @@ Luths Services Support Staff <br/>
     `,
     };
 
+    const adminMssg = {
+      to: "rajugopalsinghh@gmail.com",
+      from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+      subject: `${usr.name},${usr.city}`,
+      html: `A new service request: <strong>${response.service_ref_number}</strong> | 
+      Clarify Design Specifications has been submitted by customer: <strong>${usr.name}</strong> , <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `
+    };
+
     GmailTransport.sendMail(msg)
       .then((rr) => {
+        GmailTransport.sendMail(adminMssg).then((ad) => console.log('admin message sent' ,ad)).catch((err) => console.log(err));
         console.log("SENT");
         console.log(rr);
       })
