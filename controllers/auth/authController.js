@@ -94,7 +94,7 @@ exports.postRegisterUser = async (req, res, next) => {
         to: "rajugopalsinghh@gmail.com",
         from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
         subject: `${name},${city}`,
-        html: `A new customer account request: CR17677891 has been submitted by <strong>${name}</strong> , <strong>${business_registered_name}</strong>, <strong>${city}</strong> `,
+        html: `A new customer account request has been submitted by <strong>${name}</strong> , <strong>${business_registered_name}</strong>, <strong>${city}</strong> `,
       };
       GmailTransport.sendMail(msg)
         .then((rr) => {
