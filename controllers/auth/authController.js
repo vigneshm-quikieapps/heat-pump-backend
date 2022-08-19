@@ -93,8 +93,8 @@ exports.postRegisterUser = async (req, res, next) => {
       };
 
       const adminMssg = {
-        to: "rajugopalsinghh@gmail.com",
-        from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+        to: "info@heatpumpdesigner.com",
+        from: `"Heat-Pump Support" info@heatpumpdesigner.com"`,
         subject: `New Customer Account Request from ${name},${city}`,
         html: `A new customer account request has been submitted by <strong>${name}</strong> ,
          <strong>${business_registered_name}</strong>, <strong>${city}</strong> `,

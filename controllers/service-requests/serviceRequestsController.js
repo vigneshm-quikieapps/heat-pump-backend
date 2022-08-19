@@ -150,8 +150,8 @@ exports.postServiceRequest = async (req, res, next) => {
     };
 
     const adminMssg = {
-      to: "rajugopalsinghh@gmail.com",
-      from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+      to: "info@heatpumpdesigner.com",
+      from: `"Heat-Pump Support" info@heatpumpdesigner.com"`,
       subject: `New Service Request from ${usr.name},${usr.city}`,
       html: `A new service request: <strong>${response.service_ref_number}</strong> | 
       Clarify Design Specifications has been submitted by customer: <strong>${usr.name}</strong> ,

@@ -186,8 +186,8 @@ exports.createQuote = async (req, res, next) => {
     };
 
     const adminMssg = {
-      to: "rajugopalsinghh@gmail.com",
-      from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+      to: "info@heatpumpdesigner.com",
+      from: `"Heat-Pump Support" info@heatpumpdesigner.com"`,
       subject: `New Job Request from ${usr.name},${usr.city}`,
       html: `A new job request: <strong>${response.quote_reference_number}</strong> has been submitted by customer: <strong>${usr.name}</strong> ,
        <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `,
@@ -261,9 +261,9 @@ exports.patchQuote = async (req, res, next) => {
      Finn <br/>
      HPD Support Staff <br/>
      07568 357124 <br/>
-   
    `,
     };
+
     GmailTransport.sendMail(msg)
       .then((rr) => {
         console.log("SENT");
