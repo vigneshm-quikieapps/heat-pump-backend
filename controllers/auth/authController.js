@@ -82,17 +82,29 @@ exports.postRegisterUser = async (req, res, next) => {
         cc: "info@heatpumpdesigner.com",
         subject: `Acknowledgment: Customer Account Request `,
         html: `Hello ${name}, <br/> <br/>
-        Thank you for being interested in Luths Services, Glasgow. <br/><br/>
+        Thank you for being interested in Heat Pump Designer. <br/><br/>
         We have received your request to create an account with us.
-        We’ll get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
-        Regards,<br/>
-        Luths Services Support Staff <br/>
-     
+        We will get back with an outcome shortly or any additional information required for us to approve your account.<br/><br/>
+        Regards,<br/><br/>
+        Finn <br/>
+        HPD Support Staff <br/>
+        07568 357124 <br/>
      `,
+      };
+
+      const adminMssg = {
+        to: "rajugopalsinghh@gmail.com",
+        from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+        subject: `New Customer Account Request from ${name},${city}`,
+        html: `A new customer account request has been submitted by <strong>${name}</strong> ,
+         <strong>${business_registered_name}</strong>, <strong>${city}</strong> `,
       };
 
       GmailTransport.sendMail(msg)
         .then((rr) => {
+          GmailTransport.sendMail(adminMssg)
+            .then((ad) => console.log("Admin message sent", ad))
+            .catch((err) => console.log(err));
           console.log("SENT");
           console.log(rr);
         })
@@ -239,8 +251,8 @@ exports.sendMail = async (req, res, next) => {
           Here is your One Time Password
           <strong>${otp}</strong>
           to set a new pasword for your account with our HPD Job Services app.<br/><br/>
-          Regards,<br/>
-          Luths Services Support Staff`,
+          Regards,<br/><br/>
+          HPD Support Staff`,
         };
 
         const otp_token = getJwtToken(
@@ -381,9 +393,11 @@ exports.changePassword = async (req, res, next) => {
       },
     });
   }
-  const oldPassword = await UserModel.findOne({ email: email }).select('password');
+  const oldPassword = await UserModel.findOne({ email: email }).select(
+    "password"
+  );
   console.log(oldPassword.password, new_password, confirm_new_password);
-  const match =  await bcrypt.compare(new_password,oldPassword.password);
+  const match = await bcrypt.compare(new_password, oldPassword.password);
   // console.log(match);
   if (match) {
     res.json({

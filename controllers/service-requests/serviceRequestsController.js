@@ -91,16 +91,18 @@ exports.postServiceRequest = async (req, res, next) => {
     
     */
 
-    const response = await sr.save().then( async(e) => {
-    await UserModel.findByIdAndUpdate(userId, { $push: { service_requests: e._id } });
-    return e;
-    }
-    )
-    .catch((err) => {
-      console.log(err);
-    }
-    )
-    
+    const response = await sr
+      .save()
+      .then(async (e) => {
+        await UserModel.findByIdAndUpdate(userId, {
+          $push: { service_requests: e._id },
+        });
+        return e;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
     console.log(response);
 
     // const objectId = response._id.toString();
@@ -136,17 +138,31 @@ exports.postServiceRequest = async (req, res, next) => {
       cc: "info@heatpumpdesigner.com",
       subject: `Acknowledgment: ${response.service_ref_number} - ${response.title} `,
       html: `Hello ${usr.name}, <br/> <br/>
-    Thank you for taking time to contact Luths Services, Glasgow today. <br/> <br/>
-Your request has been received and is being reviewed. 
-The reference number for your service request is <strong>${response.service_ref_number}</strong>. <br/><br/>
-Regards,<br/> <br/>
-Luths Services Support Staff <br/>
+    Thank you for taking time to contact Heat Pump Designer. <br/> <br/>
+    Your request has been received and is being reviewed. 
+    The reference number for your service request is <strong>${response.service_ref_number}</strong>. <br/><br/>
+    Regards,<br/><br/>
+    Finn <br/>
+    HPD Support Staff <br/>
+    07568 357124 <br/>
     
     `,
     };
 
+    const adminMssg = {
+      to: "rajugopalsinghh@gmail.com",
+      from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
+      subject: `New Service Request from ${usr.name},${usr.city}`,
+      html: `A new service request: <strong>${response.service_ref_number}</strong> | 
+      Clarify Design Specifications has been submitted by customer: <strong>${usr.name}</strong> ,
+       <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `,
+    };
+
     GmailTransport.sendMail(msg)
       .then((rr) => {
+        GmailTransport.sendMail(adminMssg)
+          .then((ad) => console.log("admin message sent", ad))
+          .catch((err) => console.log(err));
         console.log("SENT");
         console.log(rr);
       })
@@ -159,7 +175,6 @@ Luths Services Support Staff <br/>
       success: true,
       data: response,
     });
-
   } catch (e) {
     res.json({
       success: false,
@@ -371,13 +386,12 @@ exports.getServiceRequestById = async (req, res, next) => {
   const { id } = req.params;
   console.log("ID", id);
 
-  if(loadCache("SR",req,res,next)!==-1){
+  if (loadCache("SR", req, res, next) !== -1) {
     return next();
-   }
+  }
 
   try {
-    const foundRecord = await ServiceRequestModel.findById(id)
-    .populate([
+    const foundRecord = await ServiceRequestModel.findById(id).populate([
       {
         path: "job_reference_id",
         model: "Quote",
@@ -389,14 +403,13 @@ exports.getServiceRequestById = async (req, res, next) => {
     ]);
 
     if (foundRecord) {
-      const RESPONSE={
+      const RESPONSE = {
         success: true,
         data: foundRecord,
       };
 
       // setCache("SR",req,RESPONSE)
       res.json(RESPONSE);
-
     } else {
       res.json({
         success: false,
@@ -484,10 +497,10 @@ exports.patchServiceRequest = async (req, res, next) => {
 //               success: true,
 //               data: serviceData,
 //             };
-      
+
 //             setCache("SR",req,RESPONSE)
 //             res.json(RESPONSE);
-      
+
 //           } else {
 //             res.json({
 //               success: false,

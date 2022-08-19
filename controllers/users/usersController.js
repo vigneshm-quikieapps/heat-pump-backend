@@ -179,10 +179,17 @@ exports.patchUser = async (req, res, next) => {
       html: `Hello ${rsp.name}, <br/><br/>
       We have approved your account with us.
       You can start accessing our job services portal https://jsp-heatpumpdesigner.vercel.app/ 
-      to purchase design services with us and ask questions.
-      We’ll be happy to help you. Thank you once again for being interested in Luths Services, Glasgow. <br/><br/>
-      Regards,<br/>
-      Luths Services Support Staff <br/>
+      to submit jobs with us and ask questions.
+      We will be happy to help you.<br/><br/>
+      Useful user guide is available here: <br/>
+      https://drive.google.com/file/d/1aqekTwKDcfx8mZ8ES6QJL-ETrWJ-I1Nv/view?usp=sharing  <br/><br/>
+      A U Value lookup document is available here: <br/> 
+      https://drive.google.com/file/d/1782WqG2VFMF0vbO67sl5dnGXuy5ljlGh/view?usp=sharing <br/><br/>
+      Thank you once again for being interested in Heat Pump Designer. <br/><br/>
+      Regards,<br/><br/>
+      Finn <br/>
+      HPD Support Staff <br/>
+      07568 357124 <br/>
 `,
     };
     const rejectedMsg = {
@@ -191,9 +198,11 @@ exports.patchUser = async (req, res, next) => {
       cc: "info@heatpumpdesigner.com",
       subject: `Declined: Customer Account Request  `,
       html: `Hello ${rsp.name}, <br/><br/>
-      Sorry, we cannot create an account for you with us at this time. Thank you for being interested in Luths Services, Glasgow. <br/><br/>
-      Regards,<br/>
-      Luths Services Support Staff <br/>
+      Sorry, we cannot create an account for you with us at this time. Thank you for being interested Heat Pump Designer. <br/><br/>
+      Regards,<br/><br/>
+      Finn <br/>
+      HPD Support Staff <br/>
+      07568 357124 <br/>
 `,
     };
 

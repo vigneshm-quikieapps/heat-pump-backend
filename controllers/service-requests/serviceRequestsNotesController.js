@@ -86,11 +86,13 @@ exports.postServiceRequestNote = async (req, res, next) => {
       cc: "info@heatpumpdesigner.com",
       subject: `Update: ${sr.service_ref_number} - ${sr.title} `,
       html: `Hello ${sr.creator_name}, <br/> <br/>
-    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated.
+    Please note that your service request <strong>${sr.service_ref_number}</strong> has been updated with a query so we can progress your job.
      To view updates, please access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ 
      and navigate to the My Service Requests page. <br/><br/>
-     Regards,<br/>
-     Luths Services Support Staff <br/>
+     Regards,<br/><br/>
+     Finn <br/>
+     HPD Support Staff <br/>
+     07568 357124 <br/>
     
     `,
     };
@@ -103,11 +105,13 @@ exports.postServiceRequestNote = async (req, res, next) => {
       html: `Hello ${sr.creator_name}, <br/> <br/>
     Please be aware that your service request <strong> ${sr.service_ref_number} </strong> has been closed.  <br/>
     Reason for closing : ${description} <br/>
-    If you would like to re-engage Luths Services,
-    Glasgow on this matter, access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ 
+    If you would like to re-engage Heat Pump Designer on this matter,
+    access our customer support portal at https://jsp-heatpumpdesigner.vercel.app/ 
     and navigate to the My Service Requests page. <br/> <br/> 
-    Regards,<br/>
-    Luths Services Support Staff <br/>   
+    Regards,<br/><br/>
+      Finn <br/>
+      HPD Support Staff <br/>
+      07568 357124 <br/>   
     `,
     };
 
