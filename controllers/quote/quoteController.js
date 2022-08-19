@@ -173,12 +173,14 @@ exports.createQuote = async (req, res, next) => {
       cc: "rajugopalsinghh@gmail.com",
       subject: `Acknowledgment: Job Request  `,
       html: `Hello ${usr.name}, <br/><br/>
-       Thank you for taking time to submit a job with Luths Services, Glasgow. <br/> <br/>
+       Thank you for taking time to submit a job with Heat Pump Designer <br/> <br/>
        We have received your job request and is being reviewed.
       The reference number for your job request is<strong>${response.quote_reference_number}</strong>.
       We’ll contact you shortly if we need any additional information <br/><br/>
-      Regards,<br/>
-      Luths Services Support Staff <br/>
+      Regards,<br/><br/>
+      Finn <br/>
+      HPD Support Staff <br/>
+      07568 357124 <br/>
    
    `,
     };
@@ -186,15 +188,16 @@ exports.createQuote = async (req, res, next) => {
     const adminMssg = {
       to: "rajugopalsinghh@gmail.com",
       from: `"Heat-Pump Support" rajugopalsinghh@gmail.com"`,
-      subject: `${usr.name},${usr.city}`,
-      html: `A new job request: <strong>${response.quote_reference_number}</strong> has been submitted by customer: <strong>${usr.name}</strong> , <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `
-    }
-      // Thank you for taking time to contact Luths Services, Glasgow today. <br/>
-      // We have received your job request and is being reviewed.
-      // The reference number for your job request is <strong>${response.quote_reference_number}</strong>. <br/>
+      subject: `New Job Request from ${usr.name},${usr.city}`,
+      html: `A new job request: <strong>${response.quote_reference_number}</strong> has been submitted by customer: <strong>${usr.name}</strong> ,
+       <strong>${usr.business_registered_name}</strong>, <strong>${usr.city}</strong> `,
+    };
+   
     GmailTransport.sendMail(msg)
       .then((rr) => {
-        GmailTransport.sendMail(adminMssg).then((ad) => console.log('admin mssg sent',ad)).catch((err) => console.log(err));
+        GmailTransport.sendMail(adminMssg)
+          .then((ad) => console.log("admin mssg sent", ad))
+          .catch((err) => console.log(err));
         console.log("SENT");
         console.log(rr);
       })
@@ -254,8 +257,10 @@ exports.patchQuote = async (req, res, next) => {
       Please note that your job request <strong>${response.quote_reference_number}</strong>.
       status has been updated. To view updates,
      please access our job services portal at https://jsp-heatpumpdesigner.vercel.app/ and navigate to the My Jobs page.<br/><br/>
-     Regards,<br/>
-     Luths Services Support Staff <br/>
+     Regards,<br/><br/>
+     Finn <br/>
+     HPD Support Staff <br/>
+     07568 357124 <br/>
    
    `,
     };
