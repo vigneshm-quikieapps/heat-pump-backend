@@ -19,7 +19,8 @@ exports.getQuote = async (req, res, next) => {
 
   try {
     console.log(qid);
-    const response = await quoteModels.findById(qid);
+    const response = await quoteModels.findById(qid)
+    .populate("creator_customer_id", "", UserSchema);
     res.json({
       success: true,
       data: response,
