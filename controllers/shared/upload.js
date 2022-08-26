@@ -32,6 +32,8 @@ exports.uploadDocController = async (req, res, next) => {
   console.log(paths);
   var name = paths[0].split("/")[1];
 
+  console.log(name);
+
   var key = `${userId}/${name}`;
   var URL = "";
   try {
