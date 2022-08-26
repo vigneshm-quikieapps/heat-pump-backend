@@ -9,7 +9,6 @@ const { validationResult } = require("express-validator");
 const aws = require("aws-sdk");
 const { default: axios } = require("axios");
 
-
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESS_KEY,
   secretAccessKey: process.env.AWS_S3_SECRET_ACCSES_KEY,
@@ -30,9 +29,9 @@ exports.uploadDocController = async (req, res, next) => {
 
   let paths = req.files.map((e) => e.path);
 
+  console.log(paths);
   var name = paths[0].split("/")[1];
 
- 
   var key = `${userId}/${name}`;
   var URL = "";
   try {
