@@ -9,7 +9,6 @@ const { validationResult } = require("express-validator");
 const aws = require("aws-sdk");
 const { default: axios } = require("axios");
 
-
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESS_KEY,
   secretAccessKey: process.env.AWS_S3_SECRET_ACCSES_KEY,
@@ -32,14 +31,13 @@ exports.uploadDocController = async (req, res, next) => {
 
   var name = paths[0].split("/")[1];
 
- 
   var key = `${userId}/${name}`;
   var URL = "";
   try {
     s3.getSignedUrl(
       "putObject",
       {
-        Bucket: "heatpump-bucket",
+        Bucket: "hpd-jsp-test",
         ContentType: "pdf",
         Key: key,
       },
@@ -83,7 +81,7 @@ exports.getDocController = (req, res, next) => {
   try {
     s3.getObject(
       {
-        Bucket: "heatpump-bucket",
+        Bucket: "hpd-jsp-test",
         Key: `${fp}`,
       },
       (err, file) => {
